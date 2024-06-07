@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.registry.*;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
-import net.minecraft.util.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.*;
@@ -20,10 +19,12 @@ import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.*;
 
+import java.util.*;
+
 public class AzaleaBlocks {
 
     public static ColorfulTree[] trees;
-    public static final Block DROOPING_AZALEA_LEAVES = registerBlockWithItem("drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES)));
+    public static final Block DROOPING_AZALEA_LEAVES = registerBlockWithItem("drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES)));
 
     public static void init() {
         trees = new ColorfulTree[AzaleaColors.values().length];
@@ -49,7 +50,6 @@ public class AzaleaBlocks {
     }
 
     public static class ColorfulTree {
-        public final String name;
         public final WoodSet woodSet;
         public final Block sapling;
         public final Block pottedSapling;
@@ -59,38 +59,34 @@ public class AzaleaBlocks {
         public final Block droopingLeaves;
 
         public ColorfulTree(AzaleaColors color) {
-            this.name = color.name();
+            String name = color.name();
             this.woodSet = new WoodSet(color);
-            this.azaleaLeaves = registerBlockWithItem(name + "_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.AZALEA_LEAVES)));
-            this.floweringLeaves = registerBlockWithItem(name + "_flowering_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.AZALEA_LEAVES)));
-            this.bloomingLeaves = registerBlockWithItem(name + "_blooming_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops()));
-            this.droopingLeaves = registerBlockWithItem(name + "_drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.copy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES)));
+            this.azaleaLeaves = registerBlockWithItem(name + "_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
+            this.floweringLeaves = registerBlockWithItem(name + "_flowering_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
+            this.bloomingLeaves = registerBlockWithItem(name + "_blooming_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops()));
+            this.droopingLeaves = registerBlockWithItem(name + "_drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES)));
 
             ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
-            this.sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(new AbstractTreeGrower() {
-                @Override
-                protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean bl) {
-					return configuredFeatureKey;
-                }
-            }, BlockBehaviour.Properties.copy(Blocks.AZALEA).noOcclusion()));
-            this.pottedSapling = registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(this.sapling, BlockBehaviour.Properties.copy(Blocks.POTTED_AZALEA)));
-            
-            addBlockToAzaleaLootTable(sapling);
-            CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
-        }
+            TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
+            this.sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion()));
+			this.pottedSapling = registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(this.sapling, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_AZALEA)));
+
+			addBlockToAzaleaLootTable(sapling);
+			CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
+		}
 
     }
 
     public static void addBlockToAzaleaLootTable(Block block) {
-        LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, tableBuilder, source) -> {
-            if (Blocks.AZALEA_LEAVES.getLootTable().equals(id)) {
-                LootPool.Builder poolBuilder1 = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
-                        .when(LootItemRandomChanceCondition.randomChance(0.01f))
-                        .add(LootItem.lootTableItem(block));
-                tableBuilder.pool(poolBuilder1.build());
-            }
-        }));
+        LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
+			if (Blocks.AZALEA_LEAVES.getLootTable().equals(key)) {
+				LootPool.Builder poolBuilder1 = LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1))
+						.when(LootItemRandomChanceCondition.randomChance(0.01f))
+						.add(LootItem.lootTableItem(block));
+				tableBuilder.pool(poolBuilder1.build());
+			}
+		});
     }
 
     public static class WoodSet {
@@ -116,19 +112,19 @@ public class AzaleaBlocks {
         public WoodSet(AzaleaColors color) {
             this.name = color.title;
 
-            this.log = registerBlockWithItem(name + "_azalea_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)));
-            this.wood = registerBlockWithItem(name + "_azalea_wood", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD)));
-            this.stripped_log = registerBlockWithItem("stripped_" + name + "_azalea_log", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_LOG)));
-            this.stripped_wood = registerBlockWithItem("stripped_" + name + "_azalea_wood", new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_WOOD)));
-            this.planks = registerBlockWithItem(name + "_azalea_planks", new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-            this.stairs = registerBlockWithItem(name + "_azalea_stairs", new StairBlock(planks.defaultBlockState(), BlockBehaviour.Properties.copy(planks)));
-            this.slab = registerBlockWithItem(name + "_azalea_slab", new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_SLAB)));
-            this.fence = registerBlockWithItem(name + "_azalea_fence", new FenceBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE)));
-            this.fence_gate = registerBlockWithItem(name + "_azalea_fence_gate", new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE), WOOD_TYPE));
-            this.door = registerBlockWithItem(name + "_azalea_door", new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR), BLOCK_SET_TYPE));
-            this.trapdoor = registerBlockWithItem(name + "_azalea_trapdoor", new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR), BLOCK_SET_TYPE));
-            this.pressure_plate = registerBlockWithItem(name + "_azalea_pressure_plate", new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE), BLOCK_SET_TYPE));
-            this.button = registerBlockWithItem(name + "_azalea_button", new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON), BLOCK_SET_TYPE, 30, true));
+            this.log = registerBlockWithItem(name + "_azalea_log", new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
+            this.wood = registerBlockWithItem(name + "_azalea_wood", new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+            this.stripped_log = registerBlockWithItem("stripped_" + name + "_azalea_log", new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+            this.stripped_wood = registerBlockWithItem("stripped_" + name + "_azalea_wood", new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+            this.planks = registerBlockWithItem(name + "_azalea_planks", new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            this.stairs = registerBlockWithItem(name + "_azalea_stairs", new StairBlock(planks.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(planks)));
+            this.slab = registerBlockWithItem(name + "_azalea_slab", new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+            this.fence = registerBlockWithItem(name + "_azalea_fence", new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+            this.fence_gate = registerBlockWithItem(name + "_azalea_fence_gate", new FenceGateBlock(WOOD_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+			this.door = registerBlockWithItem(name + "_azalea_door", new DoorBlock(BLOCK_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR)));
+			this.trapdoor = registerBlockWithItem(name + "_azalea_trapdoor", new TrapDoorBlock(BLOCK_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)));
+			this.pressure_plate = registerBlockWithItem(name + "_azalea_pressure_plate", new PressurePlateBlock(BLOCK_SET_TYPE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+            this.button = registerBlockWithItem(name + "_azalea_button", new ButtonBlock(BLOCK_SET_TYPE, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON)));
 
             StrippableBlockRegistry.register(log, stripped_log);
             StrippableBlockRegistry.register(wood, stripped_wood);

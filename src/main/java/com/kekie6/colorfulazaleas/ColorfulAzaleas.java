@@ -12,7 +12,7 @@ import org.slf4j.*;
 public class ColorfulAzaleas implements ModInitializer {
     public static final String MOD_ID = "colorfulazaleas";
     public static final String MOD_NAME = "Colorful Azaleas";
-    public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
     public static final TreeDecoratorType<ColorfulTreeDecorator> COLORFUL_TREE_DECORATOR = Registry.register(BuiltInRegistries.TREE_DECORATOR_TYPE, id("colorful_tree_decorator"), new TreeDecoratorType<>(ColorfulTreeDecorator.CODEC));
 

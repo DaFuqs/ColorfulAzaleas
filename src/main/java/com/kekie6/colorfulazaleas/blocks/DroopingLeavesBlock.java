@@ -14,9 +14,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.*;
 
-@SuppressWarnings({"deprecation", "NullableProblems"})
 public class DroopingLeavesBlock extends Block {
+
     public static final VoxelShape SHAPE = Block.box(2.0D, 10.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     public static final VoxelShape EXTENDED_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     public static final BooleanProperty EXTENDED = BooleanProperty.create("extended");
@@ -27,7 +28,7 @@ public class DroopingLeavesBlock extends Block {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
         if (!state.canSurvive(level,currentPos)) {
             return Blocks.AIR.defaultBlockState();
         }
@@ -44,7 +45,7 @@ public class DroopingLeavesBlock extends Block {
         }
     }
 
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (state.getValue(EXTENDED)) return EXTENDED_SHAPE;
         return SHAPE;
     }
