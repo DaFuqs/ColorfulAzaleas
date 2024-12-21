@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "colorfulazaleas:titanium_azalea_planks"
-    }
+    "colorfulazaleas:titanium_azalea_planks"
   ],
   "result": {
     "id": "colorfulazaleas:titanium_azalea_button"

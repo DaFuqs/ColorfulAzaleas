@@ -4,9 +4,7 @@
     "has_log": {
       "conditions": {
         "items": [
-          {
-            "tag": "colorfulazaleas:roze_azalea_logs"
-          }
+          "#colorfulazaleas:roze_azalea_logs"
         ]
       },
       "trigger": "minecraft:inventory_changed"

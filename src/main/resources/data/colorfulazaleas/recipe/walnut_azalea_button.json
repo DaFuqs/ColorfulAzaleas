@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wooden_button",
   "ingredients": [
-    {
-      "item": "colorfulazaleas:walnut_azalea_planks"
-    }
+    "colorfulazaleas:walnut_azalea_planks"
   ],
   "result": {
     "id": "colorfulazaleas:walnut_azalea_button"

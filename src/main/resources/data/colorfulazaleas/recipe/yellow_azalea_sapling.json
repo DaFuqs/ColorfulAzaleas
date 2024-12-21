@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "group": "wool",
   "ingredients": [
-    {
-      "item": "minecraft:yellow_dye"
-    },
-    {
-      "tag": "colorfulazaleas:azaleas"
-    }
+    "minecraft:yellow_dye",
+    "#colorfulazaleas:azaleas"
   ],
   "result": {
     "id": "colorfulazaleas:yellow_azalea_sapling"

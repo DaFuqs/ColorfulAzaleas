@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "colorfulazaleas:tecal_azalea_log"
-            ]
+            "items": "colorfulazaleas:tecal_azalea_log"
           }
         ]
       },

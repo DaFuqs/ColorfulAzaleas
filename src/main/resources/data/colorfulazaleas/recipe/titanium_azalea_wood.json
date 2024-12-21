@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "group": "bark",
   "key": {
-    "*": {
-      "item": "colorfulazaleas:titanium_azalea_log"
-    }
+    "*": "colorfulazaleas:titanium_azalea_log"
   },
   "pattern": [
     "**",

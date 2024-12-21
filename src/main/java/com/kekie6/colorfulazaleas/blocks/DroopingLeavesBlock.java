@@ -3,15 +3,14 @@ package com.kekie6.colorfulazaleas.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.util.*;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.*;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.*;
@@ -26,17 +25,18 @@ public class DroopingLeavesBlock extends Block {
         super(properties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(EXTENDED,false));
     }
-
+    
     @Override
-    public @NotNull BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
-        if (!state.canSurvive(level,currentPos)) {
+    protected BlockState updateShape(BlockState state, LevelReader levelReader, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos blockPos2, BlockState blockState2, RandomSource randomSource) {
+        if (!state.canSurvive(levelReader,pos)) {
             return Blocks.AIR.defaultBlockState();
         }
-        return super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
+        
+        return super.updateShape(state, levelReader, scheduledTickAccess, pos, direction, blockPos2, blockState2, randomSource);
     }
-
+    
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean isMoving) {
         if (!state.canSurvive(level, pos)) {
             level.removeBlock(pos, false);
         } else {

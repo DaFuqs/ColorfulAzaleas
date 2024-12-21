@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "colorfulazaleas:roze_azalea_planks"
-            ]
+            "items": "colorfulazaleas:roze_azalea_planks"
           }
         ]
       },
