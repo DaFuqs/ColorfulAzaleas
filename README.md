@@ -7,7 +7,7 @@
 - Pug for porting the mod to Multiloader and making it available to both forge and fabric
 
 # Colorful Azaleas
-A Multiloader mod that adds really cool azalea trees in a bunch of colors! :)
+Adds really cool azalea trees in a bunch of colors! :)
 
 This mod uses a little bit of code based loot tables. The goal of this loot table is to add the colorful azalea saplings to the loot table of the normal azalea leaf.
 I wrote this code in such a way that it should not interfere with any other mod that attempts to change the loot table of the azalea leaves.
