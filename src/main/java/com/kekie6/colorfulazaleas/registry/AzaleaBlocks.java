@@ -2,10 +2,11 @@ package com.kekie6.colorfulazaleas.registry;
 
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.blocks.*;
-import net.fabricmc.fabric.api.loot.v2.*;
+import net.fabricmc.fabric.api.loot.v3.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.*;
 import net.fabricmc.fabric.api.registry.*;
 import net.minecraft.core.*;
+import net.minecraft.core.particles.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
@@ -34,18 +35,20 @@ public class AzaleaBlocks {
     }
 
     public enum AzaleaColors {
-        orange("tecal"),
-        yellow("fiss"),
-        red("roze"),
-        blue("azule"),
-        pink("bright"),
-        purple("walnut"),
-        white("titanium");
+        orange("tecal", 0xFFfd9919),
+        yellow("fiss", 0xFFffbb3c),
+        red("roze", 0xFFd93a2a),
+        blue("azule", 0xFF2ae8e2),
+        pink("bright", 0xFFfcb9d6),
+        purple("walnut", 0xFFb844e9),
+        white("titanium", 0xFFe8fafa);
 
         final String title;
+        final int tint;
 
-        AzaleaColors(String title) {
+        AzaleaColors(String title, int tint) {
             this.title = title;
+            this.tint = tint;
         }
     }
 
@@ -61,9 +64,9 @@ public class AzaleaBlocks {
         public ColorfulTree(AzaleaColors color) {
             String name = color.name();
             this.woodSet = new WoodSet(color);
-            this.azaleaLeaves = registerBlockWithItem(name + "_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_azalea_leaves"))));
-            this.floweringLeaves = registerBlockWithItem(name + "_flowering_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_flowering_azalea_leaves"))));
-            this.bloomingLeaves = registerBlockWithItem(name + "_blooming_azalea_leaves", new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey("_blooming_azalea_leaves"))));
+            this.azaleaLeaves = registerBlockWithItem(name + "_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_azalea_leaves"))));
+            this.floweringLeaves = registerBlockWithItem(name + "_flowering_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_flowering_azalea_leaves"))));
+            this.bloomingLeaves = registerBlockWithItem(name + "_blooming_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey("_blooming_azalea_leaves"))));
             this.droopingLeaves = registerBlockWithItem(name + "_drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES).setId(blockKey("_drooping_azalea_leaves"))));
 
             ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
@@ -78,13 +81,13 @@ public class AzaleaBlocks {
     }
 
     public static void addBlockToAzaleaLootTable(Block block) {
-        LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
-			if (Blocks.AZALEA_LEAVES.getLootTable().equals(key)) {
+        LootTableEvents.MODIFY.register((key, builder, lootTableSource, provider) -> {
+			if (Blocks.AZALEA_LEAVES.getLootTable().get().equals(key)) {
 				LootPool.Builder poolBuilder1 = LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
 						.when(LootItemRandomChanceCondition.randomChance(0.01f))
 						.add(LootItem.lootTableItem(block));
-				tableBuilder.pool(poolBuilder1.build());
+				builder.pool(poolBuilder1.build());
 			}
 		});
     }
