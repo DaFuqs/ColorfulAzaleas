@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_pressure_plate",
+  "key": {
+    "#": "colorfulazaleas:bright_azalea_planks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "colorfulazaleas:bright_azalea_pressure_plate"
+  }
+}
