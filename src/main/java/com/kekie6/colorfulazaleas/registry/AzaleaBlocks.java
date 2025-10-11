@@ -17,6 +17,7 @@ import net.minecraft.block.UntintedParticleLeavesBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -223,18 +224,21 @@ public class AzaleaBlocks {
         woodSet.setHangingSign(AzaleaSignHelper.registerSignBlock(
                 ColorfulAzaleas.id(title + "_azalea_hanging_sign"),
                 s -> new HangingSignBlock(woodType, s),
+                //AbstractBlock.Settings.copy(Blocks.OAK_HANGING_SIGN).registryKey(AzaleaBlocks.blockKey(title + "_azalea_hanging_sign"))
                 blockSettings(title + "_azalea_hanging_sign", Blocks.OAK_HANGING_SIGN)
         ));
 
         woodSet.setWallHangingSign(AzaleaSignHelper.registerSignBlock(
                 ColorfulAzaleas.id(title + "_azalea_wall_hanging_sign"),
                 s -> new WallHangingSignBlock(woodType, s),
+                //AbstractBlock.Settings.copy(Blocks.OAK_WALL_HANGING_SIGN).registryKey(AzaleaBlocks.blockKey(title + "_azalea_wall_hanging_sign"))
                 blockSettings(title + "_azalea_wall_hanging_sign", Blocks.OAK_WALL_HANGING_SIGN)
         ));
 
         AzaleaSignHelper.registerSignItems(woodSet, title);
-        System.out.println("Registering hanging sign: " + title + " -> " + woodSet.getHangingSign());
 
+        // Debugging hanging signs
+        // System.out.println("Registering hanging sign: " + title + " -> " + woodSet.getHangingSign());
 
         // Debugging signs (Identifies their texture path) e.g. "Why is my sign black and purple?"
 /*
@@ -304,10 +308,40 @@ public class AzaleaBlocks {
     }
 
     private static AbstractBlock.Settings blockSettings(String name, Block base) {
+        // Normalize name so wall variants use the same loot table as their base block
+        String baseName = name
+                .replace("_wall_hanging_sign", "_hanging_sign")
+                .replace("_wall_sign", "_sign");
+
+        RegistryKey<Block> blockKey = blockKey(name);
+
+        Identifier lootTableId = ColorfulAzaleas.id("blocks/" + baseName);
+        RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, lootTableId);
+        // Debugging to identify block loot tables
+        // Identifier id = ColorfulAzaleas.id(name);
+        // System.out.println("[blockSettings Debug]: Block -> " + id);
+        // System.out.println("[blockSettings Debug]: Loot table -> " + lootKey);
+        // System.out.println("[blockSettings Debug]: Base name -> " + baseName);
+        // System.out.println("[blockSettings Debug]: Base block -> " + base);
+
         return AbstractBlock.Settings.copy(base)
-                .registryKey(blockKey(name))
+                .registryKey(blockKey)
+                .lootTable(Optional.of(lootKey))
                 .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
     }
+
+
+/*    private static AbstractBlock.Settings blockSettings(String name, Block base) {
+        Identifier id = ColorfulAzaleas.id(name);
+        RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, id.withPrefixedPath("blocks/"));
+        System.out.println("[blockSettings Debug]: " + lootKey);
+        System.out.println("[blockSettings Debug]: " + name);
+        System.out.println("[blockSettings Debug]: " + base);
+        return AbstractBlock.Settings.copy(base)
+                .registryKey(blockKey(name))
+                .lootTable(Optional.of(lootKey)) // 👈 Correct method to override loot table
+                .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
+    }*/
 
 }
 /* Template - might delete later
