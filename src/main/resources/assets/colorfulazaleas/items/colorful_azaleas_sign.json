@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "colorfulazaleas:item/azule_azalea_sign"
+  },
+  "special_model_renderer": {
+    "type": "minecraft:sign",
+    "wood_type": "colorfulazaleas:colorful_azaleas"
+  }
+}
