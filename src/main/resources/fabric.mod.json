@@ -21,6 +21,9 @@
     ],
     "client": [
       "com.kekie6.colorfulazaleas.ColorfulAzaleasClient"
+    ],
+    "fabric-datagen": [
+      "com.kekie6.colorfulazaleas.ColorfulAzaleasDataGenerator"
     ]
   },
   "mixins": [],

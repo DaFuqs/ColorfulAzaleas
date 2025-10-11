@@ -40,6 +40,14 @@ public class DroopingLeavesBlock extends Block {
     }
 
     @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos up = pos.up();
+        BlockState support = world.getBlockState(up);
+        return support.isIn(BlockTags.LEAVES) || support.isOf(this);
+    }
+
+
+    @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView worldView, ScheduledTickView scheduledTickView, BlockPos pos, Direction direction, BlockPos blockPos2, BlockState blockState2, Random random) {
         if (!state.canPlaceAt(worldView,pos)) {
             return Blocks.AIR.getDefaultState();
@@ -58,9 +66,8 @@ public class DroopingLeavesBlock extends Block {
         }
     }
 
-    public @NotNull VoxelShape getShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context) {
-        if (state.get(EXTENDED)) return EXTENDED_SHAPE;
-        return SHAPE;
+    public @NotNull VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context) {
+        return state.get(EXTENDED) ? EXTENDED_SHAPE : SHAPE;
     }
 
     @Override
@@ -68,9 +75,4 @@ public class DroopingLeavesBlock extends Block {
         builder.add(EXTENDED);
     }
 
-    public boolean canSurvive(BlockState state, WorldView worldView, BlockPos pos) {
-        BlockPos blockPos = pos.up();
-        BlockState blockState = worldView.getBlockState(blockPos);
-        return blockState.isIn(BlockTags.LEAVES) || blockState.isOf(this);
-    }
 }

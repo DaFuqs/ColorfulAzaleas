@@ -2,6 +2,9 @@ package com.kekie6.colorfulazaleas;
 
 import com.kekie6.colorfulazaleas.decorators.*;
 import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.ColorfulTree;
+import com.kekie6.colorfulazaleas.util.WoodSet;
+import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import net.fabricmc.api.*;
 
 import net.minecraft.registry.Registries;
@@ -11,13 +14,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 
 import org.slf4j.*;
-/*
-import net.minecraft.resources.*;
-import net.fabricmc.fabric.api.tag.convention.v2.*;
-import net.minecraft.core.*;
-import net.minecraft.core.registries.*;
-import net.minecraft.world.level.levelgen.feature.treedecorators.*;
-*/
 
 public class ColorfulAzaleas implements ModInitializer {
     public static final String MOD_ID = "colorfulazaleas";
@@ -28,7 +24,20 @@ public class ColorfulAzaleas implements ModInitializer {
     @Override
     public void onInitialize() {
         AzaleaBlocks.init();
+        AzaleaItems.registerModItems();
         ColorfulAzaleasItemGroups.register();
+
+        // Boats
+        registerAllAzaleaBoats();
+    }
+
+    public static void registerAllAzaleaBoats() {
+        for (ColorfulTree tree : AzaleaBlocks.trees) {
+            WoodSet woodSet = tree.getWoodSet();
+
+            woodSet.setBoatItem(TerraformBoatItemHelper.registerBoatItem(woodSet.getAzaleaBoatsId(), false));
+            woodSet.setChestBoatItem(TerraformBoatItemHelper.registerBoatItem(woodSet.getAzaleaBoatsId(), true));
+        }
     }
 
     public static Identifier id(String name) {

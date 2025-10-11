@@ -13,14 +13,6 @@ import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import org.jetbrains.annotations.*;
 import java.util.Comparator;
-/*
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
-import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
-import net.minecraft.world.level.levelgen.feature.stateproviders.*;
-import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
-*/
 
 public class ColorfulTreeDecorator extends TreeDecorator {
 
