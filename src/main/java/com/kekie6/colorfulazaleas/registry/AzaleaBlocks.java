@@ -21,8 +21,9 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.particle.EntityEffectParticleEffect;
+//import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.TintedParticleEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -75,7 +76,7 @@ public class AzaleaBlocks {
                 name + "_azalea_leaves",
                 new UntintedParticleLeavesBlock(
                         0.01F,
-                        EntityEffectParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
+                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
                         AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
                                 .registryKey(blockKey(name + "_azalea_leaves"))
                 )
@@ -85,7 +86,7 @@ public class AzaleaBlocks {
                 name + "_flowering_azalea_leaves",
                 new UntintedParticleLeavesBlock(
                         0.01F,
-                        EntityEffectParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
+                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
                         AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
                                 .registryKey(blockKey(name + "_flowering_azalea_leaves"))
                 )
@@ -95,7 +96,7 @@ public class AzaleaBlocks {
                 name + "_blooming_azalea_leaves",
                 new UntintedParticleLeavesBlock(
                         0.01F,
-                        EntityEffectParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
+                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
                         AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
                                 .requiresTool()
                                 .registryKey(blockKey(name + "_blooming_azalea_leaves"))
@@ -329,7 +330,11 @@ public class AzaleaBlocks {
                 .lootTable(Optional.of(lootKey))
                 .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
     }
-
+}
+/* Template - might delete later
+private static final WoodType TECAL_WOOD_TYPE =
+        new WoodTypeBuilder().register(ColorfulAzaleas.id("tecal_azalea"), BLOCK_SET_TYPE);
+*/
 
 /*    private static AbstractBlock.Settings blockSettings(String name, Block base) {
         Identifier id = ColorfulAzaleas.id(name);
@@ -339,12 +344,6 @@ public class AzaleaBlocks {
         System.out.println("[blockSettings Debug]: " + base);
         return AbstractBlock.Settings.copy(base)
                 .registryKey(blockKey(name))
-                .lootTable(Optional.of(lootKey)) // 👈 Correct method to override loot table
+                .lootTable(Optional.of(lootKey))
                 .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
     }*/
-
-}
-/* Template - might delete later
-private static final WoodType TECAL_WOOD_TYPE =
-        new WoodTypeBuilder().register(ColorfulAzaleas.id("tecal_azalea"), BLOCK_SET_TYPE);
-*/
