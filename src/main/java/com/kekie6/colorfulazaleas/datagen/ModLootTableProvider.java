@@ -36,6 +36,8 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
             addDrop(woodSet.getSlab(), slabDrops(woodSet.getSlab()));
             addDrop(woodSet.getDoor(), doorDrops(woodSet.getDoor()));
 
+            addDrop(woodSet.getShelf());
+
             for (Block block: tree.getLeavesAndDroopingBlocks()) {
                 addDrop(block, leavesDrops(block, tree.getSapling(),
                         0.05f,

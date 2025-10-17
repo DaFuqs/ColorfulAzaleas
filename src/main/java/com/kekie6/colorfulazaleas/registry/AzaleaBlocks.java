@@ -3,6 +3,7 @@ package com.kekie6.colorfulazaleas.registry;
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.blocks.ColorfulAzaleaBushBlock;
 import com.kekie6.colorfulazaleas.blocks.DroopingLeavesBlock;
+import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.AzaleaSignHelper;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
@@ -55,6 +56,8 @@ public class AzaleaBlocks {
 
     private static final WoodType WOOD_TYPE =
             new WoodTypeBuilder().register(ColorfulAzaleas.id("colorful_azaleas"), BLOCK_SET_TYPE);
+
+    public static final List<Block> SHELF_BLOCKS = new ArrayList<>();
 
     public static void init() {
         trees = Arrays.stream(AzaleaColors.values())
@@ -207,6 +210,19 @@ public class AzaleaBlocks {
                 new ButtonBlock(BLOCK_SET_TYPE, 30,
                         AbstractBlock.Settings.copy(Blocks.OAK_BUTTON)
                                 .registryKey(blockKey(title + "_azalea_button")))));
+
+        AzaleaShelfBlock shelf = new AzaleaShelfBlock(
+                AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
+                        .registryKey(blockKey(title + "_azalea_shelf"))
+        );
+        registerBlockWithItem(title + "_azalea_shelf", shelf);
+        SHELF_BLOCKS.add(shelf);
+        woodSet.setShelf(shelf);
+/*
+        woodSet.setShelf(registerBlockWithItem(title + "_azalea_shelf",
+                new AzaleaShelfBlock(AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
+                        .registryKey(blockKey(title + "_azalea_shelf")))));
+*/
 
         // --- Sign Blocks & Items ---
         woodSet.setSign(AzaleaSignHelper.registerSignBlock(

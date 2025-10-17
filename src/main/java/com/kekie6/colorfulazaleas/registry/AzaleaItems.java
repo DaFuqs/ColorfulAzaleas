@@ -18,12 +18,12 @@ public class AzaleaItems {
 
     public static final BoatItem AZULE_BOAT_ITEM = registerItem(
             "azule_boat",
-            settings -> new BoatItem(AzaleaEntityTypes.AZULE_BOAT, settings.maxCount(1))
+            settings -> new BoatItem(AzaleaBlockEntityTypes.AZULE_BOAT, settings.maxCount(1))
     );
 
     public static final BoatItem AZULE_CHEST_BOAT_ITEM = registerItem(
             "azule_chest_boat",
-            settings -> new BoatItem(AzaleaEntityTypes.AZULE_CHEST_BOAT, settings.maxCount(1))
+            settings -> new BoatItem(AzaleaBlockEntityTypes.AZULE_CHEST_BOAT, settings.maxCount(1))
     );
 */
 

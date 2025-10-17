@@ -63,6 +63,8 @@ public class ModLanguageProvider extends FabricLanguageProvider {
                 builder.add(woodSet.getBoatItem(), title + " Azalea Boat");
                 builder.add(woodSet.getChestBoatItem(), title + " Azalea Boat with Chest");
                 builder.add("entity.colorfulazaleas." + woodSet.getWoodSet() + "_azalea_chest_boat", title + " Azalea Boat with Chest");
+
+                builder.add(woodSet.getShelf(), title + " Azalea Shelf");
             }
         }
 

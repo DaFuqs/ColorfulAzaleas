@@ -24,6 +24,7 @@ public class ColorfulAzaleas implements ModInitializer {
     @Override
     public void onInitialize() {
         AzaleaBlocks.init();
+        AzaleaBlockEntityTypes.init();
         AzaleaItems.registerModItems();
         ColorfulAzaleasItemGroups.register();
 

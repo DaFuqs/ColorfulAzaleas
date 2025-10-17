@@ -76,8 +76,11 @@ public class ModModelProvider extends FabricModelProvider {
             gen.registerTrapdoor(woodSet.getTrapdoor());
             gen.registerHangingSign(woodSet.getStrippedLog(), woodSet.getHangingSign(), woodSet.getWallHangingSign());
 
+            gen.registerShelf(woodSet.getShelf(), woodSet.getStrippedLog());
+
             plankPool.pressurePlate(woodSet.getPressurePlate());
             plankPool.button(woodSet.getButton());
+
             registerSign(gen, woodSet.getSign(), woodSet.getWallSign());
         }
     }

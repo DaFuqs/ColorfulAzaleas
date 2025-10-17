@@ -29,6 +29,7 @@ public class WoodSet {
     private Block wallSign;
     private Block hangingSign;
     private Block wallHangingSign;
+    private Block shelf;
 
     private BoatItem boatItem;
     private BoatItem chestBoatItem;
@@ -59,6 +60,9 @@ public class WoodSet {
     public Block getWallSign() { return wallSign; }
     public Block getHangingSign() { return hangingSign; }
     public Block getWallHangingSign() { return wallHangingSign; }
+    public Block getShelf() {
+        return shelf;
+    }
     public BoatItem getBoatItem() {
         return boatItem;
     }
@@ -83,6 +87,9 @@ public class WoodSet {
     public void setWallSign(Block block) { this.wallSign = block; }
     public void setHangingSign(Block block) { this.hangingSign = block; }
     public void setWallHangingSign(Block block) { this.wallHangingSign = block; }
+    public void setShelf(Block shelf) {
+        this.shelf = shelf;
+    }
     public void setBoatItem(BoatItem boatItem) {
         this.boatItem = boatItem;
     }

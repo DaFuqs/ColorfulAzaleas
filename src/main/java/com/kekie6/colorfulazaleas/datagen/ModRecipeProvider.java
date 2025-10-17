@@ -102,6 +102,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     // --- Boat ---
                     offerBoatRecipe(woodSet.getBoatItem(), woodSet.getPlanks());
                     offerChestBoatRecipe(woodSet.getChestBoatItem(), woodSet.getBoatItem());
+                    // --- Shelf ---
+                    offerShelfRecipe(woodSet.getShelf(), woodSet.getStrippedLog());
                 }
 
 

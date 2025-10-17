@@ -77,6 +77,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
             valueLookupBuilder(ItemTags.CHEST_BOATS)
                     .add(woodSet.getChestBoatItem());
 
+            valueLookupBuilder(ItemTags.WOODEN_SHELVES)
+                    .add(woodSet.getShelf().asItem());
+
             valueLookupBuilder(ItemTags.SAPLINGS)
                     .add(tree.getSapling().asItem());
             valueLookupBuilder(ItemTags.LEAVES)
