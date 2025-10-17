@@ -1,9 +1,9 @@
-package com.kekie6.colorfulazaleas.entities;
+package com.kekie6.colorfulazaleas.blocks;
 
+import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ShelfBlockEntity;
 import net.minecraft.block.enums.SideChainPart;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,10 +43,6 @@ import java.util.Map;
 import java.util.OptionalInt;
 
 public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlotContainer, SideChaining, Waterloggable {
-
-/*    public AzaleaShelfBlock(Settings settings) {
-        super(settings);
-    }*/
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -206,13 +202,13 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
             boolean bl = false;
 
             for (int i = 0; i < list.size(); i++) {
-                ShelfBlockEntity shelfBlockEntity = (ShelfBlockEntity)world.getBlockEntity((BlockPos)list.get(i));
-                if (shelfBlockEntity != null) {
-                    for (int j = 0; j < shelfBlockEntity.size(); j++) {
-                        int k = 9 - (list.size() - i) * shelfBlockEntity.size() + j;
+                AzaleaShelfBlockEntity azaleaShelfBlockEntity = (AzaleaShelfBlockEntity) world.getBlockEntity((BlockPos)list.get(i));
+                if (azaleaShelfBlockEntity != null) {
+                    for (int j = 0; j < azaleaShelfBlockEntity.size(); j++) {
+                        int k = 9 - (list.size() - i) * azaleaShelfBlockEntity.size() + j;
                         if (k >= 0 && k <= playerInventory.size()) {
                             ItemStack itemStack = playerInventory.removeStack(k);
-                            ItemStack itemStack2 = shelfBlockEntity.swapStackNoMarkDirty(j, itemStack);
+                            ItemStack itemStack2 = azaleaShelfBlockEntity.swapStackNoMarkDirty(j, itemStack);
                             if (!itemStack.isEmpty() || !itemStack2.isEmpty()) {
                                 playerInventory.setStack(k, itemStack2);
                                 bl = true;
@@ -221,7 +217,7 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
                     }
 
                     playerInventory.markDirty();
-                    shelfBlockEntity.markDirty(GameEvent.ENTITY_INTERACT);
+                    azaleaShelfBlockEntity.markDirty(GameEvent.ENTITY_INTERACT);
                 }
             }
 
@@ -301,10 +297,10 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
             return 0;
         } else if (direction != ((Direction)state.get(FACING)).getOpposite()) {
             return 0;
-        } else if (world.getBlockEntity(pos) instanceof ShelfBlockEntity shelfBlockEntity) {
-            int i = shelfBlockEntity.getStack(0).isEmpty() ? 0 : 1;
-            int j = shelfBlockEntity.getStack(1).isEmpty() ? 0 : 1;
-            int k = shelfBlockEntity.getStack(2).isEmpty() ? 0 : 1;
+        } else if (world.getBlockEntity(pos) instanceof AzaleaShelfBlockEntity azaleaShelfBlockEntity) {
+            int i = azaleaShelfBlockEntity.getStack(0).isEmpty() ? 0 : 1;
+            int j = azaleaShelfBlockEntity.getStack(1).isEmpty() ? 0 : 1;
+            int k = azaleaShelfBlockEntity.getStack(2).isEmpty() ? 0 : 1;
             return i | j << 1 | k << 2;
         } else {
             return 0;

@@ -3,7 +3,7 @@ package com.kekie6.colorfulazaleas.registry;
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.blocks.ColorfulAzaleaBushBlock;
 import com.kekie6.colorfulazaleas.blocks.DroopingLeavesBlock;
-import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlock;
+import com.kekie6.colorfulazaleas.blocks.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.AzaleaSignHelper;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;

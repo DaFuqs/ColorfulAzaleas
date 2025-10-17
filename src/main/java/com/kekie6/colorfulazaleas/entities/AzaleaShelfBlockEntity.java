@@ -1,5 +1,6 @@
 package com.kekie6.colorfulazaleas.entities;
 
+import com.kekie6.colorfulazaleas.blocks.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlockEntityTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.Block;
@@ -133,7 +134,7 @@ public class AzaleaShelfBlockEntity extends BlockEntity implements HeldItemConte
 
     @Override
     public float getBodyYaw() {
-        return ((Direction)this.getCachedState().get(ShelfBlock.FACING)).getOpposite().getPositiveHorizontalDegrees();
+        return ((Direction)this.getCachedState().get(AzaleaShelfBlock.FACING)).getOpposite().getPositiveHorizontalDegrees();
     }
 
     public boolean shouldAlignItemsToBottom() {
