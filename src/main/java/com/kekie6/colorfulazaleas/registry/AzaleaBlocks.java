@@ -64,15 +64,23 @@ public class AzaleaBlocks {
         public ColorfulTree(AzaleaColors color) {
             String name = color.name();
             this.woodSet = new WoodSet(color);
-            this.azaleaLeaves = registerBlockWithItem(name + "_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_azalea_leaves"))));
-            this.floweringLeaves = registerBlockWithItem(name + "_flowering_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("_flowering_azalea_leaves"))));
-            this.bloomingLeaves = registerBlockWithItem(name + "_blooming_azalea_leaves", new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey("_blooming_azalea_leaves"))));
-            this.droopingLeaves = registerBlockWithItem(name + "_drooping_azalea_leaves", new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES).setId(blockKey("_drooping_azalea_leaves"))));
+            
+            String leavesName = name + "_azalea_leaves";
+            String floweringLeavesName = name + "_flowering_azalea_leaves";
+            String bloomingLeavesName = name + "_blooming_azalea_leaves";
+            String droopingLeavesName = name + "_drooping_azalea_leaves";
+            String saplingName = name + "_azalea_sapling";
+            String pottedSaplingName = "potted_" + name + "_azalea_sapling";
+            
+            this.azaleaLeaves = registerBlockWithItem(leavesName, new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(leavesName))));
+            this.floweringLeaves = registerBlockWithItem(floweringLeavesName, new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(floweringLeavesName))));
+            this.bloomingLeaves = registerBlockWithItem(bloomingLeavesName, new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.tint), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey(bloomingLeavesName))));
+            this.droopingLeaves = registerBlockWithItem(droopingLeavesName, new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollission().sound(SoundType.CAVE_VINES).setId(blockKey(droopingLeavesName))));
 
             ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
             TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
-            this.sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion().setId(blockKey(name + "_azalea_sapling"))));
-			this.pottedSapling = registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(this.sapling, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_AZALEA).setId(blockKey("potted_" + name + "_azalea_sapling"))));
+            this.sapling = registerBlockWithItem(saplingName, new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion().setId(blockKey(saplingName))));
+			this.pottedSapling = registerBlock(pottedSaplingName, new FlowerPotBlock(this.sapling, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_AZALEA).setId(blockKey(pottedSaplingName))));
 
 			addBlockToAzaleaLootTable(sapling);
 			CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
