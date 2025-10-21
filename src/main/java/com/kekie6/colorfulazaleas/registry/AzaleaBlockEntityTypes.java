@@ -2,7 +2,7 @@ package com.kekie6.colorfulazaleas.registry;
 
 
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlockEntity;
+import com.kekie6.colorfulazaleas.block.entity.AzaleaShelfBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;

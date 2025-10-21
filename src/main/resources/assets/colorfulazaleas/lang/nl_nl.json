@@ -434,5 +434,22 @@
   "tag.colorfulazaleas.tecal_azalea_logs": "Tecal Azalea Stammen",
   "tag.colorfulazaleas.titanium_azalea_logs": "Titanium Azalea Stammen",
   "tag.colorfulazaleas.verdant_azalea_logs": "Verdant Azalea Stammen",
-  "tag.colorfulazaleas.walnut_azalea_logs": "Walnut Azalea Stammen"
+  "tag.colorfulazaleas.walnut_azalea_logs": "Walnut Azalea Stammen",
+
+  "block.colorfulazaleas.azule_azalea_shelf": "Azule-azalea plank",
+  "block.colorfulazaleas.bright_azalea_shelf": "Heldere azalea plank",
+  "block.colorfulazaleas.bromelia_azalea_shelf": "Bromelia-azalea plank",
+  "block.colorfulazaleas.cerulean_azalea_shelf": "Hemelsblauwe azalea plank",
+  "block.colorfulazaleas.dusk_azalea_shelf": "Schemer-azalea plank",
+  "block.colorfulazaleas.earthen_azalea_shelf": "Aardse azalea plank",
+  "block.colorfulazaleas.fiss_azalea_shelf": "Fiss-azalea plank",
+  "block.colorfulazaleas.lethe_azalea_shelf": "Lethe-azalea plank",
+  "block.colorfulazaleas.pastoral_azalea_shelf": "Pastorale azalea plank",
+  "block.colorfulazaleas.pitch_azalea_shelf": "Donkere azalea plank",
+  "block.colorfulazaleas.pluvial_azalea_shelf": "Regenachtige azalea plank",
+  "block.colorfulazaleas.roze_azalea_shelf": "Roze azalea plank",
+  "block.colorfulazaleas.tecal_azalea_shelf": "Tecal-azalea plank",
+  "block.colorfulazaleas.titanium_azalea_shelf": "Titanium-azalea plank",
+  "block.colorfulazaleas.verdant_azalea_shelf": "Groene azalea plank",
+  "block.colorfulazaleas.walnut_azalea_shelf": "Notenhouten azalea plank"
 }

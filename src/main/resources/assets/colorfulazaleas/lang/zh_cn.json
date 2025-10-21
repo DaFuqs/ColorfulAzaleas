@@ -434,5 +434,22 @@
   "tag.colorfulazaleas.tecal_azalea_logs": "泰卡尔杜鹃原木",
   "tag.colorfulazaleas.titanium_azalea_logs": "钛金杜鹃原木",
   "tag.colorfulazaleas.verdant_azalea_logs": "翠绿杜鹃原木",
-  "tag.colorfulazaleas.walnut_azalea_logs": "核桃杜鹃原木"
+  "tag.colorfulazaleas.walnut_azalea_logs": "核桃杜鹃原木",
+
+  "block.colorfulazaleas.azule_azalea_shelf": "蔚蓝杜鹃花架",
+  "block.colorfulazaleas.bright_azalea_shelf": "明亮杜鹃花架",
+  "block.colorfulazaleas.bromelia_azalea_shelf": "凤梨杜鹃花架",
+  "block.colorfulazaleas.cerulean_azalea_shelf": "天蓝杜鹃花架",
+  "block.colorfulazaleas.dusk_azalea_shelf": "黄昏杜鹃花架",
+  "block.colorfulazaleas.earthen_azalea_shelf": "土色杜鹃花架",
+  "block.colorfulazaleas.fiss_azalea_shelf": "菲斯杜鹃花架",
+  "block.colorfulazaleas.lethe_azalea_shelf": "莱瑟杜鹃花架",
+  "block.colorfulazaleas.pastoral_azalea_shelf": "田园杜鹃花架",
+  "block.colorfulazaleas.pitch_azalea_shelf": "深色杜鹃花架",
+  "block.colorfulazaleas.pluvial_azalea_shelf": "雨色杜鹃花架",
+  "block.colorfulazaleas.roze_azalea_shelf": "玫瑰杜鹃花架",
+  "block.colorfulazaleas.tecal_azalea_shelf": "特卡尔杜鹃花架",
+  "block.colorfulazaleas.titanium_azalea_shelf": "钛金杜鹃花架",
+  "block.colorfulazaleas.verdant_azalea_shelf": "翠绿杜鹃花架",
+  "block.colorfulazaleas.walnut_azalea_shelf": "胡桃木杜鹃花架"
 }

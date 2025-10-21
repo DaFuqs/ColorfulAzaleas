@@ -1,11 +1,10 @@
-package com.kekie6.colorfulazaleas.entities;
+package com.kekie6.colorfulazaleas.block.entity;
 
-import com.kekie6.colorfulazaleas.blocks.AzaleaShelfBlock;
+import com.kekie6.colorfulazaleas.block.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlockEntityTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShelfBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentsAccess;

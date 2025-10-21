@@ -20,7 +20,6 @@ public class ModTags {
     }
 
     public static class Items {
-
         public static final TagKey<Item> AZALEA_LOGS = createTag("azalea_logs");
         public static final TagKey<Item> AZALEAS = createTag("azaleas");
 

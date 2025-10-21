@@ -102,7 +102,7 @@ public class WoodSet {
                 log, wood, strippedLog, strippedWood,
                 planks, stairs, slab, fence, fenceGate,
                 door, trapdoor, pressurePlate, button,
-                sign, wallSign, hangingSign, wallHangingSign
+                sign, wallSign, hangingSign, wallHangingSign, shelf
         };
     }
 
@@ -111,7 +111,7 @@ public class WoodSet {
                 log, wood, strippedLog, strippedWood,
                 planks, stairs, fence, fenceGate,
                 trapdoor, pressurePlate, button,
-                sign, wallSign, hangingSign, wallHangingSign
+                sign, wallSign, hangingSign, wallHangingSign, shelf
         };
     }
 
@@ -127,37 +127,3 @@ public class WoodSet {
                 .toArray(Item[]::new);
     }
 }
-/*
-    public BlockFamily getFamily() {
-        return new BlockFamily.Builder(getPlanks())
-                .stairs(getStairs())
-                .slab(getSlab())
-                .fence(getFence())
-                .fenceGate(getFenceGate())
-                .door(getDoor())
-                .trapdoor(getTrapdoor())
-                .pressurePlate(getPressurePlate())
-                .button(getButton())
-                .group("wooden")
-                .unlockCriterionName("has_planks")
-                .noGenerateModels()
-                .build();
-    }*/
-/*
-
-    public final BlockFamily ColorfulAzaleasWoodSetFamily = new BlockFamily.Builder(getPlanks())
-            .stairs(getStairs())
-            .slab(getSlab())
-            .fence(getFence())
-            .fenceGate(getFenceGate())
-            .door(getDoor())
-            .trapdoor(getTrapdoor())
-            .pressurePlate(getPressurePlate())
-            .button(getButton())
-            .group("wooden")
-            .unlockCriterionName("has_planks")
-            .noGenerateModels()
-            .build();
-*/
-
-

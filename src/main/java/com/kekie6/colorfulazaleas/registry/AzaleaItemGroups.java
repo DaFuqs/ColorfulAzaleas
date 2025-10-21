@@ -4,13 +4,14 @@ import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
 import com.kekie6.colorfulazaleas.util.WoodSet;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
-public class ColorfulAzaleasItemGroups {
+public class AzaleaItemGroups {
 
     public static ItemGroup CREATIVE_MODE_TAB;
 
@@ -29,6 +30,7 @@ public class ColorfulAzaleasItemGroups {
                         entries.add(tree.getDroopingLeaves());
 
                         WoodSet woodSet = tree.getWoodSet();
+
                         entries.add(woodSet.getLog());
                         entries.add(woodSet.getWood());
                         entries.add(woodSet.getStrippedLog());
@@ -44,6 +46,7 @@ public class ColorfulAzaleasItemGroups {
                         entries.add(woodSet.getButton());
                         entries.add(woodSet.getSign());
                         entries.add(woodSet.getHangingSign());
+                        entries.add(woodSet.getShelf());
                         entries.add(woodSet.getBoatItem());
                         entries.add(woodSet.getChestBoatItem());
                     }

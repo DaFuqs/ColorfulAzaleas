@@ -36,8 +36,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
             addDrop(woodSet.getSlab(), slabDrops(woodSet.getSlab()));
             addDrop(woodSet.getDoor(), doorDrops(woodSet.getDoor()));
 
-            addDrop(woodSet.getShelf());
-
             for (Block block: tree.getLeavesAndDroopingBlocks()) {
                 addDrop(block, leavesDrops(block, tree.getSapling(),
                         0.05f,
@@ -49,17 +47,4 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
             addPottedPlantDrops(tree.getPottedSapling());
         }
     }
-        // Not currently used
-        @Override
-        public BlockLootTableGenerator withConditions (ResourceCondition...conditions){
-            return super.withConditions(conditions);
-        }
-
-        // Not currently used
-        @Override
-        public BiConsumer<RegistryKey<LootTable>, LootTable.Builder> withConditions
-        (BiConsumer < RegistryKey < LootTable >, LootTable.Builder > exporter, ResourceCondition...conditions){
-            return super.withConditions(exporter, conditions);
-        }
-
 }

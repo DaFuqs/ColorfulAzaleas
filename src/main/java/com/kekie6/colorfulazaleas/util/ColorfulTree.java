@@ -46,7 +46,7 @@ public class ColorfulTree {
 
     public Block[] getSaplingLeavesPotBlocks() {
         return new Block[] {
-                sapling, pottedSapling,azaleaLeaves, floweringLeaves,
+                sapling, pottedSapling, azaleaLeaves, floweringLeaves,
                 bloomingLeaves, droopingLeaves
         };
     }

@@ -434,5 +434,22 @@
   "tag.colorfulazaleas.tecal_azalea_logs": "Колоди Текал азалії",
   "tag.colorfulazaleas.titanium_azalea_logs": "Колоди Титаніум азалії",
   "tag.colorfulazaleas.verdant_azalea_logs": "Колоди зеленої азалії",
-  "tag.colorfulazaleas.walnut_azalea_logs": "Колоди волоської азалії"
+  "tag.colorfulazaleas.walnut_azalea_logs": "Колоди волоської азалії",
+
+  "block.colorfulazaleas.azule_azalea_shelf": "Полиця з азалії Азуле",
+  "block.colorfulazaleas.bright_azalea_shelf": "Полиця з яскравої азалії",
+  "block.colorfulazaleas.bromelia_azalea_shelf": "Полиця з азалії Бромелія",
+  "block.colorfulazaleas.cerulean_azalea_shelf": "Полиця з небесної азалії",
+  "block.colorfulazaleas.dusk_azalea_shelf": "Полиця з присмеркової азалії",
+  "block.colorfulazaleas.earthen_azalea_shelf": "Полиця з земляної азалії",
+  "block.colorfulazaleas.fiss_azalea_shelf": "Полиця з азалії Фісс",
+  "block.colorfulazaleas.lethe_azalea_shelf": "Полиця з азалії Лете",
+  "block.colorfulazaleas.pastoral_azalea_shelf": "Полиця з пасторальної азалії",
+  "block.colorfulazaleas.pitch_azalea_shelf": "Полиця з темної азалії",
+  "block.colorfulazaleas.pluvial_azalea_shelf": "Полиця з дощової азалії",
+  "block.colorfulazaleas.roze_azalea_shelf": "Полиця з рожевої азалії",
+  "block.colorfulazaleas.tecal_azalea_shelf": "Полиця з азалії Текал",
+  "block.colorfulazaleas.titanium_azalea_shelf": "Полиця з титанової азалії",
+  "block.colorfulazaleas.verdant_azalea_shelf": "Полиця з зеленої азалії",
+  "block.colorfulazaleas.walnut_azalea_shelf": "Полиця з горіхової азалії"
 }

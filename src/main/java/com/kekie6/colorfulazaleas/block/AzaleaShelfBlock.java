@@ -1,7 +1,9 @@
-package com.kekie6.colorfulazaleas.blocks;
+package com.kekie6.colorfulazaleas.block;
 
-import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlockEntity;
+import com.kekie6.colorfulazaleas.block.entity.AzaleaShelfBlockEntity;
+
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SideChainPart;
@@ -306,7 +308,4 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
             return 0;
         }
     }
-
-
-
 }

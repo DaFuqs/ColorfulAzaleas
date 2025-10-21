@@ -25,8 +25,7 @@ public class ColorfulAzaleas implements ModInitializer {
     public void onInitialize() {
         AzaleaBlocks.init();
         AzaleaBlockEntityTypes.init();
-        AzaleaItems.registerModItems();
-        ColorfulAzaleasItemGroups.register();
+        AzaleaItemGroups.register();
 
         // Boats
         registerAllAzaleaBoats();

@@ -32,8 +32,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                     .add(woodSet.getLogAndWoodBlocks());
 
             valueLookupBuilder(BlockTags.AXE_MINEABLE)
-                    .add(woodSet.getWoodSetBlocks())
-                    .add(woodSet.getShelf());
+                    .add(woodSet.getWoodSetBlocks());
 
             valueLookupBuilder(BlockTags.HOE_MINEABLE)
                     .add(tree.getSaplingAndLeavesBlocks());

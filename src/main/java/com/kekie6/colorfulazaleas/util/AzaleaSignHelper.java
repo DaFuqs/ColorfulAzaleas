@@ -17,9 +17,9 @@ import java.util.function.Function;
 
 public class AzaleaSignHelper {
 
-    private AzaleaSignHelper() {} // Utility class
+    private AzaleaSignHelper() {} // Utility
 
-    /** Register a sign block and automatically add it to the corresponding block entity type */
+    // Register a sign block and automatically add it to the corresponding block entity type
     public static <T extends AbstractSignBlock> T registerSignBlock(RegistryKey<Block> key, T block) {
         if (block instanceof SignBlock || block instanceof WallSignBlock) {
             BlockEntityType.SIGN.addSupportedBlock(block);
@@ -28,14 +28,14 @@ public class AzaleaSignHelper {
         } else {
             throw new IllegalArgumentException("Block must be a vanilla sign type");
         }
-        // Debbuging: Print loot table location immediately after registration
+        // Debugging: Print loot table location immediately after registration
         // Optional lootTableId = block.getLootTableKey();
-        // System.out.println("[LootTable Debug] Registered block: " + key + " → Loot table: " + lootTableId);
+        // System.out.println("[LootTable Debug] Registered block: " + key + " -> Loot table: " + lootTableId);
 
         return Registry.register(Registries.BLOCK, key.getValue(), block);
     }
 
-    /** Create a registry key from an Identifier and register the sign block */
+    // Create a registry key from an Identifier and register the sign block
     public static <T extends AbstractSignBlock> T registerSignBlock(Identifier id, Function<AbstractBlock.Settings, T> factory, AbstractBlock.Settings settings) {
         RegistryKey<Block> key = RegistryKey.of(RegistryKeys.BLOCK, id);
         settings.registryKey(key); // Applies registry key to settings

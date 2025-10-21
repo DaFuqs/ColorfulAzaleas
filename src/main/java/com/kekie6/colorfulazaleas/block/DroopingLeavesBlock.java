@@ -1,4 +1,4 @@
-package com.kekie6.colorfulazaleas.blocks;
+package com.kekie6.colorfulazaleas.block;
 
 import net.minecraft.block.*;
 import net.minecraft.registry.tag.BlockTags;
@@ -13,20 +13,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.block.WireOrientation;
 import net.minecraft.world.tick.ScheduledTickView;
+
 import org.jetbrains.annotations.*;
-/*
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.redstone.*;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.tags.BlockTags;
-*/
 
 public class DroopingLeavesBlock extends Block {
 
@@ -45,7 +33,6 @@ public class DroopingLeavesBlock extends Block {
         BlockState support = world.getBlockState(up);
         return support.isIn(BlockTags.LEAVES) || support.isOf(this);
     }
-
 
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView worldView, ScheduledTickView scheduledTickView, BlockPos pos, Direction direction, BlockPos blockPos2, BlockState blockState2, Random random) {
@@ -74,5 +61,4 @@ public class DroopingLeavesBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(EXTENDED);
     }
-
 }

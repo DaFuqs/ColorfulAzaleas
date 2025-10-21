@@ -1,5 +1,6 @@
 package com.kekie6.colorfulazaleas.datagen;
 
+import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
 import com.kekie6.colorfulazaleas.util.ModTags;
@@ -26,6 +27,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        ColorfulAzaleas.LOGGER.info("Generating ItemTags for " + ColorfulAzaleas.MOD_ID);
+
         valueLookupBuilder(ModTags.Items.AZALEAS)
                 .add(Items.AZALEA);
 

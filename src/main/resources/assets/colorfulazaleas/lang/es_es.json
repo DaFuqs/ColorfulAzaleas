@@ -434,5 +434,22 @@
   "tag.colorfulazaleas.tecal_azalea_logs": "Troncos de Azalea Tecal",
   "tag.colorfulazaleas.titanium_azalea_logs": "Troncos de Azalea Titanio",
   "tag.colorfulazaleas.verdant_azalea_logs": "Troncos de Azalea Verdeante",
-  "tag.colorfulazaleas.walnut_azalea_logs": "Troncos de Azalea Nogal"
+  "tag.colorfulazaleas.walnut_azalea_logs": "Troncos de Azalea Nogal",
+
+  "block.colorfulazaleas.azule_azalea_shelf": "Estantería de Azule Azalea",
+  "block.colorfulazaleas.bright_azalea_shelf": "Estantería de Azalea Brillante",
+  "block.colorfulazaleas.bromelia_azalea_shelf": "Estantería de Azalea Bromelia",
+  "block.colorfulazaleas.cerulean_azalea_shelf": "Estantería de Azalea Cerúlea",
+  "block.colorfulazaleas.dusk_azalea_shelf": "Estantería de Azalea Crepuscular",
+  "block.colorfulazaleas.earthen_azalea_shelf": "Estantería de Azalea Terrosa",
+  "block.colorfulazaleas.fiss_azalea_shelf": "Estantería de Azalea Fiss",
+  "block.colorfulazaleas.lethe_azalea_shelf": "Estantería de Azalea Lethe",
+  "block.colorfulazaleas.pastoral_azalea_shelf": "Estantería de Azalea Pastoral",
+  "block.colorfulazaleas.pitch_azalea_shelf": "Estantería de Azalea Pétrea",
+  "block.colorfulazaleas.pluvial_azalea_shelf": "Estantería de Azalea Pluvial",
+  "block.colorfulazaleas.roze_azalea_shelf": "Estantería de Azalea Roze",
+  "block.colorfulazaleas.tecal_azalea_shelf": "Estantería de Azalea Tecal",
+  "block.colorfulazaleas.titanium_azalea_shelf": "Estantería de Azalea de Titanio",
+  "block.colorfulazaleas.verdant_azalea_shelf": "Estantería de Azalea Verdosa",
+  "block.colorfulazaleas.walnut_azalea_shelf": "Estantería de Azalea de Nogal"
 }

@@ -1,5 +1,6 @@
 package com.kekie6.colorfulazaleas.datagen;
 
+import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
@@ -17,6 +18,7 @@ public class ModLanguageProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
+        ColorfulAzaleas.LOGGER.info("Generating en_us for " + ColorfulAzaleas.MOD_ID);
 
         // --- Iterate all registered trees ---
         if (AzaleaBlocks.trees == null) {
@@ -38,7 +40,7 @@ public class ModLanguageProvider extends FabricLanguageProvider {
             builder.add(tree.getSapling(), colorName + " Azalea Sapling");
             builder.add(tree.getPottedSapling(), "Potted " + colorName + " Azalea Sapling");
 
-            // Wood set (if exists)
+            // Wood Set
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet != null) {
                 builder.add(woodSet.getLog(), title + " Azalea Log");
@@ -68,7 +70,7 @@ public class ModLanguageProvider extends FabricLanguageProvider {
             }
         }
 
-        // --- Add non-set blocks ---
+        // --- Add non-set block ---
         builder.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
 
         // --- Add custom entries (manually defined) ---

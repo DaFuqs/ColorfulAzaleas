@@ -1,6 +1,6 @@
 package com.kekie6.colorfulazaleas.client.render;
 
-import com.kekie6.colorfulazaleas.entities.AzaleaShelfBlockEntity;
+import com.kekie6.colorfulazaleas.block.entity.AzaleaShelfBlockEntity;
 import it.unimi.dsi.fastutil.HashCommon;
 import net.minecraft.block.ShelfBlock;
 import net.minecraft.client.item.ItemModelManager;

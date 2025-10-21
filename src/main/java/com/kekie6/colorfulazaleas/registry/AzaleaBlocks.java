@@ -1,9 +1,9 @@
 package com.kekie6.colorfulazaleas.registry;
 
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.blocks.ColorfulAzaleaBushBlock;
-import com.kekie6.colorfulazaleas.blocks.DroopingLeavesBlock;
-import com.kekie6.colorfulazaleas.blocks.AzaleaShelfBlock;
+import com.kekie6.colorfulazaleas.block.ColorfulAzaleaBushBlock;
+import com.kekie6.colorfulazaleas.block.DroopingLeavesBlock;
+import com.kekie6.colorfulazaleas.block.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.AzaleaSignHelper;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
@@ -22,7 +22,6 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-//import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.TintedParticleEffect;
 import net.minecraft.registry.Registries;
@@ -211,6 +210,7 @@ public class AzaleaBlocks {
                         AbstractBlock.Settings.copy(Blocks.OAK_BUTTON)
                                 .registryKey(blockKey(title + "_azalea_button")))));
 
+        // --- Shelf Block & Item ---
         AzaleaShelfBlock shelf = new AzaleaShelfBlock(
                 AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
                         .registryKey(blockKey(title + "_azalea_shelf"))
@@ -218,11 +218,6 @@ public class AzaleaBlocks {
         registerBlockWithItem(title + "_azalea_shelf", shelf);
         SHELF_BLOCKS.add(shelf);
         woodSet.setShelf(shelf);
-/*
-        woodSet.setShelf(registerBlockWithItem(title + "_azalea_shelf",
-                new AzaleaShelfBlock(AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
-                        .registryKey(blockKey(title + "_azalea_shelf")))));
-*/
 
         // --- Sign Blocks & Items ---
         woodSet.setSign(AzaleaSignHelper.registerSignBlock(
@@ -230,7 +225,6 @@ public class AzaleaBlocks {
                 s -> new SignBlock(woodType, s),
                 blockSettings(title + "_azalea_sign", Blocks.OAK_SIGN)
         ));
-
 
         woodSet.setWallSign(AzaleaSignHelper.registerSignBlock(
                 ColorfulAzaleas.id(title + "_azalea_wall_sign"),
@@ -254,10 +248,10 @@ public class AzaleaBlocks {
 
         AzaleaSignHelper.registerSignItems(woodSet, title);
 
-        // Debugging hanging signs
+        // Debugging: Identify hanging signs
         // System.out.println("Registering hanging sign: " + title + " -> " + woodSet.getHangingSign());
 
-        // Debugging signs (Identifies their texture path) e.g. "Why is my sign black and purple?"
+        // Debugging: Signs (Identifies their texture path) e.g. "Why is my sign black and purple?"
 /*
         System.out.println("Registered sign: " + title + "_azalea_sign using wood type: " + woodType.name());
         System.out.println("Expected sign texture: " + TexturedRenderLayers.getSignTextureId(woodType));
@@ -325,16 +319,16 @@ public class AzaleaBlocks {
     }
 
     private static AbstractBlock.Settings blockSettings(String name, Block base) {
-        // Normalize name so wall variants use the same loot table as their base block
+        // Normalize name so sign wall variants use the same loot table as their base block
         String baseName = name
                 .replace("_wall_hanging_sign", "_hanging_sign")
                 .replace("_wall_sign", "_sign");
 
         RegistryKey<Block> blockKey = blockKey(name);
 
-        Identifier lootTableId = ColorfulAzaleas.id("blocks/" + baseName);
+        Identifier lootTableId = ColorfulAzaleas.id("block/" + baseName);
         RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, lootTableId);
-        // Debugging to identify block loot tables
+        // Debugging: Identify block loot tables
         // Identifier id = ColorfulAzaleas.id(name);
         // System.out.println("[blockSettings Debug]: Block -> " + id);
         // System.out.println("[blockSettings Debug]: Loot table -> " + lootKey);
@@ -347,19 +341,3 @@ public class AzaleaBlocks {
                 .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
     }
 }
-/* Template - might delete later
-private static final WoodType TECAL_WOOD_TYPE =
-        new WoodTypeBuilder().register(ColorfulAzaleas.id("tecal_azalea"), BLOCK_SET_TYPE);
-*/
-
-/*    private static AbstractBlock.Settings blockSettings(String name, Block base) {
-        Identifier id = ColorfulAzaleas.id(name);
-        RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, id.withPrefixedPath("blocks/"));
-        System.out.println("[blockSettings Debug]: " + lootKey);
-        System.out.println("[blockSettings Debug]: " + name);
-        System.out.println("[blockSettings Debug]: " + base);
-        return AbstractBlock.Settings.copy(base)
-                .registryKey(blockKey(name))
-                .lootTable(Optional.of(lootKey))
-                .overrideTranslationKey("block." + ColorfulAzaleas.MOD_ID + "." + name);
-    }*/
