@@ -35,7 +35,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                     .add(woodSet.getWoodSetBlocks());
 
             valueLookupBuilder(BlockTags.HOE_MINEABLE)
-                    .add(tree.getSaplingAndLeavesBlocks());
+                    .add(tree.getLeavesAndDroopingBlocks());
 
             valueLookupBuilder(BlockTags.LOGS_THAT_BURN)
                     .add(woodSet.getLogAndWoodBlocks());
@@ -76,15 +76,29 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                     .add(tree.getSapling());
             valueLookupBuilder(BlockTags.LEAVES)
                     .add(tree.getLeavesBlocks());
-            valueLookupBuilder(BlockTags.BEE_GROWABLES)
-                    .add(tree.getSapling());
             valueLookupBuilder(BlockTags.BEE_ATTRACTIVE)
+                    .add(tree.getSapling())
                     .add(tree.getFloweringLeaves());
             valueLookupBuilder(BlockTags.FLOWERS)
                     .add(tree.getSapling())
                     .add(tree.getFloweringLeaves());
             valueLookupBuilder(BlockTags.FLOWER_POTS)
                     .add(tree.getPottedSapling());
+            // Fabric C (Convention) Tags
+            valueLookupBuilder(ModTags.Blocks.C_PLANKS_THAT_BURN)
+                    .add(woodSet.getPlanks());
+            valueLookupBuilder(ModTags.Blocks.C_FLOWERS)
+                    .add(tree.getSapling());
+            valueLookupBuilder(ModTags.Blocks.C_WOODEN_FENCES)
+                    .add(woodSet.getFence());
+            valueLookupBuilder(ModTags.Blocks.C_FENCE_GATES_WOODEN)
+                    .add(woodSet.getFenceGate());
+            valueLookupBuilder(ModTags.Blocks.C_STRIPPED_LOGS)
+                    .add(woodSet.getStrippedLog());
+            valueLookupBuilder(ModTags.Blocks.C_STRIPPED_WOODS)
+                    .add(woodSet.getStrippedWood());
+            valueLookupBuilder(ModTags.Blocks.C_WOODS)
+                    .add(woodSet.getWood());
         }
     }
 }

@@ -17,6 +17,7 @@ public class ColorfulAzaleasDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModLootTableProvider::new);
         pack.addProvider(ModRecipeProvider::new);
         pack.addProvider(ModLanguageProvider::new);
+        pack.addProvider(ModEntityTagProvider::new);
     }
 
     @Override

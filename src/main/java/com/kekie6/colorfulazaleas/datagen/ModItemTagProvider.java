@@ -69,24 +69,33 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                     .add(woodSet.getPressurePlate().asItem());
             valueLookupBuilder(ItemTags.WOODEN_BUTTONS)
                     .add(woodSet.getButton().asItem());
-
             valueLookupBuilder(ItemTags.SIGNS)
                     .add(woodSet.getSign().asItem());
             valueLookupBuilder(ItemTags.HANGING_SIGNS)
                     .add(woodSet.getHangingSign().asItem());
+            valueLookupBuilder(ItemTags.WOODEN_SHELVES)
+                    .add(woodSet.getShelf().asItem());
 
             valueLookupBuilder(ItemTags.BOATS)
                     .add(woodSet.getBoatItem());
             valueLookupBuilder(ItemTags.CHEST_BOATS)
                     .add(woodSet.getChestBoatItem());
 
-            valueLookupBuilder(ItemTags.WOODEN_SHELVES)
-                    .add(woodSet.getShelf().asItem());
-
             valueLookupBuilder(ItemTags.SAPLINGS)
                     .add(tree.getSapling().asItem());
             valueLookupBuilder(ItemTags.LEAVES)
                     .add(tree.getLeavesItems());
+            // Fabric C (Convention) Tags
+            valueLookupBuilder(ModTags.Items.C_PLANKS_THAT_BURN)
+                    .add(woodSet.getPlanks().asItem());
+            valueLookupBuilder(ModTags.Items.C_WOODEN_FENCES)
+                    .add(woodSet.getFence().asItem());
+            valueLookupBuilder(ModTags.Items.C_FENCE_GATES_WOODEN)
+                    .add(woodSet.getFenceGate().asItem());
+            valueLookupBuilder(ModTags.Items.C_STRIPPED_LOGS)
+                    .add(woodSet.getStrippedLog().asItem());
+            valueLookupBuilder(ModTags.Items.C_STRIPPED_WOODS)
+                    .add(woodSet.getStrippedWood().asItem());
         }
     }
 }

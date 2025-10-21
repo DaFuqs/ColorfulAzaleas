@@ -40,22 +40,12 @@ public class AzaleaBlocks {
 
     public static ColorfulTree[] trees;
 
-    public static final Block DROOPING_AZALEA_LEAVES =
-            registerBlockWithItem("drooping_azalea_leaves",
-                    new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                            .registryKey(blockKey("drooping_azalea_leaves"))
-                            .noCollision()
-                            .sounds(BlockSoundGroup.CAVE_VINES)));
-
     private static final BlockSetType BLOCK_SET_TYPE =
             BlockSetTypeBuilder.copyOf(BlockSetType.ACACIA)
                     .register(ColorfulAzaleas.id("colorful_azaleas"));
-
     private static final Map<String, WoodType> WOOD_TYPES = new HashMap<>();
-
     private static final WoodType WOOD_TYPE =
             new WoodTypeBuilder().register(ColorfulAzaleas.id("colorful_azaleas"), BLOCK_SET_TYPE);
-
     public static final List<Block> SHELF_BLOCKS = new ArrayList<>();
 
     public static void init() {
@@ -63,6 +53,13 @@ public class AzaleaBlocks {
                 .map(AzaleaBlocks::createTree)
                 .toArray(ColorfulTree[]::new);
     }
+
+    public static final Block DROOPING_AZALEA_LEAVES =
+            registerBlockWithItem("drooping_azalea_leaves",
+                    new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
+                            .registryKey(blockKey("drooping_azalea_leaves"))
+                            .noCollision()
+                            .sounds(BlockSoundGroup.CAVE_VINES)));
 
     private static ColorfulTree createTree(AzaleaColors color) {
         String title = color.getTitle(); // e.g. "titanium"
@@ -135,6 +132,7 @@ public class AzaleaBlocks {
                                 .registryKey(blockKey(name + "_azalea_sapling"))
                 )
         );
+
         tree.setSapling(sapling);
 
         tree.setPottedSapling(registerBlock(
@@ -235,14 +233,12 @@ public class AzaleaBlocks {
         woodSet.setHangingSign(AzaleaSignHelper.registerSignBlock(
                 ColorfulAzaleas.id(title + "_azalea_hanging_sign"),
                 s -> new HangingSignBlock(woodType, s),
-                //AbstractBlock.Settings.copy(Blocks.OAK_HANGING_SIGN).registryKey(AzaleaBlocks.blockKey(title + "_azalea_hanging_sign"))
                 blockSettings(title + "_azalea_hanging_sign", Blocks.OAK_HANGING_SIGN)
         ));
 
         woodSet.setWallHangingSign(AzaleaSignHelper.registerSignBlock(
                 ColorfulAzaleas.id(title + "_azalea_wall_hanging_sign"),
                 s -> new WallHangingSignBlock(woodType, s),
-                //AbstractBlock.Settings.copy(Blocks.OAK_WALL_HANGING_SIGN).registryKey(AzaleaBlocks.blockKey(title + "_azalea_wall_hanging_sign"))
                 blockSettings(title + "_azalea_wall_hanging_sign", Blocks.OAK_WALL_HANGING_SIGN)
         ));
 

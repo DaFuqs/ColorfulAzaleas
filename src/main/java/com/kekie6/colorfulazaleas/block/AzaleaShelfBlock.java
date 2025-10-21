@@ -6,12 +6,14 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.ShelfBlockEntity;
 import net.minecraft.block.enums.SideChainPart;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.ListInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
@@ -150,6 +152,7 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
 
     @Override
     protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+
         if (world.getBlockEntity(pos) instanceof AzaleaShelfBlockEntity azaleaShelfBlockEntity && !hand.equals(Hand.OFF_HAND)) {
             OptionalInt optionalInt = this.getHitSlot(hit, state.get(FACING));
             if (optionalInt.isEmpty()) {
@@ -197,34 +200,37 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
     }
 
     private boolean swapAllStacks(World world, BlockPos pos, PlayerInventory playerInventory) {
-        List<BlockPos> list = this.getPositionsInChain(world, pos);
-        if (list.isEmpty()) {
+        List<BlockPos> chainPositions = this.getPositionsInChain(world, pos);
+        if (chainPositions.isEmpty()) {
             return false;
-        } else {
-            boolean bl = false;
+        }
 
-            for (int i = 0; i < list.size(); i++) {
-                AzaleaShelfBlockEntity azaleaShelfBlockEntity = (AzaleaShelfBlockEntity) world.getBlockEntity((BlockPos)list.get(i));
-                if (azaleaShelfBlockEntity != null) {
-                    for (int j = 0; j < azaleaShelfBlockEntity.size(); j++) {
-                        int k = 9 - (list.size() - i) * azaleaShelfBlockEntity.size() + j;
-                        if (k >= 0 && k <= playerInventory.size()) {
-                            ItemStack itemStack = playerInventory.removeStack(k);
-                            ItemStack itemStack2 = azaleaShelfBlockEntity.swapStackNoMarkDirty(j, itemStack);
-                            if (!itemStack.isEmpty() || !itemStack2.isEmpty()) {
-                                playerInventory.setStack(k, itemStack2);
-                                bl = true;
-                            }
-                        }
-                    }
+        boolean swapped = false;
 
-                    playerInventory.markDirty();
-                    azaleaShelfBlockEntity.markDirty(GameEvent.ENTITY_INTERACT);
+        for (int i = 0; i < chainPositions.size(); i++) {
+            BlockPos shelfPos = chainPositions.get(i);
+            ListInventory shelfInv = getShelfInventory(world, shelfPos);
+            if (shelfInv == null) continue;
+
+            int shelfSize = shelfInv.size();
+            for (int j = 0; j < shelfSize; j++) {
+                int playerSlot = 9 - (chainPositions.size() - i) * shelfSize + j;
+                if (playerSlot < 0 || playerSlot >= playerInventory.size()) continue;
+
+                ItemStack fromPlayer = playerInventory.removeStack(playerSlot);
+                ItemStack fromShelf  = swapStackNoMarkDirty(shelfInv, j, fromPlayer);
+
+                if (!fromPlayer.isEmpty() || !fromShelf.isEmpty()) {
+                    playerInventory.setStack(playerSlot, fromShelf);
+                    swapped = true;
                 }
             }
 
-            return bl;
+            playerInventory.markDirty();
+            markShelfDirty(shelfInv);
         }
+
+        return swapped;
     }
 
     @Override
@@ -306,6 +312,40 @@ public class AzaleaShelfBlock extends BlockWithEntity implements InteractibleSlo
             return i | j << 1 | k << 2;
         } else {
             return 0;
+        }
+    }
+
+    // Helper: Get either vanilla or azalea shelf inventory at a position
+    @Nullable
+    private static ListInventory getShelfInventory(World world, BlockPos pos) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof AzaleaShelfBlockEntity azalea) return azalea;
+        if (be instanceof ShelfBlockEntity vanilla) return vanilla;
+        return null;
+    }
+
+    // Helper: Swap without marking dirty, like vanilla's shelf does
+    private static ItemStack swapStackNoMarkDirty(ListInventory inv, int slot, ItemStack with) {
+        if (inv instanceof AzaleaShelfBlockEntity azalea) {
+            return azalea.swapStackNoMarkDirty(slot, with);
+        }
+        if (inv instanceof ShelfBlockEntity vanilla) {
+            return vanilla.swapStackNoMarkDirty(slot, with);
+        }
+        // Generic fallback (no special "no mark" semantics available)
+        ItemStack prev = inv.getStack(slot);
+        inv.setStack(slot, with);
+        return prev;
+    }
+
+    // Helper: mark the shelf dirty with the right overload
+    private static void markShelfDirty(ListInventory inv) {
+        if (inv instanceof AzaleaShelfBlockEntity azalea) {
+            azalea.markDirty(GameEvent.ENTITY_INTERACT);
+        } else if (inv instanceof ShelfBlockEntity vanilla) {
+            vanilla.markDirty(GameEvent.ENTITY_INTERACT);
+        } else if (inv instanceof BlockEntity be) {
+            be.markDirty(); // no-arg fallback
         }
     }
 }

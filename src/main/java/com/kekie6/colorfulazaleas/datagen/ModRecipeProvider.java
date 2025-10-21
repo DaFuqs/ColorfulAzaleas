@@ -116,6 +116,3 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         return "ColorfulAzaleas Recipes";
     }
 }
-                    /* Unused - Experimenting with families
-                    generateFamily(tree.getWoodSet().ColorfulAzaleasWoodSetFamily, FeatureSet.empty());
-*/

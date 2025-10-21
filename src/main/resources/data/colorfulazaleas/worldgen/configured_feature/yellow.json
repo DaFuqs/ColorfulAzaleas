@@ -65,24 +65,31 @@
     },
     "decorators": [
       {
-        "type": "minecraft:attached_to_leaves",
-        "probability": 1,
-        "exclusion_radius_xz": 0,
-        "exclusion_radius_y": 1,
-        "required_empty_blocks": 1,
-        "block_provider": {
+        "type": "colorfulazaleas:colorful_tree_decorator",
+        "chance": 0.4,
+        "leaf_height": {
+          "type": "minecraft:biased_to_bottom",
+          "min_inclusive": 1,
+          "max_inclusive": 3
+        },
+        "hanging_height": {
+          "type": "minecraft:uniform",
+          "min_inclusive": 2,
+          "max_inclusive": 4
+        },
+        "top_leaf_block": {
           "type": "minecraft:simple_state_provider",
           "state": {
             "Name": "colorfulazaleas:yellow_blooming_azalea_leaves"
           }
         },
-        "directions": [
-          "down"
-        ]
-      },
-      {
-        "type": "colorfulazaleas:colorful_tree_decorator",
         "leaf_block": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "colorfulazaleas:yellow_azalea_leaves"
+          }
+        },
+        "hanging_block": {
           "type": "minecraft:simple_state_provider",
           "state": {
             "Name": "colorfulazaleas:yellow_drooping_azalea_leaves"
