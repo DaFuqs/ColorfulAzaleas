@@ -16,8 +16,7 @@ public enum AzaleaColors {
     BROWN("earthen", 8606770),
     GREEN("pastoral", 6192150),
     RED("roze", 0xFFd93a2a),
-    BLACK("pitch", 1908001),
-    ;
+    BLACK("pitch", 1908001);
 
     final String title;
     final int tint;
