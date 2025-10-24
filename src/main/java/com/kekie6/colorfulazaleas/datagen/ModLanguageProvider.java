@@ -2,6 +2,7 @@ package com.kekie6.colorfulazaleas.datagen;
 
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
+import com.kekie6.colorfulazaleas.registry.AzaleaItems;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
 import com.kekie6.colorfulazaleas.util.WoodSet;
@@ -70,8 +71,9 @@ public class ModLanguageProvider extends FabricLanguageProvider {
             }
         }
 
-        // --- Add non-set block ---
+        // --- Add non-set block/item ---
         builder.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
+        builder.add(AzaleaItems.ICON_ITEM, "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
 
         // --- Add custom entries (manually defined) ---
         builder.add("itemGroup.colorfulazaleas.colorful_azaleas", "Colorful Azaleas");

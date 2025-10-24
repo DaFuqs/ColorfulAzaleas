@@ -3,7 +3,6 @@ package com.kekie6.colorfulazaleas.registry;
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.block.ColorfulAzaleaBushBlock;
 import com.kekie6.colorfulazaleas.block.DroopingLeavesBlock;
-import com.kekie6.colorfulazaleas.block.AzaleaShelfBlock;
 import com.kekie6.colorfulazaleas.util.AzaleaColors;
 import com.kekie6.colorfulazaleas.util.AzaleaSignHelper;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
@@ -209,7 +208,7 @@ public class AzaleaBlocks {
                                 .registryKey(blockKey(title + "_azalea_button")))));
 
         // --- Shelf Block & Item ---
-        AzaleaShelfBlock shelf = new AzaleaShelfBlock(
+        ShelfBlock shelf = new ShelfBlock(
                 AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
                         .registryKey(blockKey(title + "_azalea_shelf"))
         );
