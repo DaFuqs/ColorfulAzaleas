@@ -322,7 +322,7 @@ public class AzaleaBlocks {
 
         RegistryKey<Block> blockKey = blockKey(name);
 
-        Identifier lootTableId = ColorfulAzaleas.id("block/" + baseName);
+        Identifier lootTableId = ColorfulAzaleas.id("blocks/" + baseName);
         RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, lootTableId);
         // Debugging: Identify block loot tables
         // Identifier id = ColorfulAzaleas.id(name);

@@ -3,6 +3,7 @@ package com.kekie6.colorfulazaleas.datagen;
 import com.kekie6.colorfulazaleas.ColorfulAzaleas;
 import com.kekie6.colorfulazaleas.block.DroopingLeavesBlock;
 import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
+import com.kekie6.colorfulazaleas.registry.AzaleaItems;
 import com.kekie6.colorfulazaleas.util.ColorfulTree;
 import com.kekie6.colorfulazaleas.util.WoodSet;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
@@ -89,6 +90,7 @@ public class ModModelProvider extends FabricModelProvider {
         // a "parented" item model is created (see registerParentedItemModel usage below).
         ColorfulAzaleas.LOGGER.info("Generating Item models for " + ColorfulAzaleas.MOD_ID);
 
+        itemModelGenerator.register(AzaleaItems.ICON_ITEM, Models.HANDHELD);
         itemModelGenerator.register(AzaleaBlocks.DROOPING_AZALEA_LEAVES.asItem(), Models.GENERATED);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {

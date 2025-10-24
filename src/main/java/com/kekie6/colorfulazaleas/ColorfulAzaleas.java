@@ -23,12 +23,14 @@ public class ColorfulAzaleas implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AzaleaItems.register();
         AzaleaBlocks.init();
         AzaleaBlockEntityTypes.init();
-        AzaleaItemGroups.register();
-
         // Boats
         registerAllAzaleaBoats();
+
+        AzaleaItemGroups.register();
+
     }
 
     public static void registerAllAzaleaBoats() {
