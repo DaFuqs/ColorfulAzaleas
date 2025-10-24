@@ -1,16 +1,12 @@
 package com.kekie6.colorfulazaleas;
 
-import com.kekie6.colorfulazaleas.client.render.AzaleaShelfBlockEntityRenderer;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlockEntityTypes;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
-
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import com.terraformersmc.terraform.boat.api.client.*;
+import net.fabricmc.api.*;
+import net.fabricmc.fabric.api.client.rendering.v1.*;
+import net.minecraft.block.entity.*;
+import net.minecraft.client.render.*;
 
 public class ColorfulAzaleasClient implements ClientModInitializer {
     @Override
@@ -34,11 +30,10 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
             );
 
             TerraformBoatClientHelper.registerModelLayers(woodSet.getAzaleaBoatsId());
+            BlockEntityType.SHELF.addSupportedBlock(woodSet.getShelf());
         }
 
         BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, BlockRenderLayer.CUTOUT);
-
-        BlockEntityRendererFactories.register(AzaleaBlockEntityTypes.AZALEA_SHELF_ENTITY, AzaleaShelfBlockEntityRenderer::new);
     }
 }
 
