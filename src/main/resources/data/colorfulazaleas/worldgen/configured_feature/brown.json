@@ -68,9 +68,21 @@
         "type": "colorfulazaleas:colorful_tree_decorator",
         "chance": 0.4,
         "leaf_height": {
-          "type": "minecraft:biased_to_bottom",
-          "min_inclusive": 1,
-          "max_inclusive": 3
+          "type": "minecraft:weighted_list",
+          "distribution": [
+            {
+              "weight": 3,
+              "data": 1
+            },
+            {
+              "weight": 2,
+              "data": 2
+            },
+            {
+              "weight": 1,
+              "data": 3
+            }
+          ]
         },
         "hanging_height": {
           "type": "minecraft:uniform",
