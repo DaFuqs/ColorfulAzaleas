@@ -32,14 +32,5 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
             TerraformBoatClientHelper.registerModelLayers(woodSet.getAzaleaBoatsId());
             BlockEntityType.SHELF.addSupportedBlock(woodSet.getShelf());
         }
-
-        BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, BlockRenderLayer.CUTOUT);
     }
 }
-
-
-/*        EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_BOAT, context ->
-                new BoatEntityRenderer(context, false));
-
-        EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_CHEST_BOAT, context ->
-                new BoatEntityRenderer(context, true));*/

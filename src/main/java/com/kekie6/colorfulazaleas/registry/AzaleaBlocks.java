@@ -53,13 +53,6 @@ public class AzaleaBlocks {
                 .toArray(ColorfulTree[]::new);
     }
 
-    public static final Block DROOPING_AZALEA_LEAVES =
-            registerBlockWithItem("drooping_azalea_leaves",
-                    new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                            .registryKey(blockKey("drooping_azalea_leaves"))
-                            .noCollision()
-                            .sounds(BlockSoundGroup.CAVE_VINES)));
-
     private static ColorfulTree createTree(AzaleaColors color) {
         String title = color.getTitle(); // e.g. "titanium"
         String name = color.name().toLowerCase(Locale.ROOT); // e.g. "WHITE"

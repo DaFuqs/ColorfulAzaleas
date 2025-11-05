@@ -72,7 +72,6 @@ public class ModLanguageProvider extends FabricLanguageProvider {
         }
 
         // --- Add non-set block/item ---
-        builder.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
         builder.add(AzaleaItems.ICON_ITEM, "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
 
         // --- Add custom entries (manually defined) ---

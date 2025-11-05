@@ -19,8 +19,6 @@ public class AzaleaItemGroups {
                 .displayName(Text.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
                 .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM))
                 .entries((itemDisplayParameters, entries) -> {
-                    entries.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
-
                     for (ColorfulTree tree : AzaleaBlocks.trees) {
                         entries.add(tree.getSapling());
                         entries.add(tree.getAzaleaLeaves());

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.model.json.WeightedVariant;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.block.Block;
@@ -22,8 +23,6 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator gen) {
         ColorfulAzaleas.LOGGER.info("Generating BlockState models for " + ColorfulAzaleas.MOD_ID);
-
-        registerDroopingLeavesVariants(gen, AzaleaBlocks.DROOPING_AZALEA_LEAVES);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             var woodSet = tree.getWoodSet();
@@ -91,12 +90,15 @@ public class ModModelProvider extends FabricModelProvider {
         ColorfulAzaleas.LOGGER.info("Generating Item models for " + ColorfulAzaleas.MOD_ID);
 
         itemModelGenerator.register(AzaleaItems.ICON_ITEM, Models.HANDHELD);
-        itemModelGenerator.register(AzaleaBlocks.DROOPING_AZALEA_LEAVES.asItem(), Models.GENERATED);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
-
-            itemModelGenerator.register(tree.getDroopingLeaves().asItem(), Models.GENERATED);
+            
+            Item droopingItem = tree.getDroopingLeaves().asItem();
+            Identifier droopingItemId = Registries.ITEM.getId(tree.getDroopingLeaves().asItem());
+            TextureMap textures = new TextureMap().put(TextureKey.LAYER0, Identifier.of(droopingItemId.getNamespace(), "block/" + droopingItemId.getPath()));
+            Models.GENERATED.upload(droopingItem, textures, itemModelGenerator.modelCollector);
+            
             itemModelGenerator.register(woodSet.getBoatItem(), Models.GENERATED);
             itemModelGenerator.register(woodSet.getChestBoatItem(), Models.GENERATED);
         }
@@ -184,8 +186,7 @@ public class ModModelProvider extends FabricModelProvider {
         WeightedVariant tallVariant  = BlockStateModelGenerator.createWeightedVariant(tallModel);
 
         // Map the boolean property EXTENDED -> short/tall
-        BlockStateVariantMap.SingleProperty<WeightedVariant, Boolean> map =
-                BlockStateVariantMap.models(DroopingLeavesBlock.EXTENDED);
+        BlockStateVariantMap.SingleProperty<WeightedVariant, Boolean> map = BlockStateVariantMap.models(DroopingLeavesBlock.EXTENDED);
 
         map.register(false, shortVariant);
         map.register(true, tallVariant);
@@ -193,9 +194,8 @@ public class ModModelProvider extends FabricModelProvider {
         // Accept the variant mapping as the block state definition
         gen.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(droopingBlock).with(map));
 
-        // (Optional) If you want the item form to use the short model, register a parented item model.
-        // gen.registerParentedItemModel(droopingBlock, shortModel);
-        // But avoid registering an item alias that would collide with others.
+        // Use a separate item model for drooping blocks
+        gen.registerParentedItemModel(droopingBlock, Identifier.of(namespace, "item/" + path));
     }
 
     private static void registerSign(BlockStateModelGenerator gen, Block standingSign, Block wallSign) {
