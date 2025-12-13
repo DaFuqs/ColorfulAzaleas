@@ -25,8 +25,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-    modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:15.0.0"
-    include "com.terraformersmc.terraform-api:terraform-wood-api-v1:15.0.0"
+    modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:16.0.0-beta.2"
+    include "com.terraformersmc.terraform-api:terraform-wood-api-v1:16.0.0-beta.2"
 }
 
 fabricApi {
@@ -52,7 +52,7 @@ processResources {
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
     it.options.release = 21
 }

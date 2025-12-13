@@ -13,5 +13,6 @@ pluginManagement {
 }
 
 rootProject.name = 'ColorfulAzaleas'
-include("Common", "Fabric") // "Forge"
+// Below is no longer needed since this is not a multi-module project any more - Gradle 9.2.0 is stricter with this
+// include("Common", "Fabric") // "Forge"
 
