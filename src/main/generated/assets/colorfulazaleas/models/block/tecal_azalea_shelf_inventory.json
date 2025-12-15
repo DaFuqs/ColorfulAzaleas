@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_inventory",
+  "textures": {
+    "all": "colorfulazaleas:block/tecal_azalea_shelf",
+    "particle": "colorfulazaleas:block/stripped_tecal_azalea_log"
+  }
+}
