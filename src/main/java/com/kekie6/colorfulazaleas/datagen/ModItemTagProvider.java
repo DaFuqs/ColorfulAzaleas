@@ -12,11 +12,12 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+    
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture, @Nullable BlockTagProvider blockTagProvider) {
         super(output, registriesFuture, blockTagProvider);
     }
@@ -26,7 +27,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void configure(RegistryWrapper.@NotNull WrapperLookup wrapperLookup) {
         ColorfulAzaleas.LOGGER.info("Generating ItemTags for " + ColorfulAzaleas.MOD_ID);
 
         valueLookupBuilder(ModTags.Items.AZALEAS)

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "colorfulazaleas:item/pink_drooping_azalea_leaves"
+    "layer0": "colorfulazaleas:block/pink_drooping_azalea_leaves"
   }
 }

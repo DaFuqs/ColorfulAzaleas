@@ -9,7 +9,9 @@ import com.kekie6.colorfulazaleas.util.WoodSet;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.*;
+import net.minecraft.client.render.item.model.*;
 import net.minecraft.client.render.model.json.WeightedVariant;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.block.Block;
@@ -90,19 +92,25 @@ public class ModModelProvider extends FabricModelProvider {
         // a "parented" item model is created (see registerParentedItemModel usage below).
         ColorfulAzaleas.LOGGER.info("Generating Item models for " + ColorfulAzaleas.MOD_ID);
 
-        itemModelGenerator.register(AzaleaItems.ICON_ITEM, Models.HANDHELD);
-        itemModelGenerator.register(AzaleaBlocks.DROOPING_AZALEA_LEAVES.asItem(), Models.GENERATED);
-
+        itemModelGenerator.register(AzaleaItems.ICON_ITEM, Models.GENERATED);
+        registerDroopingItem(itemModelGenerator, AzaleaBlocks.DROOPING_AZALEA_LEAVES);
+        
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
-
-            itemModelGenerator.register(tree.getDroopingLeaves().asItem(), Models.GENERATED);
+            
+            registerDroopingItem(itemModelGenerator, tree.getDroopingLeaves());
             itemModelGenerator.register(woodSet.getBoatItem(), Models.GENERATED);
             itemModelGenerator.register(woodSet.getChestBoatItem(), Models.GENERATED);
         }
     }
-
-     // Special handling for potted azalea bushes, we want:
+    
+    private static void registerDroopingItem(ItemModelGenerator itemModelGenerator, Block droopingBlock) {
+        Identifier blockId = Registries.BLOCK.getId(droopingBlock);
+        Identifier id = Models.GENERATED.upload(droopingBlock.asItem(), TextureMap.layer0(Identifier.of(blockId.getNamespace(), "block/" + blockId.getPath())), itemModelGenerator.modelCollector);
+        itemModelGenerator.output.accept(droopingBlock.asItem(), ItemModels.basic(id));
+    }
+    
+    // Special handling for potted azalea bushes, we want:
      // - "plant" to remain the potted plant texture (textureMap.getSubId(block,"_plant"))
      // - "side" and "top" to reference the unpotted variants (i.e. remove the "potted_" prefix from the block id)
      // This avoids having to duplicate PNGs: we reuse the same "blue_azalea_sapling_side" and "..._top".
@@ -160,42 +168,18 @@ public class ModModelProvider extends FabricModelProvider {
     // Uploads two 'cross' models (short & tall) and registers a variant map keyed by DroopingLeavesBlock.EXTENDED.
     // IMPORTANT: the second upload uses a variant suffix ("_tall") so the model id is unique.
     private static void registerDroopingLeavesVariants(BlockStateModelGenerator gen, Block droopingBlock) {
-        // Computes texture identifiers (block/namespace/path[_tall])
         Identifier blockId = Registries.BLOCK.getId(droopingBlock);
         String namespace = blockId.getNamespace();
-        String path = blockId.getPath(); // e.g. "blue_drooping_azalea_leaves"
+        String path = blockId.getPath();
 
         Identifier shortTex = Identifier.of(namespace, "block/" + path);
         Identifier tallTex  = Identifier.of(namespace, "block/" + path + "_tall");
 
-        // Texture maps for cross model (cross + particle)
-        TextureMap shortMap = new TextureMap().put(TextureKey.CROSS, shortTex).put(TextureKey.PARTICLE, shortTex);
-        TextureMap tallMap  = new TextureMap().put(TextureKey.CROSS, tallTex).put(TextureKey.PARTICLE, tallTex);
+        BlockStateVariantMap.SingleProperty<WeightedVariant, Boolean> map = BlockStateVariantMap.models(DroopingLeavesBlock.EXTENDED);
+        map.register(false, BlockStateModelGenerator.createWeightedVariant(Models.CROSS.upload(droopingBlock, new TextureMap().put(TextureKey.CROSS, shortTex).put(TextureKey.PARTICLE, shortTex), gen.modelCollector)));
+        map.register(true, BlockStateModelGenerator.createWeightedVariant(Models.CROSS.upload(droopingBlock, "_tall", new TextureMap().put(TextureKey.CROSS, tallTex).put(TextureKey.PARTICLE, tallTex), gen.modelCollector)));
 
-        // Upload short model -> models/block/<path>.json
-        Identifier shortModel = Models.CROSS.upload(droopingBlock, shortMap, gen.modelCollector);
-
-        // Upload tall model using variant suffix -> models/block/<path>_tall.json
-        // NOTE: upload overload accepting a variant string is used here to create a distinct filename.
-        Identifier tallModel = Models.CROSS.upload(droopingBlock, "_tall", tallMap, gen.modelCollector);
-
-        // Create WeightedVariants
-        WeightedVariant shortVariant = BlockStateModelGenerator.createWeightedVariant(shortModel);
-        WeightedVariant tallVariant  = BlockStateModelGenerator.createWeightedVariant(tallModel);
-
-        // Map the boolean property EXTENDED -> short/tall
-        BlockStateVariantMap.SingleProperty<WeightedVariant, Boolean> map =
-                BlockStateVariantMap.models(DroopingLeavesBlock.EXTENDED);
-
-        map.register(false, shortVariant);
-        map.register(true, tallVariant);
-
-        // Accept the variant mapping as the block state definition
         gen.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(droopingBlock).with(map));
-
-        // (Optional) If you want the item form to use the short model, register a parented item model.
-        // gen.registerParentedItemModel(droopingBlock, shortModel);
-        // But avoid registering an item alias that would collide with others.
     }
 
     private static void registerSign(BlockStateModelGenerator gen, Block standingSign, Block wallSign) {
