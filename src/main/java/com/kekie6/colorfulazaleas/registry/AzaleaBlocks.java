@@ -39,26 +39,23 @@ public class AzaleaBlocks {
 
     public static ColorfulTree[] trees;
 
-    private static final BlockSetType BLOCK_SET_TYPE =
-            BlockSetTypeBuilder.copyOf(BlockSetType.ACACIA)
-                    .register(ColorfulAzaleas.id("colorful_azaleas"));
+    private static final BlockSetType BLOCK_SET_TYPE = BlockSetTypeBuilder.copyOf(BlockSetType.ACACIA).register(ColorfulAzaleas.id("colorful_azaleas"));
     private static final Map<String, WoodType> WOOD_TYPES = new HashMap<>();
-    private static final WoodType WOOD_TYPE =
-            new WoodTypeBuilder().register(ColorfulAzaleas.id("colorful_azaleas"), BLOCK_SET_TYPE);
+    private static final WoodType WOOD_TYPE = new WoodTypeBuilder().register(ColorfulAzaleas.id("colorful_azaleas"), BLOCK_SET_TYPE);
     public static final List<Block> SHELF_BLOCKS = new ArrayList<>();
-
+    
+    public static final Block DROOPING_AZALEA_LEAVES = registerBlockWithItem(
+            "drooping_azalea_leaves",
+            new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES).registryKey(blockKey("drooping_azalea_leaves")).noCollision().sounds(BlockSoundGroup.CAVE_VINES))
+    );
+    
     public static void init() {
         trees = Arrays.stream(AzaleaColors.values())
                 .map(AzaleaBlocks::createTree)
                 .toArray(ColorfulTree[]::new);
+        
+        CompostingChanceRegistry.INSTANCE.add(DROOPING_AZALEA_LEAVES, 0.3F);
     }
-
-    public static final Block DROOPING_AZALEA_LEAVES =
-            registerBlockWithItem("drooping_azalea_leaves",
-                    new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                            .registryKey(blockKey("drooping_azalea_leaves"))
-                            .noCollision()
-                            .sounds(BlockSoundGroup.CAVE_VINES)));
 
     private static ColorfulTree createTree(AzaleaColors color) {
         String title = color.getTitle(); // e.g. "titanium"
@@ -70,196 +67,65 @@ public class AzaleaBlocks {
         WoodType woodType = getOrCreateWoodType(title);
 
         // --- Leaves ---
-        tree.setAzaleaLeaves(registerBlockWithItem(
-                name + "_azalea_leaves",
-                new UntintedParticleLeavesBlock(
-                        0.01F,
-                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
-                        AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                                .registryKey(blockKey(name + "_azalea_leaves"))
-                )
-        ));
-
-        tree.setFloweringLeaves(registerBlockWithItem(
-                name + "_flowering_azalea_leaves",
-                new UntintedParticleLeavesBlock(
-                        0.01F,
-                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
-                        AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                                .registryKey(blockKey(name + "_flowering_azalea_leaves"))
-                )
-        ));
-
-        tree.setBloomingLeaves(registerBlockWithItem(
-                name + "_blooming_azalea_leaves",
-                new UntintedParticleLeavesBlock(
-                        0.01F,
-                        TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()),
-                        AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                                .requiresTool()
-                                .registryKey(blockKey(name + "_blooming_azalea_leaves"))
-                )
-        ));
-
-        tree.setDroopingLeaves(registerBlockWithItem(
-                name + "_drooping_azalea_leaves",
-                new DroopingLeavesBlock(
-                        AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES)
-                                .noCollision()
-                                .sounds(BlockSoundGroup.CAVE_VINES)
-                                .registryKey(blockKey(name + "_drooping_azalea_leaves"))
-                )
-        ));
+        Block leaves = new UntintedParticleLeavesBlock(0.01F, TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES).registryKey(blockKey(name + "_azalea_leaves")));
+        tree.setAzaleaLeaves(registerBlockWithItem(name + "_azalea_leaves", leaves));
+        UntintedParticleLeavesBlock floweringLeaves = new UntintedParticleLeavesBlock(0.01F, TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES).registryKey(blockKey(name + "_flowering_azalea_leaves")));
+        tree.setFloweringLeaves(registerBlockWithItem(name + "_flowering_azalea_leaves", floweringLeaves));
+        UntintedParticleLeavesBlock bloomingLeaves = new UntintedParticleLeavesBlock(0.01F, TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES).requiresTool().registryKey(blockKey(name + "_blooming_azalea_leaves")));
+        tree.setBloomingLeaves(registerBlockWithItem(name + "_blooming_azalea_leaves", bloomingLeaves));
+        DroopingLeavesBlock droopingLeaves = new DroopingLeavesBlock(AbstractBlock.Settings.copy(Blocks.AZALEA_LEAVES).noCollision().sounds(BlockSoundGroup.CAVE_VINES).registryKey(blockKey(name + "_drooping_azalea_leaves")));
+        tree.setDroopingLeaves(registerBlockWithItem(name + "_drooping_azalea_leaves", droopingLeaves));
 
         // --- Sapling ---
-        RegistryKey<ConfiguredFeature<?, ?>> configuredFeatureKey =
-                RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
-
-        SaplingGenerator treeGrower = new SaplingGenerator(
-                ColorfulAzaleas.MOD_ID + ":" + name + "_azalea",
-                Optional.empty(),
-                Optional.of(configuredFeatureKey),
-                Optional.empty()
-        );
-
-        Block sapling = registerBlockWithItem(
-                name + "_azalea_sapling",
-                new ColorfulAzaleaBushBlock(
-                        treeGrower,
-                        AbstractBlock.Settings.copy(Blocks.AZALEA)
-                                .nonOpaque()
-                                .registryKey(blockKey(name + "_azalea_sapling"))
-                )
-        );
-
+        RegistryKey<ConfiguredFeature<?, ?>> configuredFeatureKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
+        SaplingGenerator treeGrower = new SaplingGenerator(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
+        Block sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, AbstractBlock.Settings.copy(Blocks.AZALEA).nonOpaque().registryKey(blockKey(name + "_azalea_sapling"))));
         tree.setSapling(sapling);
-
-        tree.setPottedSapling(registerBlock(
-                "potted_" + name + "_azalea_sapling",
-                new FlowerPotBlock(
-                        sapling,
-                        createFlowerPotSettings()
-                                .registryKey(blockKey("potted_" + name + "_azalea_sapling"))
-                )
-        ));
-
+        tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(sapling, createFlowerPotSettings().registryKey(blockKey("potted_" + name + "_azalea_sapling")))));
         addBlockToAzaleaLootTable(sapling);
-        CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
 
         // --- Wood Set ---
         WoodSet woodSet = new WoodSet(title);
-
-        woodSet.setLog(registerBlockWithItem(title + "_azalea_log",
-                new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)
-                        .registryKey(blockKey(title + "_azalea_log")))));
-
-        woodSet.setWood(registerBlockWithItem(title + "_azalea_wood",
-                new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)
-                        .registryKey(blockKey(title + "_azalea_wood")))));
-
-        woodSet.setStrippedLog(registerBlockWithItem("stripped_" + title + "_azalea_log",
-                new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)
-                        .registryKey(blockKey("stripped_" + title + "_azalea_log")))));
-
-        woodSet.setStrippedWood(registerBlockWithItem("stripped_" + title + "_azalea_wood",
-                new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)
-                        .registryKey(blockKey("stripped_" + title + "_azalea_wood")))));
-
-        woodSet.setPlanks(registerBlockWithItem(title + "_azalea_planks",
-                new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)
-                        .registryKey(blockKey(title + "_azalea_planks")))));
-
-        woodSet.setStairs(registerBlockWithItem(title + "_azalea_stairs",
-                new StairsBlock(woodSet.getPlanks().getDefaultState(),
-                        AbstractBlock.Settings.copy(Blocks.OAK_STAIRS)
-                                .registryKey(blockKey(title + "_azalea_stairs")))));
-
-        woodSet.setSlab(registerBlockWithItem(title + "_azalea_slab",
-                new SlabBlock(AbstractBlock.Settings.copy(Blocks.OAK_SLAB)
-                        .registryKey(blockKey(title + "_azalea_slab")))));
-
-        woodSet.setFence(registerBlockWithItem(title + "_azalea_fence",
-                new FenceBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE)
-                        .registryKey(blockKey(title + "_azalea_fence")))));
-
-        woodSet.setFenceGate(registerBlockWithItem(title + "_azalea_fence_gate",
-                new FenceGateBlock(WOOD_TYPE,
-                        AbstractBlock.Settings.copy(Blocks.OAK_FENCE_GATE)
-                                .registryKey(blockKey(title + "_azalea_fence_gate")))));
-
-        woodSet.setDoor(registerBlockWithItem(title + "_azalea_door",
-                new DoorBlock(BLOCK_SET_TYPE,
-                        AbstractBlock.Settings.copy(Blocks.OAK_DOOR)
-                                .registryKey(blockKey(title + "_azalea_door")))));
-
-        woodSet.setTrapdoor(registerBlockWithItem(title + "_azalea_trapdoor",
-                new TrapdoorBlock(BLOCK_SET_TYPE,
-                        AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR)
-                                .registryKey(blockKey(title + "_azalea_trapdoor")))));
-
-        woodSet.setPressurePlate(registerBlockWithItem(title + "_azalea_pressure_plate",
-                new PressurePlateBlock(BLOCK_SET_TYPE,
-                        AbstractBlock.Settings.copy(Blocks.OAK_PRESSURE_PLATE)
-                                .registryKey(blockKey(title + "_azalea_pressure_plate")))));
-
-        woodSet.setButton(registerBlockWithItem(title + "_azalea_button",
-                new ButtonBlock(BLOCK_SET_TYPE, 30,
-                        AbstractBlock.Settings.copy(Blocks.OAK_BUTTON)
-                                .registryKey(blockKey(title + "_azalea_button")))));
+        woodSet.setLog(registerBlockWithItem(title + "_azalea_log", new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG).registryKey(blockKey(title + "_azalea_log")))));
+        woodSet.setWood(registerBlockWithItem(title + "_azalea_wood", new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD).registryKey(blockKey(title + "_azalea_wood")))));
+        woodSet.setStrippedLog(registerBlockWithItem("stripped_" + title + "_azalea_log", new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG).registryKey(blockKey("stripped_" + title + "_azalea_log")))));
+        woodSet.setStrippedWood(registerBlockWithItem("stripped_" + title + "_azalea_wood", new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD).registryKey(blockKey("stripped_" + title + "_azalea_wood")))));
+        woodSet.setPlanks(registerBlockWithItem(title + "_azalea_planks", new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS).registryKey(blockKey(title + "_azalea_planks")))));
+        woodSet.setStairs(registerBlockWithItem(title + "_azalea_stairs", new StairsBlock(woodSet.getPlanks().getDefaultState(), AbstractBlock.Settings.copy(Blocks.OAK_STAIRS).registryKey(blockKey(title + "_azalea_stairs")))));
+        woodSet.setSlab(registerBlockWithItem(title + "_azalea_slab", new SlabBlock(AbstractBlock.Settings.copy(Blocks.OAK_SLAB).registryKey(blockKey(title + "_azalea_slab")))));
+        woodSet.setFence(registerBlockWithItem(title + "_azalea_fence", new FenceBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE).registryKey(blockKey(title + "_azalea_fence")))));
+        woodSet.setFenceGate(registerBlockWithItem(title + "_azalea_fence_gate", new FenceGateBlock(WOOD_TYPE, AbstractBlock.Settings.copy(Blocks.OAK_FENCE_GATE).registryKey(blockKey(title + "_azalea_fence_gate")))));
+        woodSet.setDoor(registerBlockWithItem(title + "_azalea_door", new DoorBlock(BLOCK_SET_TYPE, AbstractBlock.Settings.copy(Blocks.OAK_DOOR).registryKey(blockKey(title + "_azalea_door")))));
+        woodSet.setTrapdoor(registerBlockWithItem(title + "_azalea_trapdoor", new TrapdoorBlock(BLOCK_SET_TYPE, AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR).registryKey(blockKey(title + "_azalea_trapdoor")))));
+        woodSet.setPressurePlate(registerBlockWithItem(title + "_azalea_pressure_plate", new PressurePlateBlock(BLOCK_SET_TYPE, AbstractBlock.Settings.copy(Blocks.OAK_PRESSURE_PLATE).registryKey(blockKey(title + "_azalea_pressure_plate")))));
+        woodSet.setButton(registerBlockWithItem(title + "_azalea_button", new ButtonBlock(BLOCK_SET_TYPE, 30, AbstractBlock.Settings.copy(Blocks.OAK_BUTTON).registryKey(blockKey(title + "_azalea_button")))));
 
         // --- Shelf Block & Item ---
-        ShelfBlock shelf = new ShelfBlock(
-                AbstractBlock.Settings.copy(Blocks.OAK_SHELF)
-                        .registryKey(blockKey(title + "_azalea_shelf"))
-        );
+        ShelfBlock shelf = new ShelfBlock(AbstractBlock.Settings.copy(Blocks.OAK_SHELF).registryKey(blockKey(title + "_azalea_shelf")));
         registerBlockWithItem(title + "_azalea_shelf", shelf);
         SHELF_BLOCKS.add(shelf);
         woodSet.setShelf(shelf);
 
         // --- Sign Blocks & Items ---
-        woodSet.setSign(AzaleaSignHelper.registerSignBlock(
-                ColorfulAzaleas.id(title + "_azalea_sign"),
-                s -> new SignBlock(woodType, s),
-                blockSettings(title + "_azalea_sign", Blocks.OAK_SIGN)
-        ));
-
-        woodSet.setWallSign(AzaleaSignHelper.registerSignBlock(
-                ColorfulAzaleas.id(title + "_azalea_wall_sign"),
-                s -> new WallSignBlock(woodType, s),
-                blockSettings(title + "_azalea_wall_sign", Blocks.OAK_WALL_SIGN)
-        ));
-
-        woodSet.setHangingSign(AzaleaSignHelper.registerSignBlock(
-                ColorfulAzaleas.id(title + "_azalea_hanging_sign"),
-                s -> new HangingSignBlock(woodType, s),
-                blockSettings(title + "_azalea_hanging_sign", Blocks.OAK_HANGING_SIGN)
-        ));
-
-        woodSet.setWallHangingSign(AzaleaSignHelper.registerSignBlock(
-                ColorfulAzaleas.id(title + "_azalea_wall_hanging_sign"),
-                s -> new WallHangingSignBlock(woodType, s),
-                blockSettings(title + "_azalea_wall_hanging_sign", Blocks.OAK_WALL_HANGING_SIGN)
-        ));
+        woodSet.setSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_sign"), s -> new SignBlock(woodType, s), blockSettings(title + "_azalea_sign", Blocks.OAK_SIGN)));
+        woodSet.setWallSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_wall_sign"), s -> new WallSignBlock(woodType, s), blockSettings(title + "_azalea_wall_sign", Blocks.OAK_WALL_SIGN)));
+        woodSet.setHangingSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_hanging_sign"), s -> new HangingSignBlock(woodType, s), blockSettings(title + "_azalea_hanging_sign", Blocks.OAK_HANGING_SIGN)));
+        woodSet.setWallHangingSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_wall_hanging_sign"), s -> new WallHangingSignBlock(woodType, s), blockSettings(title + "_azalea_wall_hanging_sign", Blocks.OAK_WALL_HANGING_SIGN)));
 
         AzaleaSignHelper.registerSignItems(woodSet, title);
-
-        // Debugging: Identify hanging signs
-        // System.out.println("Registering hanging sign: " + title + " -> " + woodSet.getHangingSign());
-
-        // Debugging: Signs (Identifies their texture path) e.g. "Why is my sign black and purple?"
-/*
-        System.out.println("Registered sign: " + title + "_azalea_sign using wood type: " + woodType.name());
-        System.out.println("Expected sign texture: " + TexturedRenderLayers.getSignTextureId(woodType));
-
-        System.out.println("Registered hanging sign: " + title + "_azalea_hanging_sign using wood type: " + woodType.name());
-        System.out.println("Expected hanging sign texture: " + TexturedRenderLayers.getHangingSignTextureId(woodType));
-*/
+        
         // --- Strippable Wood ---
         StrippableBlockRegistry.register(woodSet.getLog(), woodSet.getStrippedLog());
         StrippableBlockRegistry.register(woodSet.getWood(), woodSet.getStrippedWood());
-
+        
+        // Composting
+        CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
+        CompostingChanceRegistry.INSTANCE.add(leaves, 0.3F);
+        CompostingChanceRegistry.INSTANCE.add(bloomingLeaves, 0.3F);
+        CompostingChanceRegistry.INSTANCE.add(floweringLeaves, 0.3F);
+        CompostingChanceRegistry.INSTANCE.add(droopingLeaves, 0.3F);
+        
         tree.setWoodSet(woodSet);
-
         return tree;
     }
 
@@ -323,12 +189,6 @@ public class AzaleaBlocks {
 
         Identifier lootTableId = ColorfulAzaleas.id("blocks/" + baseName);
         RegistryKey<LootTable> lootKey = RegistryKey.of(RegistryKeys.LOOT_TABLE, lootTableId);
-        // Debugging: Identify block loot tables
-        // Identifier id = ColorfulAzaleas.id(name);
-        // System.out.println("[blockSettings Debug]: Block -> " + id);
-        // System.out.println("[blockSettings Debug]: Loot table -> " + lootKey);
-        // System.out.println("[blockSettings Debug]: Base name -> " + baseName);
-        // System.out.println("[blockSettings Debug]: Base block -> " + base);
 
         return AbstractBlock.Settings.copy(base)
                 .registryKey(blockKey)
