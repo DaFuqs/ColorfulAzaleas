@@ -1,59 +1,57 @@
 package com.kekie6.colorfulazaleas.registry;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
+import com.kekie6.colorfulazaleas.*;
+import com.kekie6.colorfulazaleas.util.*;
+import net.fabricmc.fabric.api.itemgroup.v1.*;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.world.item.*;
 
 public class AzaleaItemGroups {
 
-    public static ItemGroup CREATIVE_MODE_TAB;
+    public static CreativeModeTab CREATIVE_MODE_TAB;
 
     public static void register() {
         CREATIVE_MODE_TAB = FabricItemGroup.builder()
-                .displayName(Text.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
+                .title(Component.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
                 .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM))
-                .entries((itemDisplayParameters, entries) -> {
-                    entries.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
+                .displayItems((itemDisplayParameters, entries) -> {
+                    entries.accept(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
 
                     for (ColorfulTree tree : AzaleaBlocks.trees) {
-                        entries.add(tree.getSapling());
-                        entries.add(tree.getAzaleaLeaves());
-                        entries.add(tree.getBloomingLeaves());
-                        entries.add(tree.getFloweringLeaves());
-                        entries.add(tree.getDroopingLeaves());
+                        entries.accept(tree.getSapling());
+                        entries.accept(tree.getAzaleaLeaves());
+                        entries.accept(tree.getBloomingLeaves());
+                        entries.accept(tree.getFloweringLeaves());
+                        entries.accept(tree.getDroopingLeaves());
 
                         WoodSet woodSet = tree.getWoodSet();
 
-                        entries.add(woodSet.getLog());
-                        entries.add(woodSet.getWood());
-                        entries.add(woodSet.getStrippedLog());
-                        entries.add(woodSet.getStrippedWood());
-                        entries.add(woodSet.getPlanks());
-                        entries.add(woodSet.getStairs());
-                        entries.add(woodSet.getSlab());
-                        entries.add(woodSet.getFence());
-                        entries.add(woodSet.getFenceGate());
-                        entries.add(woodSet.getDoor());
-                        entries.add(woodSet.getTrapdoor());
-                        entries.add(woodSet.getPressurePlate());
-                        entries.add(woodSet.getButton());
-                        entries.add(woodSet.getSign());
-                        entries.add(woodSet.getHangingSign());
-                        entries.add(woodSet.getShelf());
-                        entries.add(woodSet.getBoatItem());
-                        entries.add(woodSet.getChestBoatItem());
+                        entries.accept(woodSet.getLog());
+                        entries.accept(woodSet.getWood());
+                        entries.accept(woodSet.getStrippedLog());
+                        entries.accept(woodSet.getStrippedWood());
+                        entries.accept(woodSet.getPlanks());
+                        entries.accept(woodSet.getStairs());
+                        entries.accept(woodSet.getSlab());
+                        entries.accept(woodSet.getFence());
+                        entries.accept(woodSet.getFenceGate());
+                        entries.accept(woodSet.getDoor());
+                        entries.accept(woodSet.getTrapdoor());
+                        entries.accept(woodSet.getPressurePlate());
+                        entries.accept(woodSet.getButton());
+                        entries.accept(woodSet.getSign());
+                        entries.accept(woodSet.getHangingSign());
+                        entries.accept(woodSet.getShelf());
+                        entries.accept(woodSet.getBoatItem());
+                        entries.accept(woodSet.getChestBoatItem());
                     }
                 })
                 .build();
 
         Registry.register(
-                Registries.ITEM_GROUP,
+                BuiltInRegistries.CREATIVE_MODE_TAB,
                 ColorfulAzaleas.id("colorful_azaleas"),
                 CREATIVE_MODE_TAB
         );

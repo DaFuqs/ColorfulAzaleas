@@ -5,8 +5,8 @@ import com.kekie6.colorfulazaleas.util.*;
 import com.terraformersmc.terraform.boat.api.client.*;
 import net.fabricmc.api.*;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
-import net.minecraft.block.entity.*;
-import net.minecraft.client.render.*;
+import net.minecraft.client.renderer.chunk.*;
+import net.minecraft.world.level.block.entity.*;
 
 public class ColorfulAzaleasClient implements ClientModInitializer {
     @Override
@@ -15,7 +15,7 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
 
-            BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,
+            BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
                     tree.getSapling(),
                     tree.getPottedSapling(),
                     tree.getFloweringLeaves(),
@@ -24,7 +24,7 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
                     tree.getDroopingLeaves()
             );
 
-            BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,
+            BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
                     woodSet.getDoor(),
                     woodSet.getTrapdoor()
             );
@@ -33,7 +33,7 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
             BlockEntityType.SHELF.addSupportedBlock(woodSet.getShelf());
         }
 
-        BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, ChunkSectionLayer.CUTOUT);
     }
 }
 

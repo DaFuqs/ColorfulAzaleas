@@ -1,26 +1,24 @@
 package com.kekie6.colorfulazaleas.registry;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import com.kekie6.colorfulazaleas.*;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
 
-import java.util.function.Function;
+import java.util.function.*;
 
 public class AzaleaItems {
-    public static Item ICON_ITEM = register("icon_item", Item::new, new Item.Settings());
+    public static Item ICON_ITEM = register("icon_item", Item::new, new Item.Properties());
 
     public static void register() {
         ColorfulAzaleas.LOGGER.info("Registering items for " + ColorfulAzaleas.MOD_ID);
     }
 
-    public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
-        RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(ColorfulAzaleas.MOD_ID, name));
-        Item item = itemFactory.apply(settings.registryKey(itemKey));
-        Registry.register(Registries.ITEM, itemKey, item);
+    public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(ColorfulAzaleas.MOD_ID, name));
+        Item item = itemFactory.apply(settings.setId(itemKey));
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         return item;
     }
 }

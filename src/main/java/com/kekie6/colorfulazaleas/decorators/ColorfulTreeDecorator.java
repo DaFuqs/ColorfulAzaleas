@@ -1,31 +1,28 @@
 package com.kekie6.colorfulazaleas.decorators;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
+import com.kekie6.colorfulazaleas.*;
 import com.mojang.serialization.*;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.math.intprovider.IntProvider;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.treedecorator.TreeDecorator;
-import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
+import com.mojang.serialization.codecs.*;
+import it.unimi.dsi.fastutil.objects.*;
+import net.minecraft.core.*;
+import net.minecraft.util.*;
+import net.minecraft.util.valueproviders.*;
+import net.minecraft.world.level.levelgen.feature.stateproviders.*;
+import net.minecraft.world.level.levelgen.feature.treedecorators.*;
 import org.jetbrains.annotations.*;
-import java.util.Comparator;
+
+import java.util.*;
 
 public class ColorfulTreeDecorator extends TreeDecorator {
 
     public static final MapCodec<ColorfulTreeDecorator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BlockStateProvider.TYPE_CODEC.fieldOf("top_leaf_block").forGetter(ColorfulTreeDecorator::getTopLeafBlock),
-            BlockStateProvider.TYPE_CODEC.fieldOf("leaf_block").forGetter(ColorfulTreeDecorator::getLeafBlock),
-            BlockStateProvider.TYPE_CODEC.fieldOf("hanging_block").forGetter(ColorfulTreeDecorator::getHangingBlock),
-            BlockStateProvider.TYPE_CODEC.fieldOf("log_block").forGetter(ColorfulTreeDecorator::getLogBlock),
-            IntProvider.VALUE_CODEC.fieldOf("leaf_height").forGetter(ColorfulTreeDecorator::getLeafHeight),
-            IntProvider.VALUE_CODEC.fieldOf("hanging_height").forGetter(ColorfulTreeDecorator::getHangingHeight),
-            Codecs.POSITIVE_FLOAT.fieldOf("chance").forGetter(ColorfulTreeDecorator::getChance)
+            BlockStateProvider.CODEC.fieldOf("top_leaf_block").forGetter(ColorfulTreeDecorator::getTopLeafBlock),
+            BlockStateProvider.CODEC.fieldOf("leaf_block").forGetter(ColorfulTreeDecorator::getLeafBlock),
+            BlockStateProvider.CODEC.fieldOf("hanging_block").forGetter(ColorfulTreeDecorator::getHangingBlock),
+            BlockStateProvider.CODEC.fieldOf("log_block").forGetter(ColorfulTreeDecorator::getLogBlock),
+            IntProvider.CODEC.fieldOf("leaf_height").forGetter(ColorfulTreeDecorator::getLeafHeight),
+            IntProvider.CODEC.fieldOf("hanging_height").forGetter(ColorfulTreeDecorator::getHangingHeight),
+            ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance").forGetter(ColorfulTreeDecorator::getChance)
     ).apply(instance, ColorfulTreeDecorator::new));
 
     public final BlockStateProvider topLeafBlock;
@@ -75,51 +72,51 @@ public class ColorfulTreeDecorator extends TreeDecorator {
     }
 
     @Override
-    protected @NotNull TreeDecoratorType<?> getType() {
+    protected @NotNull TreeDecoratorType<?> type() {
         return ColorfulAzaleas.COLORFUL_TREE_DECORATOR;
     }
 
     @Override
-    public void generate(Generator context) {
-        Random random = context.getRandom();
+    public void place(Context context) {
+        RandomSource random = context.random();
 
-        ObjectArrayList<BlockPos> logs = new ObjectArrayList<>(context.getLogPositions());
+        ObjectArrayList<BlockPos> logs = new ObjectArrayList<>(context.logs());
         logs.sort(Comparator.comparingInt(Vec3i::getY).reversed());
         BlockPos bottomLog = logs.getFirst();
-        for (Direction acceptablePos : Direction.Type.HORIZONTAL) {
+        for (Direction acceptablePos : Direction.Plane.HORIZONTAL) {
             if (random.nextFloat() >= 0.55f) continue;
-            BlockPos placementPosition = bottomLog.offset(acceptablePos).toImmutable();
+            BlockPos placementPosition = bottomLog.relative(acceptablePos).immutable();
             if (context.isAir(placementPosition)) {
-                context.replace(placementPosition, this.getLogBlock().get(context.getRandom(), placementPosition));
+                context.setBlock(placementPosition, this.getLogBlock().getState(context.random(), placementPosition));
             }
         }
 
-        for (BlockPos leaf : context.getLeavesPositions()) {
-            boolean airBelow = context.isAir(leaf.down());
+        for (BlockPos leaf : context.leaves()) {
+            boolean airBelow = context.isAir(leaf.below());
             if(airBelow) {
-                context.replace(leaf, getTopLeafBlock().get(random, leaf));
+                context.setBlock(leaf, getTopLeafBlock().getState(random, leaf));
             }
 
             if(!airBelow) continue;
             if (random.nextFloat() >= chance) continue;
 
             // place down
-            int hangingCount = getHangingHeight().get(random);
+            int hangingCount = getHangingHeight().sample(random);
             for (int i = 1; i <= hangingCount; i++) {
-                BlockPos belowPos = leaf.down(i);
+                BlockPos belowPos = leaf.below(i);
                 if (context.isAir(belowPos)) {
-                    context.replace(belowPos, getHangingBlock().get(random, belowPos));
+                    context.setBlock(belowPos, getHangingBlock().getState(random, belowPos));
                 }
             }
 
             // place up
-            int leafCount = getLeafHeight().get(random);
+            int leafCount = getLeafHeight().sample(random);
             for (int i = 0; i < leafCount; i++) {
 
-                boolean leafAbove = context.getLeavesPositions().contains(leaf.up(i + 1));
+                boolean leafAbove = context.leaves().contains(leaf.above(i + 1));
                 BlockStateProvider provider = (i == leafCount - 1 || !leafAbove) ? getTopLeafBlock() : getLeafBlock();
-                BlockPos currLeafPos = leaf.up(i);
-                context.replace(currLeafPos, provider.get(random, currLeafPos));
+                BlockPos currLeafPos = leaf.above(i);
+                context.setBlock(currLeafPos, provider.getState(random, currLeafPos));
 
                 if(!leafAbove) break;
             }

@@ -1,22 +1,23 @@
 package com.kekie6.colorfulazaleas.block;
 
-import net.minecraft.block.AzaleaBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SaplingGenerator;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.*;
+import net.minecraft.server.level.*;
+import net.minecraft.util.*;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.*;
+import net.minecraft.world.level.block.state.*;
+import org.jspecify.annotations.*;
 
 public class ColorfulAzaleaBushBlock extends AzaleaBlock {
-    protected final SaplingGenerator treeGrower;
+    protected final TreeGrower treeGrower;
 
-    public ColorfulAzaleaBushBlock(SaplingGenerator saplingGenerator, Settings settings) {
+    public ColorfulAzaleaBushBlock(TreeGrower saplingGenerator, Properties settings) {
         super(settings);
         this.treeGrower = saplingGenerator;
     }
 
     @Override
-    public void grow(ServerWorld serverWorld, Random random, BlockPos pos, BlockState state) {
-        treeGrower.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), pos, state, random);
+    public void performBonemeal(@NonNull ServerLevel serverWorld, @NonNull RandomSource random, @NonNull BlockPos pos, @NonNull BlockState state) {
+        treeGrower.growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, random);
     }
 }

@@ -20,9 +20,9 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    mappings loom.officialMojangMappings()
 
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:16.0.0-beta.2"
@@ -33,10 +33,6 @@ fabricApi {
     configureDataGeneration {
         client = true
     }
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/colorfulazaleas.accesswidener")
 }
 
 processResources {

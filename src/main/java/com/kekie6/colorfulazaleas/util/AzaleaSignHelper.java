@@ -1,75 +1,68 @@
 package com.kekie6.colorfulazaleas.util;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.HangingSignItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SignItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import com.kekie6.colorfulazaleas.*;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.state.*;
 
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class AzaleaSignHelper {
 
     private AzaleaSignHelper() {} // Utility
 
     // Register a sign block and automatically add it to the corresponding block entity type
-    public static <T extends AbstractSignBlock> T registerSignBlock(RegistryKey<Block> key, T block) {
-        if (block instanceof SignBlock || block instanceof WallSignBlock) {
+    public static <T extends SignBlock> T registerSignBlock(ResourceKey<Block> key, T block) {
+        if (block instanceof StandingSignBlock || block instanceof WallSignBlock) {
             BlockEntityType.SIGN.addSupportedBlock(block);
-        } else if (block instanceof HangingSignBlock || block instanceof WallHangingSignBlock) {
+        } else if (block instanceof CeilingHangingSignBlock || block instanceof WallHangingSignBlock) {
             BlockEntityType.HANGING_SIGN.addSupportedBlock(block);
         } else {
             throw new IllegalArgumentException("Block must be a vanilla sign type");
         }
-        // Debugging: Print loot table location immediately after registration
-        // Optional lootTableId = block.getLootTableKey();
-        // System.out.println("[LootTable Debug] Registered block: " + key + " -> Loot table: " + lootTableId);
 
-        return Registry.register(Registries.BLOCK, key.getValue(), block);
+        return Registry.register(BuiltInRegistries.BLOCK, key.identifier(), block);
     }
 
     // Create a registry key from an Identifier and register the sign block
-    public static <T extends AbstractSignBlock> T registerSignBlock(Identifier id, Function<AbstractBlock.Settings, T> factory, AbstractBlock.Settings settings) {
-        RegistryKey<Block> key = RegistryKey.of(RegistryKeys.BLOCK, id);
-        settings.registryKey(key); // Applies registry key to settings
+    public static <T extends SignBlock> T registerSignBlock(Identifier id, Function<BlockBehaviour.Properties, T> factory, BlockBehaviour.Properties settings) {
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
+        settings.setId(key);
         return registerSignBlock(key, factory.apply(settings));
     }
 
     public static void registerSignItems(WoodSet woodSet, String title) {
         // Sign item
-        RegistryKey<Item> signItemKey = RegistryKey.of(RegistryKeys.ITEM, ColorfulAzaleas.id(title + "_azalea_sign"));
+        ResourceKey<Item> signItemKey = ResourceKey.create(Registries.ITEM, ColorfulAzaleas.id(title + "_azalea_sign"));
         Registry.register(
-                Registries.ITEM,
-                signItemKey.getValue(),
+                BuiltInRegistries.ITEM,
+                signItemKey.identifier(),
                 new SignItem(
                         woodSet.getSign(),
                         woodSet.getWallSign(),
-                        new Item.Settings()
-                                .maxCount(16)
-                                .registryKey(signItemKey)
-                                .useBlockPrefixedTranslationKey()
+                        new net.minecraft.world.item.Item.Properties()
+                                .stacksTo(16)
+                                .setId(signItemKey)
+                                .useBlockDescriptionPrefix()
                 )
         );
 
         // Hanging sign item
-        RegistryKey<Item> hangingSignItemKey = RegistryKey.of(RegistryKeys.ITEM, ColorfulAzaleas.id(title + "_azalea_hanging_sign"));
+        ResourceKey<Item> hangingSignItemKey = ResourceKey.create(Registries.ITEM, ColorfulAzaleas.id(title + "_azalea_hanging_sign"));
         Registry.register(
-                Registries.ITEM,
-                hangingSignItemKey.getValue(),
+                BuiltInRegistries.ITEM,
+                hangingSignItemKey.identifier(),
                 new HangingSignItem(
                         woodSet.getHangingSign(),
                         woodSet.getWallHangingSign(),
-                        new Item.Settings()
-                                .maxCount(16)
-                                .registryKey(hangingSignItemKey)
-                                .useBlockPrefixedTranslationKey()
+                        new net.minecraft.world.item.Item.Properties()
+                                .stacksTo(16)
+                                .setId(hangingSignItemKey)
+                                .useBlockDescriptionPrefix()
                 )
         );
     }

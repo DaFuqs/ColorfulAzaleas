@@ -1,64 +1,61 @@
 package com.kekie6.colorfulazaleas.block;
 
-import net.minecraft.block.*;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.block.WireOrientation;
-import net.minecraft.world.tick.ScheduledTickView;
-
+import net.minecraft.core.*;
+import net.minecraft.tags.*;
+import net.minecraft.util.*;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.*;
+import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.redstone.*;
+import net.minecraft.world.phys.shapes.*;
 import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.*;
 
 public class DroopingLeavesBlock extends Block {
 
-    public static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 10.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    public static final VoxelShape EXTENDED_SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    public static final BooleanProperty EXTENDED = BooleanProperty.of("extended");
+    public static final VoxelShape SHAPE = Block.box(2.0D, 10.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    public static final VoxelShape EXTENDED_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    public static final BooleanProperty EXTENDED = BooleanProperty.create("extended");
 
-    public DroopingLeavesBlock(AbstractBlock.Settings properties) {
+    public DroopingLeavesBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.setDefaultState(this.getStateManager().getDefaultState().with(EXTENDED,false));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(EXTENDED,false));
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos up = pos.up();
+    public boolean canSurvive(@NonNull BlockState state, LevelReader world, BlockPos pos) {
+        BlockPos up = pos.above();
         BlockState support = world.getBlockState(up);
-        return support.isIn(BlockTags.LEAVES) || support.isOf(this);
+        return support.is(BlockTags.LEAVES) || support.is(this);
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView worldView, ScheduledTickView scheduledTickView, BlockPos pos, Direction direction, BlockPos blockPos2, BlockState blockState2, Random random) {
-        if (!state.canPlaceAt(worldView,pos)) {
-            return Blocks.AIR.getDefaultState();
+    protected @NonNull BlockState updateShape(BlockState state, @NonNull LevelReader worldView, @NonNull ScheduledTickAccess scheduledTickView, @NonNull BlockPos pos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState blockState2, @NonNull RandomSource random) {
+        if (!state.canSurvive(worldView,pos)) {
+            return Blocks.AIR.defaultBlockState();
         }
         
-        return super.getStateForNeighborUpdate(state, worldView, scheduledTickView, pos, direction, blockPos2, blockState2, random);
+        return super.updateShape(state, worldView, scheduledTickView, pos, direction, blockPos2, blockState2, random);
     }
     
     @Override
-    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, @Nullable WireOrientation wireOrientation, boolean isMoving) {
-        if (!state.canPlaceAt(world, pos)) {
+    protected void neighborChanged(BlockState state, @NonNull Level world, @NonNull BlockPos pos, @NonNull Block block, @Nullable Orientation wireOrientation, boolean isMoving) {
+        if (!state.canSurvive(world, pos)) {
             world.removeBlock(pos, false);
         } else {
-            BlockState newState = state.with(EXTENDED, world.getBlockState(pos.down()).isOf(this));
-            world.setBlockState(pos, newState, Block.NOTIFY_ALL);
+            BlockState newState = state.setValue(EXTENDED, world.getBlockState(pos.below()).is(this));
+            world.setBlock(pos, newState, Block.UPDATE_ALL);
         }
     }
 
-    public @NotNull VoxelShape getOutlineShape(BlockState state, BlockView blockView, BlockPos pos, ShapeContext context) {
-        return state.get(EXTENDED) ? EXTENDED_SHAPE : SHAPE;
+    public @NotNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockView, @NonNull BlockPos pos, @NonNull CollisionContext context) {
+        return state.getValue(EXTENDED) ? EXTENDED_SHAPE : SHAPE;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(EXTENDED);
     }
 }

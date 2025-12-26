@@ -1,12 +1,11 @@
 package com.kekie6.colorfulazaleas.util;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import net.minecraft.block.Block;
-import net.minecraft.item.BoatItem;
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
+import com.kekie6.colorfulazaleas.*;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class WoodSet {
     private final String WoodSet;

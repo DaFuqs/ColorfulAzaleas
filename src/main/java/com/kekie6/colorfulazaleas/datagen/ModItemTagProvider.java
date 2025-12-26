@@ -1,33 +1,29 @@
 package com.kekie6.colorfulazaleas.datagen;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.ModTags;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
+import com.kekie6.colorfulazaleas.*;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import net.fabricmc.fabric.api.datagen.v1.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.core.*;
+import net.minecraft.tags.*;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.*;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture, @Nullable BlockTagProvider blockTagProvider) {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, @Nullable BlockTagProvider blockTagProvider) {
         super(output, registriesFuture, blockTagProvider);
     }
 
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.@NotNull WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.@NotNull Provider wrapperLookup) {
         ColorfulAzaleas.LOGGER.info("Generating ItemTags for " + ColorfulAzaleas.MOD_ID);
 
         valueLookupBuilder(ModTags.Items.AZALEAS)

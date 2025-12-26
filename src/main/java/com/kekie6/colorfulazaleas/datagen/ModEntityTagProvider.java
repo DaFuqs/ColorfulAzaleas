@@ -1,26 +1,24 @@
 package com.kekie6.colorfulazaleas.datagen;
 
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.ModTags;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import com.terraformersmc.terraform.boat.api.data.TerraformBoatData;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import com.terraformersmc.terraform.boat.api.data.*;
+import net.fabricmc.fabric.api.datagen.v1.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.core.*;
+import net.minecraft.world.entity.*;
+import org.jspecify.annotations.*;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.RegistryWrapper;
-
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 public class ModEntityTagProvider extends FabricTagProvider.EntityTypeTagProvider {
 
-    public ModEntityTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModEntityTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;

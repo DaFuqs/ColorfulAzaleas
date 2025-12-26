@@ -1,9 +1,9 @@
 package com.kekie6.colorfulazaleas.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class ColorfulTree {
     private final AzaleaColors color;
@@ -43,20 +43,6 @@ public class ColorfulTree {
     public void setFloweringLeaves(Block block) { this.floweringLeaves = block; }
     public void setBloomingLeaves(Block block) { this.bloomingLeaves = block; }
     public void setDroopingLeaves(Block block) { this.droopingLeaves = block; }
-
-    public Block[] getSaplingLeavesPotBlocks() {
-        return new Block[] {
-                sapling, pottedSapling, azaleaLeaves, floweringLeaves,
-                bloomingLeaves, droopingLeaves
-        };
-    }
-
-    public Block[] getSaplingAndLeavesBlocks() {
-        return new Block[] {
-                sapling, azaleaLeaves, floweringLeaves,
-                bloomingLeaves, droopingLeaves
-        };
-    }
 
     public Block[] getLeavesAndDroopingBlocks() {
         return new Block[] {

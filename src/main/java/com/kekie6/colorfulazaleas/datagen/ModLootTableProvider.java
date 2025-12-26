@@ -1,23 +1,17 @@
 package com.kekie6.colorfulazaleas.datagen;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
-import net.minecraft.block.Block;
-import net.minecraft.data.loottable.BlockLootTableGenerator;
-import net.minecraft.loot.LootTable;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
+import com.kekie6.colorfulazaleas.*;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import net.fabricmc.fabric.api.datagen.v1.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.core.*;
+import net.minecraft.world.level.block.*;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
+import java.util.concurrent.*;
 
 public class ModLootTableProvider extends FabricBlockLootTableProvider {
-    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
@@ -30,21 +24,21 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
             if (woodSet == null) continue;
 
             for (Block block : woodSet.getWoodSetMinusSlabAndDoorBlocks()) {
-                addDrop(block);
+                dropSelf(block);
             }
 
-            addDrop(woodSet.getSlab(), slabDrops(woodSet.getSlab()));
-            addDrop(woodSet.getDoor(), doorDrops(woodSet.getDoor()));
+            add(woodSet.getSlab(), createSlabItemTable(woodSet.getSlab()));
+            add(woodSet.getDoor(), createDoorTable(woodSet.getDoor()));
 
             for (Block block: tree.getLeavesAndDroopingBlocks()) {
-                addDrop(block, leavesDrops(block, tree.getSapling(),
+                add(block, createLeavesDrops(block, tree.getSapling(),
                         0.05f,
                         0.0625f,
                         0.083333336f,
                         0.1f));
             }
 
-            addPottedPlantDrops(tree.getPottedSapling());
+            dropPottedContents(tree.getPottedSapling());
         }
     }
 }

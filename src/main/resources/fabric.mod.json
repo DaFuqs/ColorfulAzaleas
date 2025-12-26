@@ -10,10 +10,8 @@
     "OenKrad"
   ],
   "contact": {
-    "Discord": "https://discord.gg/NPjsPFEYbN",
-    "sources": "https://github.com/terrarium-earth/ColorfulAzaleas"
+    "sources": "https://github.com/DaFuqs/ColorfulAzaleas"
   },
-  "accessWidener": "colorfulazaleas.accesswidener",
   "license": "Modified-MIT-License",
   "icon": "assets/colorfulazaleas/icon.png",
   "environment": "*",

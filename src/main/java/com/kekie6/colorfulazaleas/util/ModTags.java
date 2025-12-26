@@ -1,16 +1,15 @@
 package com.kekie6.colorfulazaleas.util;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import com.kekie6.colorfulazaleas.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.resources.*;
+import net.minecraft.tags.*;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 public class ModTags {
     public static class Blocks {
@@ -26,11 +25,11 @@ public class ModTags {
         public static final TagKey<Block> C_WOODS = createCTag("woods");
 
         private static TagKey<Block> createTag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, ColorfulAzaleas.id(name));
+            return TagKey.create(Registries.BLOCK, ColorfulAzaleas.id(name));
         }
 
         private static TagKey<Block> createCTag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, Identifier.of("c", name));
+            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("c", name));
         }
 
 
@@ -56,11 +55,11 @@ public class ModTags {
                         ));
 
         private static TagKey<Item> createTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, ColorfulAzaleas.id(name));
+            return TagKey.create(Registries.ITEM, ColorfulAzaleas.id(name));
         }
 
         private static TagKey<Item> createCTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
+            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", name));
         }
     }
 
@@ -69,7 +68,7 @@ public class ModTags {
         public static final TagKey<EntityType<?>> C_BOATS = createCTag("boats"); // Includes chest boats
 
         private static TagKey<EntityType<?>> createCTag(String name) {
-            return TagKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of("c", name));
+            return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath("c", name));
         }
     }
 }

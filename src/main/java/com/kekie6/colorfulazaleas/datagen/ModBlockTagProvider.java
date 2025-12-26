@@ -1,27 +1,26 @@
 package com.kekie6.colorfulazaleas.datagen;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.ModTags;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
+import com.kekie6.colorfulazaleas.*;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import net.fabricmc.fabric.api.datagen.v1.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.core.*;
+import net.minecraft.tags.*;
+import org.jspecify.annotations.*;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         ColorfulAzaleas.LOGGER.info("Generating BlockTags for " + ColorfulAzaleas.MOD_ID);
 
-        valueLookupBuilder(BlockTags.HOE_MINEABLE)
+        valueLookupBuilder(BlockTags.MINEABLE_WITH_HOE)
                 .add(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
@@ -31,10 +30,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             valueLookupBuilder(ModTags.Blocks.AZALEA_LOGS)
                     .add(woodSet.getLogAndWoodBlocks());
 
-            valueLookupBuilder(BlockTags.AXE_MINEABLE)
+            valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE)
                     .add(woodSet.getWoodSetBlocks());
 
-            valueLookupBuilder(BlockTags.HOE_MINEABLE)
+            valueLookupBuilder(BlockTags.MINEABLE_WITH_HOE)
                     .add(tree.getLeavesAndDroopingBlocks());
 
             valueLookupBuilder(BlockTags.LOGS_THAT_BURN)

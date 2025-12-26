@@ -1,24 +1,22 @@
 package com.kekie6.colorfulazaleas.datagen;
 
-import com.kekie6.colorfulazaleas.ColorfulAzaleas;
-import com.kekie6.colorfulazaleas.registry.AzaleaBlocks;
-import com.kekie6.colorfulazaleas.registry.AzaleaItems;
-import com.kekie6.colorfulazaleas.util.AzaleaColors;
-import com.kekie6.colorfulazaleas.util.ColorfulTree;
-import com.kekie6.colorfulazaleas.util.WoodSet;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.registry.RegistryWrapper;
+import com.kekie6.colorfulazaleas.*;
+import com.kekie6.colorfulazaleas.registry.*;
+import com.kekie6.colorfulazaleas.util.*;
+import net.fabricmc.fabric.api.datagen.v1.*;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.core.*;
+import org.jspecify.annotations.*;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 public class ModLanguageProvider extends FabricLanguageProvider {
-    public ModLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public ModLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, "en_us", registryLookup);
     }
 
     @Override
-    public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
+    public void generateTranslations(HolderLookup.@NonNull Provider wrapperLookup, @NonNull TranslationBuilder builder) {
         ColorfulAzaleas.LOGGER.info("Generating en_us for " + ColorfulAzaleas.MOD_ID);
 
         // --- Iterate all registered trees ---
