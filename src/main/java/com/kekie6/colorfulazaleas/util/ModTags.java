@@ -38,7 +38,8 @@ public class ModTags {
     public static class Items {
         public static final TagKey<Item> AZALEA_LOGS = createTag("azalea_logs");
         public static final TagKey<Item> AZALEAS = createTag("azaleas");
-
+        public static final TagKey<Item> AZALEA_SAPLINGS = createTag("azalea_saplings");
+        
         // Fabric C ItemTags
         public static final TagKey<Item> C_FENCE_GATES_WOODEN = createCTag("fence_gates/wooden");
         public static final TagKey<Item> C_WOODEN_FENCES = createCTag("fences/wooden");

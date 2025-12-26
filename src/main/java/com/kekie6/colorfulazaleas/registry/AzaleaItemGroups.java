@@ -6,12 +6,13 @@ import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.network.chat.*;
 import net.minecraft.world.item.*;
+import net.neoforged.bus.api.*;
 
 public class AzaleaItemGroups {
 
     public static CreativeModeTab CREATIVE_MODE_TAB;
 
-    public static void register() {
+    public static void register(IEventBus modBus) {
         CREATIVE_MODE_TAB = FabricItemGroup.builder()
                 .title(Component.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
                 .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM))

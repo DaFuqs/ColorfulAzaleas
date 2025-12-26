@@ -17,13 +17,18 @@ import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.*;
+import net.neoforged.bus.api.*;
+import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
+import java.util.function.*;
 
 import static net.minecraft.world.level.block.Blocks.*;
 
 public class AzaleaBlocks {
-
+    
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ColorfulAzaleas.MOD_ID);
+    
     public static ColorfulTree[] trees;
 
     private static final BlockSetType BLOCK_SET_TYPE = BlockSetTypeBuilder.copyOf(BlockSetType.ACACIA).register(ColorfulAzaleas.id("colorful_azaleas"));
@@ -36,12 +41,12 @@ public class AzaleaBlocks {
             new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("drooping_azalea_leaves")).noCollision().sound(SoundType.CAVE_VINES))
     );
     
-    public static void init() {
+    public static void init(IEventBus modBus) {
+        BLOCKS.register(modBus);
+        
         trees = Arrays.stream(AzaleaColors.values())
                 .map(AzaleaBlocks::createTree)
                 .toArray(ColorfulTree[]::new);
-        
-        CompostingChanceRegistry.INSTANCE.add(DROOPING_AZALEA_LEAVES, 0.3F);
     }
 
     private static ColorfulTree createTree(AzaleaColors color) {
@@ -68,8 +73,7 @@ public class AzaleaBlocks {
         TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
         Block sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion().setId(blockKey(name + "_azalea_sapling"))));
         tree.setSapling(sapling);
-        tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(sapling, flowerPotProperties().setId(blockKey("potted_" + name + "_azalea_sapling")))));
-        addBlockToAzaleaLootTable(sapling);
+        tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(() -> (FlowerPotBlock) FLOWER_POT, () -> sapling, flowerPotProperties().setId(blockKey("potted_" + name + "_azalea_sapling")))));
 
         // --- Wood Set ---
         WoodSet woodSet = new WoodSet(title);
@@ -100,32 +104,9 @@ public class AzaleaBlocks {
         woodSet.setWallHangingSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_wall_hanging_sign"), s -> new WallHangingSignBlock(woodType, s), blockSettings(title + "_azalea_wall_hanging_sign", Blocks.OAK_WALL_HANGING_SIGN)));
 
         AzaleaSignHelper.registerSignItems(woodSet, title);
-        
-        // --- Strippable Wood ---
-        StrippableBlockRegistry.register(woodSet.getLog(), woodSet.getStrippedLog());
-        StrippableBlockRegistry.register(woodSet.getWood(), woodSet.getStrippedWood());
-        
-        // Composting
-        CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
-        CompostingChanceRegistry.INSTANCE.add(leaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(bloomingLeaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(floweringLeaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(droopingLeaves, 0.3F);
-        
+
         tree.setWoodSet(woodSet);
         return tree;
-    }
-
-    public static void addBlockToAzaleaLootTable(Block block) {
-        LootTableEvents.MODIFY.register((key, builder, lootTableSource, provider) -> {
-            if (Blocks.AZALEA_LEAVES.getLootTable().get().equals(key)) {
-                LootPool.Builder poolBuilder = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
-                        .when(LootItemRandomChanceCondition.randomChance(0.01f))
-                        .add(LootItem.lootTableItem(block));
-                builder.pool(poolBuilder.build());
-            }
-        });
     }
 
     public static ResourceKey<Block> blockKey(String name) {
@@ -160,7 +141,7 @@ public class AzaleaBlocks {
         }
 
         Identifier id = ColorfulAzaleas.id(title + "_azalea");
-        WoodType woodType = new WoodTypeBuilder().register(id, BLOCK_SET_TYPE);
+        WoodType woodType = WoodType.register(new WoodType(id.toString(), BLOCK_SET_TYPE));
         WOOD_TYPES.put(title, woodType);
 
         return woodType;

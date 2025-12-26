@@ -78,6 +78,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
             valueLookupBuilder(ItemTags.SAPLINGS)
                     .add(tree.getSapling().asItem());
+
+            valueLookupBuilder(ModTags.Items.AZALEA_SAPLINGS)
+                    .add(tree.getSapling().asItem());
+            
             valueLookupBuilder(ItemTags.LEAVES)
                     .add(tree.getLeavesItems());
             // Fabric C (Convention) Tags
