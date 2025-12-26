@@ -4,8 +4,6 @@ import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.block.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
-import net.fabricmc.fabric.api.client.datagen.v1.provider.*;
-import net.fabricmc.fabric.api.datagen.v1.*;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;

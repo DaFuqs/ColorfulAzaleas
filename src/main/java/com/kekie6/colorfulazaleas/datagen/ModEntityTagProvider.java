@@ -2,9 +2,6 @@ package com.kekie6.colorfulazaleas.datagen;
 
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
-import com.terraformersmc.terraform.boat.api.data.*;
-import net.fabricmc.fabric.api.datagen.v1.*;
-import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.core.*;
 import net.minecraft.world.entity.*;
 import org.jspecify.annotations.*;

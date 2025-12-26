@@ -1,11 +1,11 @@
 package com.kekie6.colorfulazaleas;
 
 import com.kekie6.colorfulazaleas.datagen.*;
-import net.fabricmc.fabric.api.datagen.v1.*;
 import net.minecraft.core.*;
 import org.jspecify.annotations.*;
 
-public class ColorfulAzaleasDataGenerator implements DataGeneratorEntrypoint {
+public class ColorfulAzaleasDataGenerator {
+    
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
@@ -28,4 +28,5 @@ public class ColorfulAzaleasDataGenerator implements DataGeneratorEntrypoint {
     public void addJsonKeySortOrders(@NonNull JsonKeySortOrderCallback callback) {
         DataGeneratorEntrypoint.super.addJsonKeySortOrders(callback);
     }
+    
 }

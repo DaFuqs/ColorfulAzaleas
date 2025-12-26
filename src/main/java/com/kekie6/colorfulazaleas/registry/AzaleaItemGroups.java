@@ -2,7 +2,6 @@ package com.kekie6.colorfulazaleas.registry;
 
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.util.*;
-import net.fabricmc.fabric.api.itemgroup.v1.*;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.network.chat.*;
