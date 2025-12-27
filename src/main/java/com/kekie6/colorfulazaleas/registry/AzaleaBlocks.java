@@ -29,11 +29,13 @@ public class AzaleaBlocks {
     
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ColorfulAzaleas.MOD_ID);
     
-    public static ColorfulTree[] trees;
+    public static ColorfulTree[] trees = Arrays.stream(AzaleaColors.values())
+            .map(AzaleaBlocks::createTree)
+            .toArray(ColorfulTree[]::new);
 
-    private static final BlockSetType BLOCK_SET_TYPE = BlockSetTypeBuilder.copyOf(BlockSetType.ACACIA).register(ColorfulAzaleas.id("colorful_azaleas"));
+    private static final BlockSetType BLOCK_SET_TYPE = BlockSetType.register(new BlockSetType("colorful_azaleas"));
     private static final Map<String, WoodType> WOOD_TYPES = new HashMap<>();
-    private static final WoodType WOOD_TYPE = new WoodTypeBuilder().register(ColorfulAzaleas.id("colorful_azaleas"), BLOCK_SET_TYPE);
+    private static final WoodType WOOD_TYPE = WoodType.register(new WoodType(ColorfulAzaleas.id("colorful_azaleas").toString(), BLOCK_SET_TYPE));
     public static final List<Block> SHELF_BLOCKS = new ArrayList<>();
     
     public static final Block DROOPING_AZALEA_LEAVES = registerBlockWithItem(
@@ -43,10 +45,6 @@ public class AzaleaBlocks {
     
     public static void init(IEventBus modBus) {
         BLOCKS.register(modBus);
-        
-        trees = Arrays.stream(AzaleaColors.values())
-                .map(AzaleaBlocks::createTree)
-                .toArray(ColorfulTree[]::new);
     }
 
     private static ColorfulTree createTree(AzaleaColors color) {

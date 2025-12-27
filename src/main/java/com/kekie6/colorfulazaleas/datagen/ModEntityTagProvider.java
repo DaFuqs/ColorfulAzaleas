@@ -1,34 +1,34 @@
 package com.kekie6.colorfulazaleas.datagen;
 
+import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
+import net.minecraft.data.*;
+import net.minecraft.data.tags.*;
 import net.minecraft.world.entity.*;
 import org.jspecify.annotations.*;
 
 import java.util.concurrent.*;
 
-public class ModEntityTagProvider extends FabricTagProvider.EntityTypeTagProvider {
-
-    public ModEntityTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+public class ModEntityTagProvider extends EntityTypeTagsProvider {
+    
+    public ModEntityTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, ColorfulAzaleas.MOD_ID);
     }
-
+    
     @Override
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
-
-            var boatData = TerraformBoatData.getOptional(woodSet.getAzaleaBoatsId());
-            if (boatData.isEmpty()) continue;
-
+            
             // Retrieve the actual EntityType objects
-            EntityType<?> boatEntity = boatData.get().boatEntityType();
-            EntityType<?> chestBoatEntity = boatData.get().chestBoatEntityType();
+            EntityType<?> boatEntity = woodSet.getBoatEntityType();
+            EntityType<?> chestBoatEntity = woodSet.getChestBoatEntityType();
 
             // Fabric C (Convention) Tags
-            valueLookupBuilder(ModTags.Entity.C_BOATS)
+            this.tag(ModTags.Entity.C_BOATS)
                     .add(boatEntity)
                     .add(chestBoatEntity);
         }

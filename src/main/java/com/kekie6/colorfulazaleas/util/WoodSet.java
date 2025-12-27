@@ -2,6 +2,8 @@ package com.kekie6.colorfulazaleas.util;
 
 import com.kekie6.colorfulazaleas.*;
 import net.minecraft.resources.*;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.vehicle.boat.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 
@@ -32,6 +34,9 @@ public class WoodSet {
 
     private BoatItem boatItem;
     private BoatItem chestBoatItem;
+    
+    private EntityType<? extends Boat> boatEntityType;
+    private EntityType<? extends ChestBoat> chestBoatEntityType;
 
     public WoodSet(String WoodSet) {
         this.WoodSet = WoodSet;
@@ -68,6 +73,12 @@ public class WoodSet {
     public BoatItem getChestBoatItem() {
         return chestBoatItem;
     }
+    public EntityType<? extends Boat> getBoatEntityType() {
+        return boatEntityType;
+    }
+    public EntityType<? extends ChestBoat> getChestBoatEntityType() {
+        return chestBoatEntityType;
+    }
 
     public void setLog(Block block) { this.log = block; }
     public void setWood(Block block) { this.wood = block; }
@@ -94,6 +105,12 @@ public class WoodSet {
     }
     public void setChestBoatItem(BoatItem chestBoatItem) {
         this.chestBoatItem = chestBoatItem;
+    }
+    public void setBoatEntityType(EntityType<? extends Boat> boatEntityType) {
+        this.boatEntityType = boatEntityType;
+    }
+    public void setChestBoatEntityType(EntityType<? extends ChestBoat> chestBoatEntityType) {
+        this.chestBoatEntityType = chestBoatEntityType;
     }
 
     public Block[] getWoodSetBlocks() {

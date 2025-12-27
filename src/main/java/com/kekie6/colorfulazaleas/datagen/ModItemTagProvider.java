@@ -4,96 +4,95 @@ import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
+import net.minecraft.data.*;
 import net.minecraft.tags.*;
 import net.minecraft.world.item.*;
+import net.neoforged.neoforge.common.data.*;
 import org.jetbrains.annotations.*;
 
 import java.util.concurrent.*;
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public class ModItemTagProvider extends ItemTagsProvider {
     
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, @Nullable BlockTagProvider blockTagProvider) {
-        super(output, registriesFuture, blockTagProvider);
+    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, ColorfulAzaleas.MOD_ID);
     }
-
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
-    }
-
+    
     @Override
     protected void addTags(HolderLookup.@NotNull Provider wrapperLookup) {
         ColorfulAzaleas.LOGGER.info("Generating ItemTags for " + ColorfulAzaleas.MOD_ID);
 
-        valueLookupBuilder(ModTags.Items.AZALEAS)
+        this.tag(ModTags.Items.AZALEAS)
                 .add(Items.AZALEA);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
 
-            valueLookupBuilder(ModTags.Items.AZALEA_LOGS)
+            this.tag(ModTags.Items.AZALEA_LOGS)
                     .add(woodSet.getLogAndWoodItems());
 
-            valueLookupBuilder(ModTags.Items.AZALEAS)
+            this.tag(ModTags.Items.AZALEAS)
                     .add(tree.getSapling().asItem());
 
             // Per-color tag (dynamic lookup)
             TagKey<Item> colorTag = ModTags.Items.COLORFUL_AZALEA_LOGS_ITEMS.get(tree.getColor());
             if (colorTag != null) {
-                valueLookupBuilder(colorTag).add(woodSet.getLogAndWoodItems());
+                this.tag(colorTag).add(woodSet.getLogAndWoodItems());
             }
 
-            valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
+            this.tag(ItemTags.LOGS_THAT_BURN)
                     .add(woodSet.getLogAndWoodItems());
 
-            valueLookupBuilder(ItemTags.PLANKS)
+            this.tag(ItemTags.PLANKS)
                     .add(woodSet.getPlanks().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_STAIRS)
+            this.tag(ItemTags.WOODEN_STAIRS)
                     .add(woodSet.getStairs().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_SLABS)
+            this.tag(ItemTags.WOODEN_SLABS)
                     .add(woodSet.getSlab().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_FENCES)
+            this.tag(ItemTags.WOODEN_FENCES)
                     .add(woodSet.getFence().asItem());
-            valueLookupBuilder(ItemTags.FENCE_GATES)
+            this.tag(ItemTags.FENCE_GATES)
                     .add(woodSet.getFenceGate().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_DOORS)
+            this.tag(ItemTags.WOODEN_DOORS)
                     .add(woodSet.getDoor().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_TRAPDOORS)
+            this.tag(ItemTags.WOODEN_TRAPDOORS)
                     .add(woodSet.getTrapdoor().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
+            this.tag(ItemTags.WOODEN_PRESSURE_PLATES)
                     .add(woodSet.getPressurePlate().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_BUTTONS)
+            this.tag(ItemTags.WOODEN_BUTTONS)
                     .add(woodSet.getButton().asItem());
-            valueLookupBuilder(ItemTags.SIGNS)
+            this.tag(ItemTags.SIGNS)
                     .add(woodSet.getSign().asItem());
-            valueLookupBuilder(ItemTags.HANGING_SIGNS)
+            this.tag(ItemTags.HANGING_SIGNS)
                     .add(woodSet.getHangingSign().asItem());
-            valueLookupBuilder(ItemTags.WOODEN_SHELVES)
+            this.tag(ItemTags.WOODEN_SHELVES)
                     .add(woodSet.getShelf().asItem());
 
-            valueLookupBuilder(ItemTags.BOATS)
+            this.tag(ItemTags.BOATS)
                     .add(woodSet.getBoatItem());
-            valueLookupBuilder(ItemTags.CHEST_BOATS)
+            this.tag(ItemTags.CHEST_BOATS)
                     .add(woodSet.getChestBoatItem());
 
-            valueLookupBuilder(ItemTags.SAPLINGS)
+            this.tag(ItemTags.SAPLINGS)
                     .add(tree.getSapling().asItem());
 
-            valueLookupBuilder(ModTags.Items.AZALEA_SAPLINGS)
+            this.tag(ModTags.Items.AZALEA_SAPLINGS)
                     .add(tree.getSapling().asItem());
             
-            valueLookupBuilder(ItemTags.LEAVES)
+            this.tag(ItemTags.LEAVES)
                     .add(tree.getLeavesItems());
-            // Fabric C (Convention) Tags
-            valueLookupBuilder(ModTags.Items.C_PLANKS_THAT_BURN)
+            
+            // Convention Tags ("C" namepsace)
+            this.tag(ModTags.Items.C_PLANKS_THAT_BURN)
                     .add(woodSet.getPlanks().asItem());
-            valueLookupBuilder(ModTags.Items.C_WOODEN_FENCES)
+            this.tag(ModTags.Items.C_WOODEN_FENCES)
                     .add(woodSet.getFence().asItem());
-            valueLookupBuilder(ModTags.Items.C_FENCE_GATES_WOODEN)
+            this.tag(ModTags.Items.C_FENCE_GATES_WOODEN)
                     .add(woodSet.getFenceGate().asItem());
-            valueLookupBuilder(ModTags.Items.C_STRIPPED_LOGS)
+            this.tag(ModTags.Items.C_STRIPPED_LOGS)
                     .add(woodSet.getStrippedLog().asItem());
-            valueLookupBuilder(ModTags.Items.C_STRIPPED_WOODS)
+            this.tag(ModTags.Items.C_STRIPPED_WOODS)
                     .add(woodSet.getStrippedWood().asItem());
         }
     }

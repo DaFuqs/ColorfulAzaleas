@@ -2,11 +2,19 @@ package com.kekie6.colorfulazaleas;
 
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
+import net.minecraft.client.model.geom.*;
+import net.minecraft.client.model.object.boat.*;
 import net.minecraft.client.renderer.chunk.*;
+import net.minecraft.client.renderer.entity.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.*;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.fml.common.*;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.event.*;
+
+import java.util.*;
 
 @Mod(value = ColorfulAzaleas.MOD_ID, dist = Dist.CLIENT)
 public class ColorfulAzaleasClient {
@@ -16,7 +24,8 @@ public class ColorfulAzaleasClient {
 		for (ColorfulTree tree : AzaleaBlocks.trees) {
 			WoodSet woodSet = tree.getWoodSet();
 			
-			BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
+			// TODO: render layers
+			/*BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
 					tree.getSapling(),
 					tree.getPottedSapling(),
 					tree.getFloweringLeaves(),
@@ -28,18 +37,72 @@ public class ColorfulAzaleasClient {
 			BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
 					woodSet.getDoor(),
 					woodSet.getTrapdoor()
-			);
-			
-			TerraformBoatClientHelper.registerModelLayers(woodSet.getAzaleaBoatsId());
-			BlockEntityType.SHELF.addSupportedBlock(woodSet.getShelf());
+			);*/
 		}
 		
-		BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, ChunkSectionLayer.CUTOUT);
+		//BlockRenderLayerMap.putBlock(AzaleaBlocks.DROOPING_AZALEA_LEAVES, ChunkSectionLayer.CUTOUT);
 	}
- 
+	
+	@SubscribeEvent
+	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		for (ColorfulTree tree : AzaleaBlocks.trees) {
+			WoodSet woodSet = tree.getWoodSet();
+			
+			ModelLayerLocation boatLayer = new ModelLayerLocation(
+					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_boat"),
+					"main"
+			);
+			
+			ModelLayerLocation chestBoatLayer = new ModelLayerLocation(
+					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_chest_boat"),
+					"main"
+			);
+			
+			event.registerEntityRenderer(woodSet.getBoatEntityType(), BoatRenderer::new);
+			event.registerEntityRenderer(woodSet.getChestBoatEntityType(), BoatRenderer::new);
+		}
+	}
 	/*
 	EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_BOAT, context ->new BoatEntityRenderer(context, false));
 	EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_CHEST_BOAT, context ->new BoatEntityRenderer(context, true));
 	*/
+	
+	@SubscribeEvent // on the mod event bus only on the physical client
+	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		for (ColorfulTree tree : AzaleaBlocks.trees) {
+			WoodSet woodSet = tree.getWoodSet();
+			
+			ModelLayerLocation boatLayer = new ModelLayerLocation(
+					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_boat"),
+					"main"
+			);
+			event.registerLayerDefinition(boatLayer, BoatModel::createBoatModel);
+			
+			ModelLayerLocation chestBoatLayer = new ModelLayerLocation(
+					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_chest_boat"),
+					"main"
+			);
+			event.registerLayerDefinition(chestBoatLayer, BoatModel::createChestBoatModel);
+		}
+	}
+	
+	@SubscribeEvent // on the mod event bus only on the physical client
+	public static void registerLayerDefinitions(BlockEntityTypeAddBlocksEvent event) {
+		Block[] shelves = new Block[AzaleaBlocks.trees.length];
+		Block[] signs = new Block[AzaleaBlocks.trees.length];
+		Block[] hangingSigns = new Block[AzaleaBlocks.trees.length];
+		int i = 0;
+		for (ColorfulTree tree : AzaleaBlocks.trees) {
+			WoodSet woodSet = tree.getWoodSet();
+			shelves[i] = woodSet.getShelf();
+			signs[i] = woodSet.getSign();
+			hangingSigns[i] = woodSet.getHangingSign();
+			i++;
+		}
+		
+		event.modify(BlockEntityType.SHELF, shelves);
+		event.modify(BlockEntityType.SIGN, signs);
+		event.modify(BlockEntityType.HANGING_SIGN, hangingSigns);
+	}
 	
 }

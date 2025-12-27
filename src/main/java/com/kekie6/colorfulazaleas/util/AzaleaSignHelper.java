@@ -13,18 +13,10 @@ import java.util.function.*;
 
 public class AzaleaSignHelper {
 
-    private AzaleaSignHelper() {} // Utility
+    private AzaleaSignHelper() {}
 
-    // Register a sign block and automatically add it to the corresponding block entity type
+    // Register a sign block
     public static <T extends SignBlock> T registerSignBlock(ResourceKey<Block> key, T block) {
-        if (block instanceof StandingSignBlock || block instanceof WallSignBlock) {
-            BlockEntityType.SIGN.addSupportedBlock(block);
-        } else if (block instanceof CeilingHangingSignBlock || block instanceof WallHangingSignBlock) {
-            BlockEntityType.HANGING_SIGN.addSupportedBlock(block);
-        } else {
-            throw new IllegalArgumentException("Block must be a vanilla sign type");
-        }
-
         return Registry.register(BuiltInRegistries.BLOCK, key.identifier(), block);
     }
 

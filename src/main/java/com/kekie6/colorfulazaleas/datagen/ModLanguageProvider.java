@@ -4,23 +4,25 @@ import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
+import net.minecraft.data.*;
+import net.neoforged.neoforge.common.data.*;
 import org.jspecify.annotations.*;
 
 import java.util.concurrent.*;
 
-public class ModLanguageProvider extends FabricLanguageProvider {
-    public ModLanguageProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(dataOutput, "en_us", registryLookup);
+public class ModLanguageProvider extends LanguageProvider {
+    public ModLanguageProvider(PackOutput output) {
+        super(output, ColorfulAzaleas.MOD_ID, "en_us");
     }
-
+    
     @Override
-    public void generateTranslations(HolderLookup.@NonNull Provider wrapperLookup, @NonNull TranslationBuilder builder) {
+    protected void addTranslations() {
         ColorfulAzaleas.LOGGER.info("Generating en_us for " + ColorfulAzaleas.MOD_ID);
 
         // --- Iterate all registered trees ---
-        if (AzaleaBlocks.trees == null) {
+        /*if (AzaleaBlocks.trees == null) {
             AzaleaBlocks.init(); // ensure populated
-        }
+        }*/
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             AzaleaColors color = tree.getColor();
@@ -28,60 +30,60 @@ public class ModLanguageProvider extends FabricLanguageProvider {
             String title = capitalize(color.getTitle());
 
             // Leaves variants
-            builder.add(tree.getAzaleaLeaves(), colorName + " Azalea Leaves");
-            builder.add(tree.getFloweringLeaves(), "Flowering " + colorName + " Azalea Leaves");
-            builder.add(tree.getBloomingLeaves(), "Blooming " + colorName + " Azalea Leaves");
-            builder.add(tree.getDroopingLeaves(), "Drooping " + colorName + " Azalea Leaves");
+            this.add(tree.getAzaleaLeaves(), colorName + " Azalea Leaves");
+            this.add(tree.getFloweringLeaves(), "Flowering " + colorName + " Azalea Leaves");
+            this.add(tree.getBloomingLeaves(), "Blooming " + colorName + " Azalea Leaves");
+            this.add(tree.getDroopingLeaves(), "Drooping " + colorName + " Azalea Leaves");
 
             // Saplings
-            builder.add(tree.getSapling(), colorName + " Azalea Sapling");
-            builder.add(tree.getPottedSapling(), "Potted " + colorName + " Azalea Sapling");
+            this.add(tree.getSapling(), colorName + " Azalea Sapling");
+            this.add(tree.getPottedSapling(), "Potted " + colorName + " Azalea Sapling");
 
             // Wood Set
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet != null) {
-                builder.add(woodSet.getLog(), title + " Azalea Log");
-                builder.add(woodSet.getWood(), title + " Azalea Wood");
-                builder.add(woodSet.getStrippedLog(), "Stripped " + title + " Azalea Log");
-                builder.add(woodSet.getStrippedWood(), "Stripped " + title + " Azalea Wood");
-                builder.add(woodSet.getPlanks(), title + " Azalea Planks");
-                builder.add(woodSet.getStairs(), title + " Azalea Stairs");
-                builder.add(woodSet.getSlab(), title + " Azalea Slab");
-                builder.add(woodSet.getFence(), title + " Azalea Fence");
-                builder.add(woodSet.getFenceGate(), title + " Azalea Fence Gate");
-                builder.add(woodSet.getDoor(), title + " Azalea Door");
-                builder.add(woodSet.getTrapdoor(), title + " Azalea Trapdoor");
-                builder.add(woodSet.getPressurePlate(), title + " Azalea Pressure Plate");
-                builder.add(woodSet.getButton(), title + " Azalea Button");
-
-                builder.add(woodSet.getSign(), title + " Azalea Sign");
-                builder.add(woodSet.getWallSign(), title + " Azalea Wall Sign");
-                builder.add(woodSet.getHangingSign(), title + " Azalea Hanging Sign");
-                builder.add(woodSet.getWallHangingSign(), title + " Azalea Wall Hanging Sign");
-
-                builder.add(woodSet.getBoatItem(), title + " Azalea Boat");
-                builder.add(woodSet.getChestBoatItem(), title + " Azalea Boat with Chest");
-                builder.add("entity.colorfulazaleas." + woodSet.getWoodSet() + "_azalea_chest_boat", title + " Azalea Boat with Chest");
-
-                builder.add(woodSet.getShelf(), title + " Azalea Shelf");
+                this.add(woodSet.getLog(), title + " Azalea Log");
+                this.add(woodSet.getWood(), title + " Azalea Wood");
+                this.add(woodSet.getStrippedLog(), "Stripped " + title + " Azalea Log");
+                this.add(woodSet.getStrippedWood(), "Stripped " + title + " Azalea Wood");
+                this.add(woodSet.getPlanks(), title + " Azalea Planks");
+                this.add(woodSet.getStairs(), title + " Azalea Stairs");
+                this.add(woodSet.getSlab(), title + " Azalea Slab");
+                this.add(woodSet.getFence(), title + " Azalea Fence");
+                this.add(woodSet.getFenceGate(), title + " Azalea Fence Gate");
+                this.add(woodSet.getDoor(), title + " Azalea Door");
+                this.add(woodSet.getTrapdoor(), title + " Azalea Trapdoor");
+                this.add(woodSet.getPressurePlate(), title + " Azalea Pressure Plate");
+                this.add(woodSet.getButton(), title + " Azalea Button");
+                
+                this.add(woodSet.getSign(), title + " Azalea Sign");
+                this.add(woodSet.getWallSign(), title + " Azalea Wall Sign");
+                this.add(woodSet.getHangingSign(), title + " Azalea Hanging Sign");
+                this.add(woodSet.getWallHangingSign(), title + " Azalea Wall Hanging Sign");
+                
+                this.add(woodSet.getBoatItem(), title + " Azalea Boat");
+                this.add(woodSet.getChestBoatItem(), title + " Azalea Boat with Chest");
+                this.add("entity.colorfulazaleas." + woodSet.getWoodSet() + "_azalea_chest_boat", title + " Azalea Boat with Chest");
+                
+                this.add(woodSet.getShelf(), title + " Azalea Shelf");
             }
         }
 
         // --- Add non-set block/item ---
-        builder.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
-        builder.add(AzaleaItems.ICON_ITEM, "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
+        this.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
+        this.add(AzaleaItems.ICON_ITEM, "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
 
         // --- Add custom entries (manually defined) ---
-        builder.add("itemGroup.colorfulazaleas.colorful_azaleas", "Colorful Azaleas");
+        this.add("itemGroup.colorfulazaleas.colorful_azaleas", "Colorful Azaleas");
 
         // --- Tag groups (static) ---
-        builder.add("tag.colorfulazaleas.azaleas", "Azaleas");
-        builder.add("tag.colorfulazaleas.azalea_logs", "Azalea Logs");
+        this.add("tag.colorfulazaleas.azaleas", "Azaleas");
+        this.add("tag.colorfulazaleas.azalea_logs", "Azalea Logs");
 
         // --- Dynamically generated per-color tags ---
         for (AzaleaColors color : AzaleaColors.values()) {
             String title = capitalize(color.getTitle());
-            builder.add(
+            this.add(
                     "tag.colorfulazaleas." + color.getTitle() + "_azalea_logs",
                     title + " Azalea Logs"
             );

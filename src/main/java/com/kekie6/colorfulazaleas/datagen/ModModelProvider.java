@@ -8,16 +8,24 @@ import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.core.registries.*;
+import net.minecraft.data.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.level.block.*;
 import org.jspecify.annotations.*;
 
-public class ModModelProvider extends FabricModelProvider {
-    public ModModelProvider(FabricDataOutput output) {
-        super(output);
+public class ModModelProvider extends ModelProvider {
+    
+    public ModModelProvider(PackOutput output) {
+        super(output, ColorfulAzaleas.MOD_ID);
     }
-
+    
     @Override
+    protected void registerModels(@NonNull BlockModelGenerators blockModels, @NonNull ItemModelGenerators itemModels) {
+        // Generate models and associated files here
+        generateBlockStateModels(blockModels);
+        generateItemModels(itemModels);
+    }
+    
     public void generateBlockStateModels(@NonNull BlockModelGenerators gen) {
         ColorfulAzaleas.LOGGER.info("Generating BlockState models for " + ColorfulAzaleas.MOD_ID);
 
@@ -82,7 +90,6 @@ public class ModModelProvider extends FabricModelProvider {
         }
     }
 
-    @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         // We generally don't need to create GENERATED item models for block when the block model is uploaded and
         // a "parented" item model is created (see registerParentedItemModel usage below).
