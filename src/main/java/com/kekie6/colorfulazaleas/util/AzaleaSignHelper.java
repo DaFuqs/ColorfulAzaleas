@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.*;
 
 import java.util.function.*;
 
+// TODO: port
 public class AzaleaSignHelper {
 
     private AzaleaSignHelper() {}
@@ -34,8 +35,8 @@ public class AzaleaSignHelper {
                 BuiltInRegistries.ITEM,
                 signItemKey.identifier(),
                 new SignItem(
-                        woodSet.getSign(),
-                        woodSet.getWallSign(),
+                        woodSet.getSign().get(),
+                        woodSet.getWallSign().get(),
                         new net.minecraft.world.item.Item.Properties()
                                 .stacksTo(16)
                                 .setId(signItemKey)
@@ -49,8 +50,8 @@ public class AzaleaSignHelper {
                 BuiltInRegistries.ITEM,
                 hangingSignItemKey.identifier(),
                 new HangingSignItem(
-                        woodSet.getHangingSign(),
-                        woodSet.getWallHangingSign(),
+                        woodSet.getHangingSign().get(),
+                        woodSet.getWallHangingSign().get(),
                         new net.minecraft.world.item.Item.Properties()
                                 .stacksTo(16)
                                 .setId(hangingSignItemKey)

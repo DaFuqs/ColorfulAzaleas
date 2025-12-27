@@ -24,8 +24,8 @@ public class ModEntityTagProvider extends EntityTypeTagsProvider {
             if (woodSet == null) continue;
             
             // Retrieve the actual EntityType objects
-            EntityType<?> boatEntity = woodSet.getBoatEntityType();
-            EntityType<?> chestBoatEntity = woodSet.getChestBoatEntityType();
+            EntityType<?> boatEntity = woodSet.getBoatEntityType().get();
+            EntityType<?> chestBoatEntity = woodSet.getChestBoatEntityType().get();
 
             // Fabric C (Convention) Tags
             this.tag(ModTags.Entity.C_BOATS)

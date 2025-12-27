@@ -34,18 +34,18 @@ public class ModLootTableProvider extends BlockLootSubProvider {
                 dropSelf(block);
             }
             
-            add(woodSet.getSlab(), createSlabItemTable(woodSet.getSlab()));
-            add(woodSet.getDoor(), createDoorTable(woodSet.getDoor()));
+            add(woodSet.getSlab().get(), createSlabItemTable(woodSet.getSlab().get()));
+            add(woodSet.getDoor().get(), createDoorTable(woodSet.getDoor().get()));
             
             for (Block block : tree.getLeavesAndDroopingBlocks()) {
-                add(block, createLeavesDrops(block, tree.getSapling(),
+                add(block, createLeavesDrops(block, tree.getSapling().get(),
                         0.05f,
                         0.0625f,
                         0.083333336f,
                         0.1f));
             }
             
-            dropPottedContents(tree.getPottedSapling());
+            dropPottedContents(tree.getPottedSapling().get());
         }
     }
     

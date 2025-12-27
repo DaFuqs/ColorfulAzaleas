@@ -2,8 +2,10 @@ package com.kekie6.colorfulazaleas.util;
 
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
+import java.util.function.*;
 
 public class ColorfulTree {
     private final AzaleaColors color;
@@ -11,12 +13,12 @@ public class ColorfulTree {
     private final int tint;
 
     private WoodSet woodSet;
-    private Block sapling;
-    private Block pottedSapling;
-    private Block azaleaLeaves;
-    private Block floweringLeaves;
-    private Block bloomingLeaves;
-    private Block droopingLeaves;
+    private DeferredBlock<?> sapling;
+    private DeferredBlock<?> pottedSapling;
+    private DeferredBlock<?> azaleaLeaves;
+    private DeferredBlock<?> floweringLeaves;
+    private DeferredBlock<?> bloomingLeaves;
+    private DeferredBlock<?> droopingLeaves;
 
     public ColorfulTree(AzaleaColors color) {
         this.color = color;
@@ -29,30 +31,30 @@ public class ColorfulTree {
     public int getTint() { return tint; }
 
     public WoodSet getWoodSet() { return woodSet; }
-    public Block getSapling() { return sapling; }
-    public Block getPottedSapling() { return pottedSapling; }
-    public Block getAzaleaLeaves() { return azaleaLeaves; }
-    public Block getFloweringLeaves() { return floweringLeaves; }
-    public Block getBloomingLeaves() { return bloomingLeaves; }
-    public Block getDroopingLeaves() { return droopingLeaves; }
+    public DeferredBlock<?> getSapling() { return sapling; }
+    public DeferredBlock<?> getPottedSapling() { return pottedSapling; }
+    public DeferredBlock<?> getAzaleaLeaves() { return azaleaLeaves; }
+    public DeferredBlock<?> getFloweringLeaves() { return floweringLeaves; }
+    public DeferredBlock<?> getBloomingLeaves() { return bloomingLeaves; }
+    public DeferredBlock<?> getDroopingLeaves() { return droopingLeaves; }
 
     public void setWoodSet(WoodSet woodSet) { this.woodSet = woodSet; }
-    public void setSapling(Block block) { this.sapling = block; }
-    public void setPottedSapling(Block block) { this.pottedSapling = block; }
-    public void setAzaleaLeaves(Block block) { this.azaleaLeaves = block; }
-    public void setFloweringLeaves(Block block) { this.floweringLeaves = block; }
-    public void setBloomingLeaves(Block block) { this.bloomingLeaves = block; }
-    public void setDroopingLeaves(Block block) { this.droopingLeaves = block; }
+    public void setSapling(DeferredBlock<?> block) { this.sapling = block; }
+    public void setPottedSapling(DeferredBlock<?> block) { this.pottedSapling = block; }
+    public void setAzaleaLeaves(DeferredBlock<?> block) { this.azaleaLeaves = block; }
+    public void setFloweringLeaves(DeferredBlock<?> block) { this.floweringLeaves = block; }
+    public void setBloomingLeaves(DeferredBlock<?> block) { this.bloomingLeaves = block; }
+    public void setDroopingLeaves(DeferredBlock<?> block) { this.droopingLeaves = block; }
 
     public Block[] getLeavesAndDroopingBlocks() {
         return new Block[] {
-                azaleaLeaves, floweringLeaves, bloomingLeaves, droopingLeaves
+                azaleaLeaves.get(), floweringLeaves.get(), bloomingLeaves.get(), droopingLeaves.get()
         };
     }
 
     public Block[] getLeavesBlocks() {
         return new Block[] {
-                azaleaLeaves, floweringLeaves, bloomingLeaves
+                azaleaLeaves.get(), floweringLeaves.get(), bloomingLeaves.get()
         };
     }
 

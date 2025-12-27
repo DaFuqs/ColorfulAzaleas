@@ -22,7 +22,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         ColorfulAzaleas.LOGGER.info("Generating BlockTags for " + ColorfulAzaleas.MOD_ID);
 
         this.tag(BlockTags.MINEABLE_WITH_HOE)
-                .add(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
+                .add(AzaleaBlocks.DROOPING_AZALEA_LEAVES.get());
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
@@ -41,64 +41,64 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                     .add(woodSet.getLogAndWoodBlocks());
 
             this.tag(BlockTags.OVERWORLD_NATURAL_LOGS)
-                    .add(woodSet.getLog());
+                    .add(woodSet.getLog().get());
 
             this.tag(BlockTags.PLANKS)
-                    .add(woodSet.getPlanks());
+                    .add(woodSet.getPlanks().get());
             this.tag(BlockTags.WOODEN_STAIRS)
-                    .add(woodSet.getStairs());
+                    .add(woodSet.getStairs().get());
             this.tag(BlockTags.WOODEN_SLABS)
-                    .add(woodSet.getSlab());
+                    .add(woodSet.getSlab().get());
             this.tag(BlockTags.WOODEN_FENCES)
-                    .add(woodSet.getFence());
+                    .add(woodSet.getFence().get());
             this.tag(BlockTags.FENCE_GATES)
-                    .add(woodSet.getFenceGate());
+                    .add(woodSet.getFenceGate().get());
             this.tag(BlockTags.WOODEN_DOORS)
-                    .add(woodSet.getDoor());
+                    .add(woodSet.getDoor().get());
             this.tag(BlockTags.WOODEN_TRAPDOORS)
-                    .add(woodSet.getTrapdoor());
+                    .add(woodSet.getTrapdoor().get());
             this.tag(BlockTags.WOODEN_PRESSURE_PLATES)
-                    .add(woodSet.getPressurePlate());
+                    .add(woodSet.getPressurePlate().get());
             this.tag(BlockTags.WOODEN_BUTTONS)
-                    .add(woodSet.getButton());
+                    .add(woodSet.getButton().get());
             this.tag(BlockTags.STANDING_SIGNS)
-                    .add(woodSet.getSign());
+                    .add(woodSet.getSign().get());
             this.tag(BlockTags.WALL_SIGNS)
-                    .add(woodSet.getWallSign());
+                    .add(woodSet.getWallSign().get());
             this.tag(BlockTags.CEILING_HANGING_SIGNS)
-                    .add(woodSet.getHangingSign());
+                    .add(woodSet.getHangingSign().get());
             this.tag(BlockTags.WALL_HANGING_SIGNS)
-                    .add(woodSet.getWallHangingSign());
+                    .add(woodSet.getWallHangingSign().get());
             this.tag(BlockTags.WOODEN_SHELVES)
-                    .add(woodSet.getShelf());
+                    .add(woodSet.getShelf().get());
 
             this.tag(BlockTags.SAPLINGS)
-                    .add(tree.getSapling());
+                    .add(tree.getSapling().get());
             this.tag(BlockTags.LEAVES)
                     .add(tree.getLeavesBlocks());
             this.tag(BlockTags.BEE_ATTRACTIVE)
-                    .add(tree.getSapling())
-                    .add(tree.getFloweringLeaves());
+                    .add(tree.getSapling().get())
+                    .add(tree.getFloweringLeaves().get());
             this.tag(BlockTags.FLOWERS)
-                    .add(tree.getSapling())
-                    .add(tree.getFloweringLeaves());
+                    .add(tree.getSapling().get())
+                    .add(tree.getFloweringLeaves().get());
             this.tag(BlockTags.FLOWER_POTS)
-                    .add(tree.getPottedSapling());
+                    .add(tree.getPottedSapling().get());
             // Fabric C (Convention) Tags
             this.tag(ModTags.Blocks.C_PLANKS_THAT_BURN)
-                    .add(woodSet.getPlanks());
+                    .add(woodSet.getPlanks().get());
             this.tag(ModTags.Blocks.C_FLOWERS)
-                    .add(tree.getSapling());
+                    .add(tree.getSapling().get());
             this.tag(ModTags.Blocks.C_WOODEN_FENCES)
-                    .add(woodSet.getFence());
+                    .add(woodSet.getFence().get());
             this.tag(ModTags.Blocks.C_FENCE_GATES_WOODEN)
-                    .add(woodSet.getFenceGate());
+                    .add(woodSet.getFenceGate().get());
             this.tag(ModTags.Blocks.C_STRIPPED_LOGS)
-                    .add(woodSet.getStrippedLog());
+                    .add(woodSet.getStrippedLog().get());
             this.tag(ModTags.Blocks.C_STRIPPED_WOODS)
-                    .add(woodSet.getStrippedWood());
+                    .add(woodSet.getStrippedWood().get());
             this.tag(ModTags.Blocks.C_WOODS)
-                    .add(woodSet.getWood());
+                    .add(woodSet.getWood().get());
         }
     }
 }

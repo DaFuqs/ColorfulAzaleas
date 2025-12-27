@@ -70,9 +70,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                     .add(woodSet.getShelf().asItem());
 
             this.tag(ItemTags.BOATS)
-                    .add(woodSet.getBoatItem());
+                    .add(woodSet.getBoatItem().get());
             this.tag(ItemTags.CHEST_BOATS)
-                    .add(woodSet.getChestBoatItem());
+                    .add(woodSet.getChestBoatItem().get());
 
             this.tag(ItemTags.SAPLINGS)
                     .add(tree.getSapling().asItem());

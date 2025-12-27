@@ -56,8 +56,8 @@ public class ColorfulAzaleasClient {
 					"main"
 			);
 			
-			event.registerEntityRenderer(woodSet.getBoatEntityType(), context -> new BoatRenderer(context, boatLayer));
-			event.registerEntityRenderer(woodSet.getChestBoatEntityType(), context -> new BoatRenderer(context, chestBoatLayer));
+			event.registerEntityRenderer(woodSet.getBoatEntityType().get(), context -> new BoatRenderer(context, boatLayer));
+			event.registerEntityRenderer(woodSet.getChestBoatEntityType().get(), context -> new BoatRenderer(context, chestBoatLayer));
 		}
 	}
 	
@@ -88,9 +88,9 @@ public class ColorfulAzaleasClient {
 		int i = 0;
 		for (ColorfulTree tree : AzaleaBlocks.trees) {
 			WoodSet woodSet = tree.getWoodSet();
-			shelves[i] = woodSet.getShelf();
-			signs[i] = woodSet.getSign();
-			hangingSigns[i] = woodSet.getHangingSign();
+			shelves[i] = woodSet.getShelf().get();
+			signs[i] = woodSet.getSign().get();
+			hangingSigns[i] = woodSet.getHangingSign().get();
 			i++;
 		}
 		

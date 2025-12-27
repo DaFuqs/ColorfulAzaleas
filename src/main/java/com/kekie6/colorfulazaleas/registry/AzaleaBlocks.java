@@ -14,9 +14,6 @@ import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.levelgen.feature.*;
 import net.minecraft.world.level.storage.loot.*;
-import net.minecraft.world.level.storage.loot.entries.*;
-import net.minecraft.world.level.storage.loot.predicates.*;
-import net.minecraft.world.level.storage.loot.providers.number.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.neoforge.registries.*;
 
@@ -36,14 +33,12 @@ public class AzaleaBlocks {
     private static final BlockSetType BLOCK_SET_TYPE = BlockSetType.register(new BlockSetType("colorful_azaleas"));
     private static final Map<String, WoodType> WOOD_TYPES = new HashMap<>();
     private static final WoodType WOOD_TYPE = WoodType.register(new WoodType(ColorfulAzaleas.id("colorful_azaleas").toString(), BLOCK_SET_TYPE));
-    public static final List<Block> SHELF_BLOCKS = new ArrayList<>();
-    
-    public static final Block DROOPING_AZALEA_LEAVES = registerBlockWithItem(
+    public static final DeferredBlock<?> DROOPING_AZALEA_LEAVES = registerBlockWithItem(
             "drooping_azalea_leaves",
-            new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("drooping_azalea_leaves")).noCollision().sound(SoundType.CAVE_VINES))
+            DroopingLeavesBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey("drooping_azalea_leaves")).noCollision().sound(SoundType.CAVE_VINES)
     );
     
-    public static void init(IEventBus modBus) {
+    public static void register(IEventBus modBus) {
         BLOCKS.register(modBus);
     }
 
@@ -69,7 +64,7 @@ public class AzaleaBlocks {
         // --- Sapling ---
         ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
         TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
-        Block sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion().setId(blockKey(name + "_azalea_sapling"))));
+        DeferredBlock<?> sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(AZALEA).noOcclusion().setId(blockKey(name + "_azalea_sapling"))));
         tree.setSapling(sapling);
         tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(() -> (FlowerPotBlock) FLOWER_POT, () -> sapling, flowerPotProperties().setId(blockKey("potted_" + name + "_azalea_sapling")))));
 
@@ -91,9 +86,7 @@ public class AzaleaBlocks {
 
         // --- Shelf Block & Item ---
         ShelfBlock shelf = new ShelfBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(blockKey(title + "_azalea_shelf")));
-        registerBlockWithItem(title + "_azalea_shelf", shelf);
-        SHELF_BLOCKS.add(shelf);
-        woodSet.setShelf(shelf);
+        woodSet.setShelf(registerBlockWithItem(title + "_azalea_shelf", shelf));
 
         // --- Sign Blocks & Items ---
         woodSet.setSign(AzaleaSignHelper.registerSignBlock(ColorfulAzaleas.id(title + "_azalea_sign"), s -> new StandingSignBlock(woodType, s), blockSettings(title + "_azalea_sign", Blocks.OAK_SIGN)));
@@ -110,23 +103,21 @@ public class AzaleaBlocks {
     public static ResourceKey<Block> blockKey(String name) {
         return ResourceKey.create(Registries.BLOCK, ColorfulAzaleas.id(name));
     }
-
-    public static Block registerBlockWithItem(String name, Block block) {
-        Identifier id = ColorfulAzaleas.id(name);
-        Registry.register(BuiltInRegistries.BLOCK, id, block);
-
-        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id);
-        Registry.register(BuiltInRegistries.ITEM, id,
-                new BlockItem(block, new net.minecraft.world.item.Item.Properties()
-                        .setId(itemKey)
-                        .useBlockDescriptionPrefix()));
-        return block;
+    
+    public static DeferredBlock<?> registerBlockWithItem(String name, Block block) {
+        DeferredBlock<?> b = BLOCKS.register(name, identifier -> block);
+        AzaleaItems.register(name, properties -> new BlockItem(b.get(), properties), new Item.Properties().useBlockDescriptionPrefix());
+        return b;
     }
 
-    public static Block registerBlock(String name, Block block) {
-        Identifier id = ColorfulAzaleas.id(name);
-        Registry.register(BuiltInRegistries.BLOCK, id, block);
-        return block;
+    public static DeferredBlock<?> registerBlockWithItem(String name, Function<Block.Properties, Block> blockFactory, Block.Properties settings) {
+        DeferredBlock<?> b = BLOCKS.register(name, identifier -> blockFactory.apply(settings.setId(ResourceKey.create(Registries.BLOCK, identifier))));
+        AzaleaItems.register(name, properties -> new BlockItem(b.get(), properties), new Item.Properties().useBlockDescriptionPrefix());
+        return b;
+    }
+
+    public static DeferredBlock<?> registerBlock(String name, Function<Block.Properties, Block> blockFactory, Block.Properties settings) {
+        return BLOCKS.register(name, identifier -> blockFactory.apply(settings.setId(ResourceKey.create(Registries.BLOCK, identifier))));
     }
 
     private static WoodType getOrCreateWoodType(String title) {

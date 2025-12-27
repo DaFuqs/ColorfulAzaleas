@@ -30,48 +30,48 @@ public class ModLanguageProvider extends LanguageProvider {
             String title = capitalize(color.getTitle());
 
             // Leaves variants
-            this.add(tree.getAzaleaLeaves(), colorName + " Azalea Leaves");
-            this.add(tree.getFloweringLeaves(), "Flowering " + colorName + " Azalea Leaves");
-            this.add(tree.getBloomingLeaves(), "Blooming " + colorName + " Azalea Leaves");
-            this.add(tree.getDroopingLeaves(), "Drooping " + colorName + " Azalea Leaves");
+            this.add(tree.getAzaleaLeaves().get(), colorName + " Azalea Leaves");
+            this.add(tree.getFloweringLeaves().get(), "Flowering " + colorName + " Azalea Leaves");
+            this.add(tree.getBloomingLeaves().get(), "Blooming " + colorName + " Azalea Leaves");
+            this.add(tree.getDroopingLeaves().get(), "Drooping " + colorName + " Azalea Leaves");
 
             // Saplings
-            this.add(tree.getSapling(), colorName + " Azalea Sapling");
-            this.add(tree.getPottedSapling(), "Potted " + colorName + " Azalea Sapling");
+            this.add(tree.getSapling().get(), colorName + " Azalea Sapling");
+            this.add(tree.getPottedSapling().get(), "Potted " + colorName + " Azalea Sapling");
 
             // Wood Set
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet != null) {
-                this.add(woodSet.getLog(), title + " Azalea Log");
-                this.add(woodSet.getWood(), title + " Azalea Wood");
-                this.add(woodSet.getStrippedLog(), "Stripped " + title + " Azalea Log");
-                this.add(woodSet.getStrippedWood(), "Stripped " + title + " Azalea Wood");
-                this.add(woodSet.getPlanks(), title + " Azalea Planks");
-                this.add(woodSet.getStairs(), title + " Azalea Stairs");
-                this.add(woodSet.getSlab(), title + " Azalea Slab");
-                this.add(woodSet.getFence(), title + " Azalea Fence");
-                this.add(woodSet.getFenceGate(), title + " Azalea Fence Gate");
-                this.add(woodSet.getDoor(), title + " Azalea Door");
-                this.add(woodSet.getTrapdoor(), title + " Azalea Trapdoor");
-                this.add(woodSet.getPressurePlate(), title + " Azalea Pressure Plate");
-                this.add(woodSet.getButton(), title + " Azalea Button");
+                this.add(woodSet.getLog().get(), title + " Azalea Log");
+                this.add(woodSet.getWood().get(), title + " Azalea Wood");
+                this.add(woodSet.getStrippedLog().get(), "Stripped " + title + " Azalea Log");
+                this.add(woodSet.getStrippedWood().get(), "Stripped " + title + " Azalea Wood");
+                this.add(woodSet.getPlanks().get(), title + " Azalea Planks");
+                this.add(woodSet.getStairs().get(), title + " Azalea Stairs");
+                this.add(woodSet.getSlab().get(), title + " Azalea Slab");
+                this.add(woodSet.getFence().get(), title + " Azalea Fence");
+                this.add(woodSet.getFenceGate().get(), title + " Azalea Fence Gate");
+                this.add(woodSet.getDoor().get(), title + " Azalea Door");
+                this.add(woodSet.getTrapdoor().get(), title + " Azalea Trapdoor");
+                this.add(woodSet.getPressurePlate().get(), title + " Azalea Pressure Plate");
+                this.add(woodSet.getButton().get(), title + " Azalea Button");
                 
-                this.add(woodSet.getSign(), title + " Azalea Sign");
-                this.add(woodSet.getWallSign(), title + " Azalea Wall Sign");
-                this.add(woodSet.getHangingSign(), title + " Azalea Hanging Sign");
-                this.add(woodSet.getWallHangingSign(), title + " Azalea Wall Hanging Sign");
+                this.add(woodSet.getSign().get(), title + " Azalea Sign");
+                this.add(woodSet.getWallSign().get(), title + " Azalea Wall Sign");
+                this.add(woodSet.getHangingSign().get(), title + " Azalea Hanging Sign");
+                this.add(woodSet.getWallHangingSign().get(), title + " Azalea Wall Hanging Sign");
                 
-                this.add(woodSet.getBoatItem(), title + " Azalea Boat");
-                this.add(woodSet.getChestBoatItem(), title + " Azalea Boat with Chest");
+                this.add(woodSet.getBoatItem().get(), title + " Azalea Boat");
+                this.add(woodSet.getChestBoatItem().get(), title + " Azalea Boat with Chest");
                 this.add("entity.colorfulazaleas." + woodSet.getWoodSet() + "_azalea_chest_boat", title + " Azalea Boat with Chest");
                 
-                this.add(woodSet.getShelf(), title + " Azalea Shelf");
+                this.add(woodSet.getShelf().get(), title + " Azalea Shelf");
             }
         }
 
         // --- Add non-set block/item ---
-        this.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES, "Drooping Azalea Leaves");
-        this.add(AzaleaItems.ICON_ITEM, "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
+        this.add(AzaleaBlocks.DROOPING_AZALEA_LEAVES.get(), "Drooping Azalea Leaves");
+        this.add(AzaleaItems.ICON_ITEM.get(), "§fC§6o§dl§bo§er§af§cu§9l §dA§ez§aa§bl§ce§ea§fs§6!");
 
         // --- Add custom entries (manually defined) ---
         this.add("itemGroup.colorfulazaleas.colorful_azaleas", "Colorful Azaleas");

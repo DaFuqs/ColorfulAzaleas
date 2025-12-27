@@ -6,37 +6,39 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.vehicle.boat.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
+import java.util.function.*;
 
 public class WoodSet {
     private final String WoodSet;
     private final Identifier AZALEA_BOATS_ID;
 
-    private Block log;
-    private Block wood;
-    private Block strippedLog;
-    private Block strippedWood;
-    private Block planks;
-    private Block stairs;
-    private Block slab;
-    private Block fence;
-    private Block fenceGate;
-    private Block door;
-    private Block trapdoor;
-    private Block pressurePlate;
-    private Block button;
-    private Block sign;
-    private Block wallSign;
-    private Block hangingSign;
-    private Block wallHangingSign;
-    private Block shelf;
+    private DeferredBlock<?> log;
+    private DeferredBlock<?> wood;
+    private DeferredBlock<?> strippedLog;
+    private DeferredBlock<?> strippedWood;
+    private DeferredBlock<?> planks;
+    private DeferredBlock<?> stairs;
+    private DeferredBlock<?> slab;
+    private DeferredBlock<?> fence;
+    private DeferredBlock<?> fenceGate;
+    private DeferredBlock<?> door;
+    private DeferredBlock<?> trapdoor;
+    private DeferredBlock<?> pressurePlate;
+    private DeferredBlock<?> button;
+    private DeferredBlock<?> sign;
+    private DeferredBlock<?> wallSign;
+    private DeferredBlock<?> hangingSign;
+    private DeferredBlock<?> wallHangingSign;
+    private DeferredBlock<?> shelf;
 
-    private BoatItem boatItem;
-    private BoatItem chestBoatItem;
+    private DeferredItem<BoatItem> boatItem;
+    private DeferredItem<BoatItem> chestBoatItem;
     
-    private EntityType<? extends Boat> boatEntityType;
-    private EntityType<? extends ChestBoat> chestBoatEntityType;
+    private DeferredHolder<EntityType<?>, EntityType<Boat>> boatEntityType;
+    private DeferredHolder<EntityType<?>, EntityType<ChestBoat>> chestBoatEntityType;
 
     public WoodSet(String WoodSet) {
         this.WoodSet = WoodSet;
@@ -47,99 +49,99 @@ public class WoodSet {
     public Identifier getAzaleaBoatsId() {
         return AZALEA_BOATS_ID;
     }
-    public Block getLog() { return log; }
-    public Block getWood() { return wood; }
-    public Block getStrippedLog() { return strippedLog; }
-    public Block getStrippedWood() { return strippedWood; }
-    public Block getPlanks() { return planks; }
-    public Block getStairs() { return stairs; }
-    public Block getSlab() { return slab; }
-    public Block getFence() { return fence; }
-    public Block getFenceGate() { return fenceGate; }
-    public Block getDoor() { return door; }
-    public Block getTrapdoor() { return trapdoor; }
-    public Block getPressurePlate() { return pressurePlate; }
-    public Block getButton() { return button; }
-    public Block getSign() { return sign; }
-    public Block getWallSign() { return wallSign; }
-    public Block getHangingSign() { return hangingSign; }
-    public Block getWallHangingSign() { return wallHangingSign; }
-    public Block getShelf() {
+    public DeferredBlock<?> getLog() { return log; }
+    public DeferredBlock<?> getWood() { return wood; }
+    public DeferredBlock<?> getStrippedLog() { return strippedLog; }
+    public DeferredBlock<?> getStrippedWood() { return strippedWood; }
+    public DeferredBlock<?> getPlanks() { return planks; }
+    public DeferredBlock<?> getStairs() { return stairs; }
+    public DeferredBlock<?> getSlab() { return slab; }
+    public DeferredBlock<?> getFence() { return fence; }
+    public DeferredBlock<?> getFenceGate() { return fenceGate; }
+    public DeferredBlock<?> getDoor() { return door; }
+    public DeferredBlock<?> getTrapdoor() { return trapdoor; }
+    public DeferredBlock<?> getPressurePlate() { return pressurePlate; }
+    public DeferredBlock<?> getButton() { return button; }
+    public DeferredBlock<?> getSign() { return sign; }
+    public DeferredBlock<?> getWallSign() { return wallSign; }
+    public DeferredBlock<?> getHangingSign() { return hangingSign; }
+    public DeferredBlock<?> getWallHangingSign() { return wallHangingSign; }
+    public DeferredBlock<?> getShelf() {
         return shelf;
     }
-    public BoatItem getBoatItem() {
+    public DeferredItem<BoatItem> getBoatItem() {
         return boatItem;
     }
-    public BoatItem getChestBoatItem() {
+    public DeferredItem<BoatItem> getChestBoatItem() {
         return chestBoatItem;
     }
-    public EntityType<? extends Boat> getBoatEntityType() {
+    public DeferredHolder<EntityType<?>, EntityType<Boat>> getBoatEntityType() {
         return boatEntityType;
     }
-    public EntityType<? extends ChestBoat> getChestBoatEntityType() {
+    public DeferredHolder<EntityType<?>, EntityType<ChestBoat>> getChestBoatEntityType() {
         return chestBoatEntityType;
     }
 
-    public void setLog(Block block) { this.log = block; }
-    public void setWood(Block block) { this.wood = block; }
-    public void setStrippedLog(Block block) { this.strippedLog = block; }
-    public void setStrippedWood(Block block) { this.strippedWood = block; }
-    public void setPlanks(Block block) { this.planks = block; }
-    public void setStairs(Block block) { this.stairs = block; }
-    public void setSlab(Block block) { this.slab = block; }
-    public void setFence(Block block) { this.fence = block; }
-    public void setFenceGate(Block block) { this.fenceGate = block; }
-    public void setDoor(Block block) { this.door = block; }
-    public void setTrapdoor(Block block) { this.trapdoor = block; }
-    public void setPressurePlate(Block block) { this.pressurePlate = block; }
-    public void setButton(Block block) { this.button = block; }
-    public void setSign(Block block) { this.sign = block; }
-    public void setWallSign(Block block) { this.wallSign = block; }
-    public void setHangingSign(Block block) { this.hangingSign = block; }
-    public void setWallHangingSign(Block block) { this.wallHangingSign = block; }
-    public void setShelf(Block shelf) {
+    public void setLog(DeferredBlock<?> block) { this.log = block; }
+    public void setWood(DeferredBlock<?> block) { this.wood = block; }
+    public void setStrippedLog(DeferredBlock<?> block) { this.strippedLog = block; }
+    public void setStrippedWood(DeferredBlock<?> block) { this.strippedWood = block; }
+    public void setPlanks(DeferredBlock<?> block) { this.planks = block; }
+    public void setStairs(DeferredBlock<?> block) { this.stairs = block; }
+    public void setSlab(DeferredBlock<?> block) { this.slab = block; }
+    public void setFence(DeferredBlock<?> block) { this.fence = block; }
+    public void setFenceGate(DeferredBlock<?> block) { this.fenceGate = block; }
+    public void setDoor(DeferredBlock<?> block) { this.door = block; }
+    public void setTrapdoor(DeferredBlock<?> block) { this.trapdoor = block; }
+    public void setPressurePlate(DeferredBlock<?> block) { this.pressurePlate = block; }
+    public void setButton(DeferredBlock<?> block) { this.button = block; }
+    public void setSign(DeferredBlock<?> block) { this.sign = block; }
+    public void setWallSign(DeferredBlock<?> block) { this.wallSign = block; }
+    public void setHangingSign(DeferredBlock<?> block) { this.hangingSign = block; }
+    public void setWallHangingSign(DeferredBlock<?> block) { this.wallHangingSign = block; }
+    public void setShelf(DeferredBlock<?> shelf) {
         this.shelf = shelf;
     }
-    public void setBoatItem(BoatItem boatItem) {
+    public void setBoatItem(DeferredItem<BoatItem> boatItem) {
         this.boatItem = boatItem;
     }
-    public void setChestBoatItem(BoatItem chestBoatItem) {
+    public void setChestBoatItem(DeferredItem<BoatItem> chestBoatItem) {
         this.chestBoatItem = chestBoatItem;
     }
-    public void setBoatEntityType(EntityType<? extends Boat> boatEntityType) {
+    public void setBoatEntityType(DeferredHolder<EntityType<?>, EntityType<Boat>> boatEntityType) {
         this.boatEntityType = boatEntityType;
     }
-    public void setChestBoatEntityType(EntityType<? extends ChestBoat> chestBoatEntityType) {
+    public void setChestBoatEntityType(DeferredHolder<EntityType<?>, EntityType<ChestBoat>> chestBoatEntityType) {
         this.chestBoatEntityType = chestBoatEntityType;
     }
 
     public Block[] getWoodSetBlocks() {
         return new Block[] {
-                log, wood, strippedLog, strippedWood,
-                planks, stairs, slab, fence, fenceGate,
-                door, trapdoor, pressurePlate, button,
-                sign, wallSign, hangingSign, wallHangingSign, shelf
+                log.get(), wood.get(), strippedLog.get(), strippedWood.get(),
+                planks.get(), stairs.get(), slab.get(), fence.get(), fenceGate.get(),
+                door.get(), trapdoor.get(), pressurePlate.get(), button.get(),
+                sign.get(), wallSign.get(), hangingSign.get(), wallHangingSign.get(), shelf.get()
         };
     }
 
     public Block[] getWoodSetMinusSlabAndDoorBlocks() {
         return new Block[] {
-                log, wood, strippedLog, strippedWood,
-                planks, stairs, fence, fenceGate,
-                trapdoor, pressurePlate, button,
-                sign, wallSign, hangingSign, wallHangingSign, shelf
+                log.get(), wood.get(), strippedLog.get(), strippedWood.get(),
+                planks.get(), stairs.get(), fence.get(), fenceGate.get(),
+                trapdoor.get(), pressurePlate.get(), button.get(),
+                sign.get(), wallSign.get(), hangingSign.get(), wallHangingSign.get(), shelf.get()
         };
     }
 
     public Block[] getLogAndWoodBlocks() {
         return new Block[] {
-                log, wood, strippedLog, strippedWood
+                log.get(), wood.get(), strippedLog.get(), strippedWood.get()
         };
     }
 
     public Item[] getLogAndWoodItems() {
-        return Arrays.stream(getLogAndWoodBlocks())
+        return (Item[]) Arrays.stream(getLogAndWoodBlocks())
                 .map(Block::asItem)
-                .toArray(Item[]::new);
+                .toArray();
     }
 }

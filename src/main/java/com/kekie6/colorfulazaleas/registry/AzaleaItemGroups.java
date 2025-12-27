@@ -20,7 +20,7 @@ public class AzaleaItemGroups {
             //Set the title of the tab. Don't forget to add a translation!
             .title(Component.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
             //Set the icon of the tab.
-            .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM))
+            .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM.get()))
             //Add your items to the tab.
             .displayItems((params, entries) -> {
                 entries.accept(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
