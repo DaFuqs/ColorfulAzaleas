@@ -1,30 +1,15 @@
 package com.kekie6.colorfulazaleas.entity;
 
 import com.kekie6.colorfulazaleas.*;
-import com.kekie6.colorfulazaleas.block.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
-import com.mojang.datafixers.util.*;
-import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.core.registries.*;
-import net.minecraft.resources.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.vehicle.boat.*;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.grower.*;
-import net.minecraft.world.level.block.state.*;
-import net.minecraft.world.level.block.state.properties.*;
-import net.minecraft.world.level.levelgen.feature.*;
-import net.minecraft.world.level.storage.loot.*;
+import net.minecraft.world.level.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.neoforge.registries.*;
-
-import java.util.*;
-import java.util.function.*;
-
-import static net.minecraft.world.level.block.Blocks.*;
+import org.jspecify.annotations.*;
 
 public class AzaleaEntities {
     
@@ -34,10 +19,9 @@ public class AzaleaEntities {
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
             
-            
-            DeferredHolder<EntityType<Boat>, EntityType<Boat>> boatEntityType = ENTITIES.registerEntityType(
+            DeferredHolder<EntityType<?>, EntityType<Boat>> boatEntityType = ENTITIES.registerEntityType(
                     woodSet.getWoodSet() + "_azalea_boat",
-                    (entityType, level) -> new Boat((EntityType<? extends Boat>) entityType, level, woodSet::getBoatItem),
+                    (@NonNull EntityType<Boat> entityType, @NonNull Level level) -> new Boat(entityType, level, woodSet::getBoatItem),
                     MobCategory.MISC,
                     builder -> builder.noLootTable()
                             .sized(1.375F, 0.5625F)
@@ -45,9 +29,9 @@ public class AzaleaEntities {
                             .clientTrackingRange(10)
             );
             
-            DeferredHolder<EntityType<ChestBoat>, EntityType<ChestBoat>> chestBoatEntityType = ENTITIES.registerEntityType(
+            DeferredHolder<EntityType<?>, EntityType<ChestBoat>> chestBoatEntityType = ENTITIES.registerEntityType(
                     woodSet.getWoodSet() + "_azalea_chest_boat",
-                    (entityType, level) -> new Boat((EntityType<? extends ChestBoat>) entityType, level, woodSet::getChestBoatItem),
+                    (@NonNull EntityType<ChestBoat> entityType, @NonNull Level level) -> new ChestBoat(entityType, level, woodSet::getChestBoatItem),
                     MobCategory.MISC,
                     builder -> builder.noLootTable()
                             .sized(1.375F, 0.5625F)

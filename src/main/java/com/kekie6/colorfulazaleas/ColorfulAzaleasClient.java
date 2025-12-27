@@ -4,8 +4,8 @@ import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.object.boat.*;
-import net.minecraft.client.renderer.chunk.*;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.world.entity.vehicle.boat.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.*;
 import net.neoforged.api.distmarker.*;
@@ -13,8 +13,6 @@ import net.neoforged.bus.api.*;
 import net.neoforged.fml.common.*;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.*;
-
-import java.util.*;
 
 @Mod(value = ColorfulAzaleas.MOD_ID, dist = Dist.CLIENT)
 public class ColorfulAzaleasClient {
@@ -58,14 +56,10 @@ public class ColorfulAzaleasClient {
 					"main"
 			);
 			
-			event.registerEntityRenderer(woodSet.getBoatEntityType(), BoatRenderer::new);
-			event.registerEntityRenderer(woodSet.getChestBoatEntityType(), BoatRenderer::new);
+			event.registerEntityRenderer(woodSet.getBoatEntityType(), context -> new BoatRenderer(context, boatLayer));
+			event.registerEntityRenderer(woodSet.getChestBoatEntityType(), context -> new BoatRenderer(context, chestBoatLayer));
 		}
 	}
-	/*
-	EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_BOAT, context ->new BoatEntityRenderer(context, false));
-	EntityRendererRegistry.register(AzaleaBlockEntityTypes.AZULE_CHEST_BOAT, context ->new BoatEntityRenderer(context, true));
-	*/
 	
 	@SubscribeEvent // on the mod event bus only on the physical client
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
