@@ -55,19 +55,25 @@ public class ColorfulAzaleas {
 	public static void blockEntityTypeAddBlocksEvent(BlockEntityTypeAddBlocksEvent event) {
 		Block[] shelves = new Block[AzaleaBlocks.TREES.length];
 		Block[] signs = new Block[AzaleaBlocks.TREES.length];
+		Block[] wallSigns = new Block[AzaleaBlocks.TREES.length];
 		Block[] hangingSigns = new Block[AzaleaBlocks.TREES.length];
+		Block[] wallHangingSigns = new Block[AzaleaBlocks.TREES.length];
 		int i = 0;
 		for (ColorfulTree tree : AzaleaBlocks.TREES) {
 			AzaleaWoodSet woodSet = tree.getWoodSet();
 			shelves[i] = woodSet.getShelf().get();
 			signs[i] = woodSet.getSign().get();
+			wallSigns[i] = woodSet.getWallSign().get();
 			hangingSigns[i] = woodSet.getHangingSign().get();
+			wallHangingSigns[i] = woodSet.getWallHangingSign().get();
 			i++;
 		}
 		
 		event.modify(BlockEntityType.SHELF, shelves);
 		event.modify(BlockEntityType.SIGN, signs);
 		event.modify(BlockEntityType.HANGING_SIGN, hangingSigns);
+		event.modify(BlockEntityType.SIGN, wallSigns);
+		event.modify(BlockEntityType.HANGING_SIGN, wallHangingSigns);
 	}
 	
 	public static Identifier id(String name) {
