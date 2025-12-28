@@ -8,6 +8,7 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.data.loot.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.parameters.*;
@@ -36,9 +37,9 @@ public class ColorfulAzaleas {
 		AzaleaTreeDecorators.register(modBus);
 		
 		NeoForge.EVENT_BUS.addListener(ColorfulAzaleas::lootTableLoad);
+		modBus.addListener(ColorfulAzaleas::blockEntityTypeAddBlocksEvent);
 	}
 	
-	@SubscribeEvent // on the mod event bus
 	public static void lootTableLoad(LootTableLoadEvent event) {
 		ResourceKey<LootTable> key = event.getKey();
 		
@@ -51,19 +52,22 @@ public class ColorfulAzaleas {
 		}
 	}
 	
-	@SubscribeEvent // on the mod event bus
-	public static void gatherData(GatherDataEvent.Client event) {
-		event.createProvider(ModBlockTagProvider::new);
-		event.createProvider(ModEntityTagProvider::new);
-		event.createProvider(ModItemTagProvider::new);
-		event.createProvider(ModLanguageProvider::new);
-		event.createProvider((output, lookupProvider) -> new LootTableProvider(
-				output, Set.of(),
-				List.of(new LootTableProvider.SubProviderEntry(ModLootTableProvider::new, LootContextParamSets.EMPTY)),
-				lookupProvider)
-		);
-		event.createProvider(ModModelProvider::new);
-		event.createProvider(ModRecipeProvider.Runner::new);
+	public static void blockEntityTypeAddBlocksEvent(BlockEntityTypeAddBlocksEvent event) {
+		Block[] shelves = new Block[AzaleaBlocks.TREES.length];
+		Block[] signs = new Block[AzaleaBlocks.TREES.length];
+		Block[] hangingSigns = new Block[AzaleaBlocks.TREES.length];
+		int i = 0;
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
+			shelves[i] = woodSet.getShelf().get();
+			signs[i] = woodSet.getSign().get();
+			hangingSigns[i] = woodSet.getHangingSign().get();
+			i++;
+		}
+		
+		event.modify(BlockEntityType.SHELF, shelves);
+		event.modify(BlockEntityType.SIGN, signs);
+		event.modify(BlockEntityType.HANGING_SIGN, hangingSigns);
 	}
 	
 	public static Identifier id(String name) {

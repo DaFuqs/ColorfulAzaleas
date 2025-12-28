@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_right",
+  "textures": {
+    "all": "colorfulazaleas:block/pluvial_azalea_shelf",
+    "particle": "colorfulazaleas:block/stripped_pluvial_azalea_log"
+  }
+}

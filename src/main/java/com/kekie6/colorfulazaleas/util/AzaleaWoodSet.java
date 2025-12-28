@@ -9,10 +9,10 @@ import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
+import java.util.function.*;
 
 public class AzaleaWoodSet {
     private final String WoodSet;
-    private final Identifier AZALEA_BOATS_ID;
 
     private DeferredBlock<?> log;
     private DeferredBlock<?> wood;
@@ -41,13 +41,9 @@ public class AzaleaWoodSet {
 
     public AzaleaWoodSet(String WoodSet) {
         this.WoodSet = WoodSet;
-        this.AZALEA_BOATS_ID = ColorfulAzaleas.id(WoodSet + "_azalea");
     }
 
     public String getWoodSet() { return WoodSet; }
-    public Identifier getAzaleaBoatsId() {
-        return AZALEA_BOATS_ID;
-    }
     public DeferredBlock<?> getLog() { return log; }
     public DeferredBlock<?> getWood() { return wood; }
     public DeferredBlock<?> getStrippedLog() { return strippedLog; }
@@ -139,8 +135,8 @@ public class AzaleaWoodSet {
     }
 
     public Item[] getLogAndWoodItems() {
-        return (Item[]) Arrays.stream(getLogAndWoodBlocks())
+        return Arrays.stream(getLogAndWoodBlocks())
                 .map(Block::asItem)
-                .toArray();
+                .toArray(Item[]::new);
     }
 }

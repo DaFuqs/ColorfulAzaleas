@@ -73,7 +73,7 @@ public class ColorfulTreeDecorator extends TreeDecorator {
 
     @Override
     protected @NotNull TreeDecoratorType<?> type() {
-        return AzaleaTreeDecorators.COLORFUL_TREE_DECORATOR;
+        return AzaleaTreeDecorators.COLORFUL_TREE_DECORATOR.get();
     }
 
     @Override
