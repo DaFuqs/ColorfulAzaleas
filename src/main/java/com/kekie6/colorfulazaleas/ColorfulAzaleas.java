@@ -47,7 +47,7 @@ public class ColorfulAzaleas {
 			LootPool.Builder poolBuilder = LootPool.lootPool()
 					.setRolls(ConstantValue.exactly(1))
 					.when(LootItemRandomChanceCondition.randomChance(0.01f))
-					.add(TagEntry.tagContents(ModTags.Items.AZALEA_SAPLINGS));
+					.add(TagEntry.expandTag(ModTags.Items.AZALEA_SAPLINGS));
 			event.getTable().addPool(poolBuilder.build());
 		}
 	}
