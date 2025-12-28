@@ -1,6 +1,6 @@
 package com.kekie6.colorfulazaleas.util;
 
-public enum AzaleaColors {
+public enum AzaleaColor {
     WHITE("titanium", 0xFFe8fafa),
     ORANGE("tecal", 0xFFfd9919),
     MAGENTA("bromelia", 13061821),
@@ -21,7 +21,7 @@ public enum AzaleaColors {
     final String title;
     final int tint;
 
-    AzaleaColors(String title, int tint) {
+    AzaleaColor(String title, int tint) {
         this.title = title;
         this.tint = tint;
     }

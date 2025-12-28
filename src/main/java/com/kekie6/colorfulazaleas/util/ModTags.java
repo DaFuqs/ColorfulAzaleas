@@ -48,8 +48,8 @@ public class ModTags {
         public static final TagKey<Item> C_STRIPPED_WOODS = createCTag("stripped_woods");
 
         // Dynamically store per-color log item tags
-        public static final Map<AzaleaColors, TagKey<Item>> COLORFUL_AZALEA_LOGS_ITEMS =
-                Arrays.stream(AzaleaColors.values())
+        public static final Map<AzaleaColor, TagKey<Item>> COLORFUL_AZALEA_LOGS_ITEMS =
+                Arrays.stream(AzaleaColor.values())
                         .collect(Collectors.toMap(
                                 color -> color,
                                 color -> createTag(color.getTitle() + "_azalea_logs")

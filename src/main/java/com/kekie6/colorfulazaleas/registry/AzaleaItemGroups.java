@@ -2,10 +2,8 @@ package com.kekie6.colorfulazaleas.registry;
 
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.util.*;
-import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.network.chat.*;
-import net.minecraft.world.entity.*;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.neoforge.registries.*;
@@ -25,14 +23,14 @@ public class AzaleaItemGroups {
             .displayItems((params, entries) -> {
                 entries.accept(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
                 
-                for (ColorfulTree tree : AzaleaBlocks.trees) {
+                for (ColorfulTree tree : AzaleaBlocks.TREES) {
                     entries.accept(tree.getSapling());
                     entries.accept(tree.getAzaleaLeaves());
                     entries.accept(tree.getBloomingLeaves());
                     entries.accept(tree.getFloweringLeaves());
                     entries.accept(tree.getDroopingLeaves());
                     
-                    WoodSet woodSet = tree.getWoodSet();
+                    AzaleaWoodSet woodSet = tree.getWoodSet();
                     
                     entries.accept(woodSet.getLog());
                     entries.accept(woodSet.getWood());

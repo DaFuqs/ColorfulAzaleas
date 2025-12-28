@@ -9,9 +9,8 @@ import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
-import java.util.function.*;
 
-public class WoodSet {
+public class AzaleaWoodSet {
     private final String WoodSet;
     private final Identifier AZALEA_BOATS_ID;
 
@@ -40,7 +39,7 @@ public class WoodSet {
     private DeferredHolder<EntityType<?>, EntityType<Boat>> boatEntityType;
     private DeferredHolder<EntityType<?>, EntityType<ChestBoat>> chestBoatEntityType;
 
-    public WoodSet(String WoodSet) {
+    public AzaleaWoodSet(String WoodSet) {
         this.WoodSet = WoodSet;
         this.AZALEA_BOATS_ID = ColorfulAzaleas.id(WoodSet + "_azalea");
     }

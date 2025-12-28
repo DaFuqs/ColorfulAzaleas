@@ -5,7 +5,6 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.object.boat.*;
 import net.minecraft.client.renderer.entity.*;
-import net.minecraft.world.entity.vehicle.boat.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.*;
 import net.neoforged.api.distmarker.*;
@@ -19,8 +18,8 @@ public class ColorfulAzaleasClient {
 	
 	public ColorfulAzaleasClient(IEventBus modBus) {
 		ColorfulAzaleas.LOGGER.info("Generating Cutouts for " + ColorfulAzaleas.MOD_ID);
-		for (ColorfulTree tree : AzaleaBlocks.trees) {
-			WoodSet woodSet = tree.getWoodSet();
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
 			
 			// TODO: render layers
 			/*BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
@@ -43,8 +42,8 @@ public class ColorfulAzaleasClient {
 	
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		for (ColorfulTree tree : AzaleaBlocks.trees) {
-			WoodSet woodSet = tree.getWoodSet();
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
 			
 			ModelLayerLocation boatLayer = new ModelLayerLocation(
 					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_boat"),
@@ -63,8 +62,8 @@ public class ColorfulAzaleasClient {
 	
 	@SubscribeEvent // on the mod event bus only on the physical client
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		for (ColorfulTree tree : AzaleaBlocks.trees) {
-			WoodSet woodSet = tree.getWoodSet();
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
 			
 			ModelLayerLocation boatLayer = new ModelLayerLocation(
 					ColorfulAzaleas.id(woodSet.getWoodSet() + "_azalea_boat"),
@@ -82,12 +81,12 @@ public class ColorfulAzaleasClient {
 	
 	@SubscribeEvent // on the mod event bus only on the physical client
 	public static void registerLayerDefinitions(BlockEntityTypeAddBlocksEvent event) {
-		Block[] shelves = new Block[AzaleaBlocks.trees.length];
-		Block[] signs = new Block[AzaleaBlocks.trees.length];
-		Block[] hangingSigns = new Block[AzaleaBlocks.trees.length];
+		Block[] shelves = new Block[AzaleaBlocks.TREES.length];
+		Block[] signs = new Block[AzaleaBlocks.TREES.length];
+		Block[] hangingSigns = new Block[AzaleaBlocks.TREES.length];
 		int i = 0;
-		for (ColorfulTree tree : AzaleaBlocks.trees) {
-			WoodSet woodSet = tree.getWoodSet();
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
 			shelves[i] = woodSet.getShelf().get();
 			signs[i] = woodSet.getSign().get();
 			hangingSigns[i] = woodSet.getHangingSign().get();

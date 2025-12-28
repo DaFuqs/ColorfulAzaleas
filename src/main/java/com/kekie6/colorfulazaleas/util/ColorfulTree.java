@@ -5,14 +5,13 @@ import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
-import java.util.function.*;
 
 public class ColorfulTree {
-    private final AzaleaColors color;
+    private final AzaleaColor color;
     private final String colorTitle;
     private final int tint;
 
-    private WoodSet woodSet;
+    private AzaleaWoodSet woodSet;
     private DeferredBlock<?> sapling;
     private DeferredBlock<?> pottedSapling;
     private DeferredBlock<?> azaleaLeaves;
@@ -20,17 +19,17 @@ public class ColorfulTree {
     private DeferredBlock<?> bloomingLeaves;
     private DeferredBlock<?> droopingLeaves;
 
-    public ColorfulTree(AzaleaColors color) {
+    public ColorfulTree(AzaleaColor color) {
         this.color = color;
         this.colorTitle = color.getTitle();
         this.tint = color.getTint();
     }
 
-    public AzaleaColors getColor() { return color; }
+    public AzaleaColor getColor() { return color; }
     public String getColorTitle() { return colorTitle; }
     public int getTint() { return tint; }
 
-    public WoodSet getWoodSet() { return woodSet; }
+    public AzaleaWoodSet getWoodSet() { return woodSet; }
     public DeferredBlock<?> getSapling() { return sapling; }
     public DeferredBlock<?> getPottedSapling() { return pottedSapling; }
     public DeferredBlock<?> getAzaleaLeaves() { return azaleaLeaves; }
@@ -38,7 +37,7 @@ public class ColorfulTree {
     public DeferredBlock<?> getBloomingLeaves() { return bloomingLeaves; }
     public DeferredBlock<?> getDroopingLeaves() { return droopingLeaves; }
 
-    public void setWoodSet(WoodSet woodSet) { this.woodSet = woodSet; }
+    public void setWoodSet(AzaleaWoodSet woodSet) { this.woodSet = woodSet; }
     public void setSapling(DeferredBlock<?> block) { this.sapling = block; }
     public void setPottedSapling(DeferredBlock<?> block) { this.pottedSapling = block; }
     public void setAzaleaLeaves(DeferredBlock<?> block) { this.azaleaLeaves = block; }

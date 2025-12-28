@@ -31,7 +31,7 @@ public class ModModelProvider extends ModelProvider {
 
         registerDroopingLeavesVariants(gen, AzaleaBlocks.DROOPING_AZALEA_LEAVES.get());
 
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
             var woodSet = tree.getWoodSet();
 
             // --- Leaves ---
@@ -98,8 +98,8 @@ public class ModModelProvider extends ModelProvider {
         itemModelGenerator.generateFlatItem(AzaleaItems.ICON_ITEM.get(), ModelTemplates.FLAT_ITEM);
         registerDroopingItem(itemModelGenerator, AzaleaBlocks.DROOPING_AZALEA_LEAVES.get());
         
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             
             registerDroopingItem(itemModelGenerator, tree.getDroopingLeaves().get());
             itemModelGenerator.generateFlatItem(woodSet.getBoatItem().get(), ModelTemplates.FLAT_ITEM);

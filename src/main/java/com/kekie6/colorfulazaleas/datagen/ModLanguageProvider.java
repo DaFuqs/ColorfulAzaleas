@@ -3,12 +3,8 @@ package com.kekie6.colorfulazaleas.datagen;
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
-import net.minecraft.core.*;
 import net.minecraft.data.*;
 import net.neoforged.neoforge.common.data.*;
-import org.jspecify.annotations.*;
-
-import java.util.concurrent.*;
 
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(PackOutput output) {
@@ -24,8 +20,8 @@ public class ModLanguageProvider extends LanguageProvider {
             AzaleaBlocks.init(); // ensure populated
         }*/
 
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            AzaleaColors color = tree.getColor();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaColor color = tree.getColor();
             String colorName = capitalize(color.name().replace("_", " "));
             String title = capitalize(color.getTitle());
 
@@ -40,7 +36,7 @@ public class ModLanguageProvider extends LanguageProvider {
             this.add(tree.getPottedSapling().get(), "Potted " + colorName + " Azalea Sapling");
 
             // Wood Set
-            WoodSet woodSet = tree.getWoodSet();
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             if (woodSet != null) {
                 this.add(woodSet.getLog().get(), title + " Azalea Log");
                 this.add(woodSet.getWood().get(), title + " Azalea Wood");
@@ -81,7 +77,7 @@ public class ModLanguageProvider extends LanguageProvider {
         this.add("tag.colorfulazaleas.azalea_logs", "Azalea Logs");
 
         // --- Dynamically generated per-color tags ---
-        for (AzaleaColors color : AzaleaColors.values()) {
+        for (AzaleaColor color : AzaleaColor.values()) {
             String title = capitalize(color.getTitle());
             this.add(
                     "tag.colorfulazaleas." + color.getTitle() + "_azalea_logs",

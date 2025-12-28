@@ -11,15 +11,13 @@ import net.neoforged.bus.api.*;
 import net.neoforged.neoforge.registries.*;
 import org.jspecify.annotations.*;
 
-import java.util.function.*;
-
 public class AzaleaEntities {
     
     public static final DeferredRegister.Entities ENTITIES = DeferredRegister.createEntities(ColorfulAzaleas.MOD_ID);
     
     static {
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             
             DeferredHolder<EntityType<?>, EntityType<Boat>> boatEntityType = ENTITIES.registerEntityType(
                     woodSet.getWoodSet() + "_azalea_boat",

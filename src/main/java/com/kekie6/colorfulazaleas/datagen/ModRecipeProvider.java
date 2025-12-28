@@ -25,8 +25,8 @@ public class ModRecipeProvider extends RecipeProvider {
 	protected void buildRecipes() {
 		ColorfulAzaleas.LOGGER.info("Generating ModRecipes for " + ColorfulAzaleas.MOD_ID);
 		
-		for (ColorfulTree tree : AzaleaBlocks.trees) {
-			WoodSet woodSet = tree.getWoodSet();
+		for (ColorfulTree tree : AzaleaBlocks.TREES) {
+			AzaleaWoodSet woodSet = tree.getWoodSet();
 			if (woodSet == null) continue;
 			
 			// Looks up the tag for this tree’s color

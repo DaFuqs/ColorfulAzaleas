@@ -5,16 +5,10 @@ import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
 import net.minecraft.data.loot.*;
-import net.minecraft.resources.*;
 import net.minecraft.world.flag.*;
-import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.storage.loot.*;
-import net.minecraft.world.level.storage.loot.entries.*;
-import org.jspecify.annotations.*;
 
 import java.util.*;
-import java.util.function.*;
 
 public class ModLootTableProvider extends BlockLootSubProvider {
     
@@ -26,8 +20,8 @@ public class ModLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
         ColorfulAzaleas.LOGGER.info("Generating LootTables for " + ColorfulAzaleas.MOD_ID);
         
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
             
             for (Block block : woodSet.getWoodSetMinusSlabAndDoorBlocks()) {

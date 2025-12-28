@@ -24,8 +24,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(AzaleaBlocks.DROOPING_AZALEA_LEAVES.get());
 
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
 
             this.tag(ModTags.Blocks.AZALEA_LOGS)

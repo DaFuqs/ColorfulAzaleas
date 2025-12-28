@@ -25,8 +25,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.AZALEAS)
                 .add(Items.AZALEA);
 
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
 
             this.tag(ModTags.Items.AZALEA_LOGS)

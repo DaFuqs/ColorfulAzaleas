@@ -19,8 +19,8 @@ public class ModEntityTagProvider extends EntityTypeTagsProvider {
     
     @Override
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
-        for (ColorfulTree tree : AzaleaBlocks.trees) {
-            WoodSet woodSet = tree.getWoodSet();
+        for (ColorfulTree tree : AzaleaBlocks.TREES) {
+            AzaleaWoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
             
             // Retrieve the actual EntityType objects
