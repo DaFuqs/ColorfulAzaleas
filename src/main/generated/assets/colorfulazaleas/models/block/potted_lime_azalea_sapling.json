@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/template_potted_azalea_bush",
-  "textures": {
-    "plant": "colorfulazaleas:block/potted_lime_azalea_sapling_plant",
-    "side": "colorfulazaleas:block/lime_azalea_sapling_side",
-    "top": "colorfulazaleas:block/lime_azalea_sapling_top"
-  }
-}

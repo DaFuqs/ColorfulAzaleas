@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/leaves",
-  "textures": {
-    "all": "colorfulazaleas:block/orange_azalea_leaves"
-  }
-}

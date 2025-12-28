@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/template_shelf_left",
-  "textures": {
-    "all": "colorfulazaleas:block/dusk_azalea_shelf",
-    "particle": "colorfulazaleas:block/stripped_dusk_azalea_log"
-  }
-}

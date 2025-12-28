@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/template_shelf_body",
-  "textures": {
-    "all": "colorfulazaleas:block/bromelia_azalea_shelf",
-    "particle": "colorfulazaleas:block/stripped_bromelia_azalea_log"
-  }
-}
