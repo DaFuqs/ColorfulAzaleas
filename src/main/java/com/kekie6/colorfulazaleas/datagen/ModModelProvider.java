@@ -76,7 +76,7 @@ public class ModModelProvider extends FabricModelProvider {
             plankPool.button(woodSet.getButton());
             // --- Door, Trapdoor, Sign, HangingSign ---
             gen.createDoor(woodSet.getDoor());
-            gen.createTrapdoor(woodSet.getTrapdoor());
+            gen.createOrientableTrapdoor(woodSet.getTrapdoor());
             registerSign(gen, woodSet.getSign(), woodSet.getWallSign());
             gen.createHangingSign(woodSet.getStrippedLog(), woodSet.getHangingSign(), woodSet.getWallHangingSign());
             // --- Shelf ---
