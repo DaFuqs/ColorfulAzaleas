@@ -82,7 +82,7 @@ public class ModModelProvider extends ModelProvider {
             plankPool.button(woodSet.getButton().get());
             // --- Door, Trapdoor, Sign, HangingSign ---
             gen.createDoor(woodSet.getDoor().get());
-            gen.createTrapdoor(woodSet.getTrapdoor().get());
+            gen.createOrientableTrapdoor(woodSet.getTrapdoor().get());
             registerSign(gen, woodSet.getSign().get(), woodSet.getWallSign().get());
             gen.createHangingSign(woodSet.getStrippedLog().get(), woodSet.getHangingSign().get(), woodSet.getWallHangingSign().get());
             // --- Shelf ---
