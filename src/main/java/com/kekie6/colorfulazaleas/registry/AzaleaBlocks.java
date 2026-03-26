@@ -44,7 +44,7 @@ public class AzaleaBlocks {
                 .map(AzaleaBlocks::createTree)
                 .toArray(ColorfulTree[]::new);
         
-        CompostingChanceRegistry.INSTANCE.add(DROOPING_AZALEA_LEAVES, 0.3F);
+        CompostableRegistry.INSTANCE.add(DROOPING_AZALEA_LEAVES, 0.3F);
     }
 
     private static ColorfulTree createTree(AzaleaColors color) {
@@ -107,13 +107,16 @@ public class AzaleaBlocks {
         // --- Strippable Wood ---
         StrippableBlockRegistry.register(woodSet.getLog(), woodSet.getStrippedLog());
         StrippableBlockRegistry.register(woodSet.getWood(), woodSet.getStrippedWood());
+
+        // --- Boats ---
+
         
         // Composting
-        CompostingChanceRegistry.INSTANCE.add(sapling, 0.65F);
-        CompostingChanceRegistry.INSTANCE.add(leaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(bloomingLeaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(floweringLeaves, 0.3F);
-        CompostingChanceRegistry.INSTANCE.add(droopingLeaves, 0.3F);
+        CompostableRegistry.INSTANCE.add(sapling, 0.65F);
+        CompostableRegistry.INSTANCE.add(leaves, 0.3F);
+        CompostableRegistry.INSTANCE.add(bloomingLeaves, 0.3F);
+        CompostableRegistry.INSTANCE.add(floweringLeaves, 0.3F);
+        CompostableRegistry.INSTANCE.add(droopingLeaves, 0.3F);
         
         tree.setWoodSet(woodSet);
         return tree;

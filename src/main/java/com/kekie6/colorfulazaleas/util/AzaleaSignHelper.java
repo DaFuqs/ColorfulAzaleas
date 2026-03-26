@@ -18,9 +18,9 @@ public class AzaleaSignHelper {
     // Register a sign block and automatically add it to the corresponding block entity type
     public static <T extends SignBlock> T registerSignBlock(ResourceKey<Block> key, T block) {
         if (block instanceof StandingSignBlock || block instanceof WallSignBlock) {
-            BlockEntityType.SIGN.addSupportedBlock(block);
+            BlockEntityType.SIGN.addValidBlock(block);
         } else if (block instanceof CeilingHangingSignBlock || block instanceof WallHangingSignBlock) {
-            BlockEntityType.HANGING_SIGN.addSupportedBlock(block);
+            BlockEntityType.HANGING_SIGN.addValidBlock(block);
         } else {
             throw new IllegalArgumentException("Block must be a vanilla sign type");
         }

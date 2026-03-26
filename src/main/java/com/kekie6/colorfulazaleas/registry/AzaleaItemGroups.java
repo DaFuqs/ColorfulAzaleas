@@ -2,7 +2,6 @@ package com.kekie6.colorfulazaleas.registry;
 
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.util.*;
-import net.fabricmc.fabric.api.itemgroup.v1.*;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.network.chat.*;
@@ -13,7 +12,7 @@ public class AzaleaItemGroups {
     public static CreativeModeTab CREATIVE_MODE_TAB;
 
     public static void register() {
-        CREATIVE_MODE_TAB = FabricItemGroup.builder()
+        CREATIVE_MODE_TAB = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 1)
                 .title(Component.translatable("itemGroup.colorfulazaleas.colorful_azaleas"))
                 .icon(() -> new ItemStack(AzaleaItems.ICON_ITEM))
                 .displayItems((itemDisplayParameters, entries) -> {

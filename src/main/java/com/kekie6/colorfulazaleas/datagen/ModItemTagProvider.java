@@ -12,13 +12,9 @@ import org.jetbrains.annotations.*;
 
 import java.util.concurrent.*;
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, @Nullable BlockTagProvider blockTagProvider) {
-        super(output, registriesFuture, blockTagProvider);
-    }
+public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

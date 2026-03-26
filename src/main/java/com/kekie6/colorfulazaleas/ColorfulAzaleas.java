@@ -3,7 +3,6 @@ package com.kekie6.colorfulazaleas;
 import com.kekie6.colorfulazaleas.decorators.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
-import com.terraformersmc.terraform.boat.api.item.*;
 import net.fabricmc.api.*;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
@@ -31,8 +30,8 @@ public class ColorfulAzaleas implements ModInitializer {
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
 
-            woodSet.setBoatItem(TerraformBoatItemHelper.registerBoatItem(woodSet.getAzaleaBoatsId(), false));
-            woodSet.setChestBoatItem(TerraformBoatItemHelper.registerBoatItem(woodSet.getAzaleaBoatsId(), true));
+            AzaleaBoatRegistry.registerBoat(woodSet, false);
+            AzaleaBoatRegistry.registerBoat(woodSet, true);
         }
     }
 
