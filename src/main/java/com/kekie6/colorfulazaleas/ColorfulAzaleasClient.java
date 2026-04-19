@@ -23,32 +23,9 @@ import java.util.*;
 public class ColorfulAzaleasClient {
 	
 	public ColorfulAzaleasClient(IEventBus modBus) {
-
-		modBus.addListener(ColorfulAzaleasClient::clientSetup);
 		modBus.addListener(ColorfulAzaleasClient::gatherData);
 		modBus.addListener(ColorfulAzaleasClient::registerEntityRenderers);
 		modBus.addListener(ColorfulAzaleasClient::registerLayerDefinitions);
-	}
-	
-	public static void clientSetup(FMLClientSetupEvent event) {
-		ColorfulAzaleas.LOGGER.info("Generating Cutouts for " + ColorfulAzaleas.MOD_ID);
-		
-		ItemBlockRenderTypes.setRenderLayer(AzaleaBlocks.DROOPING_AZALEA_LEAVES.get(), ChunkSectionLayer.CUTOUT);
-		for (ColorfulTree tree : AzaleaBlocks.TREES) {
-			AzaleaWoodSet woodSet = tree.getWoodSet();
-			
-			ItemBlockRenderTypes.setRenderLayer(tree.getSapling().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getPottedSapling().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getFloweringLeaves().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getBloomingLeaves().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getAzaleaLeaves().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getDroopingLeaves().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getSapling().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(tree.getSapling().get(), ChunkSectionLayer.CUTOUT);
-			
-			ItemBlockRenderTypes.setRenderLayer(woodSet.getDoor().get(), ChunkSectionLayer.CUTOUT);
-			ItemBlockRenderTypes.setRenderLayer(woodSet.getTrapdoor().get(), ChunkSectionLayer.CUTOUT);
-		}
 	}
 	
 	public static void gatherData(GatherDataEvent.Client event) {

@@ -7,6 +7,7 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.*;
 import net.minecraft.data.*;
 import net.minecraft.resources.*;
@@ -60,7 +61,7 @@ public class ModModelProvider extends ModelProvider {
             gen.createAzalea(tree.getSapling().get());
 
             // For potted azalea we need a custom texture map that references the non-"potted_" side/top textures:
-            registerPottedAzaleaWithUnpottedSideTop(gen, tree.getPottedSapling().get());
+            gen.createPlantWithDefaultItem(tree.getSapling().get(), tree.getPottedSapling().get(), BlockModelGenerators.PlantType.NOT_TINTED);
 
             // --- Wood Set (Logs/Planks/etc. ) ---
             // --- Logs and Stripped Logs ---
@@ -106,41 +107,10 @@ public class ModModelProvider extends ModelProvider {
             itemModelGenerator.generateFlatItem(woodSet.getChestBoatItem().get(), ModelTemplates.FLAT_ITEM);
         }
     }
-    
+
     private static void registerDroopingItem(ItemModelGenerators itemModelGenerator, Block droopingBlock) {
-        Identifier blockId = BuiltInRegistries.BLOCK.getKey(droopingBlock);
-        Identifier id = ModelTemplates.FLAT_ITEM.create(droopingBlock.asItem(), TextureMapping.layer0(Identifier.fromNamespaceAndPath(blockId.getNamespace(), "block/" + blockId.getPath())), itemModelGenerator.modelOutput);
+        Identifier id = ModelTemplates.FLAT_ITEM.create(droopingBlock.asItem(), TextureMapping.layer0(droopingBlock), itemModelGenerator.modelOutput);
         itemModelGenerator.itemModelOutput.accept(droopingBlock.asItem(), ItemModelUtils.plainModel(id));
-    }
-    
-    // Special handling for potted azalea bushes, we want:
-     // - "plant" to remain the potted plant texture (textureMap.getSubId(block,"_plant"))
-     // - "side" and "top" to reference the unpotted variants (i.e. remove the "potted_" prefix from the block id)
-     // This avoids having to duplicate PNGs: we reuse the same "blue_azalea_sapling_side" and "..._top".
-    private static void registerPottedAzaleaWithUnpottedSideTop(BlockModelGenerators gen, Block pottedBlock) {
-        // Block registry id: e.g. "colorfulazaleas:potted_blue_azalea_sapling"
-        Identifier blockId = BuiltInRegistries.BLOCK.getKey(pottedBlock);
-        String namespace = blockId.getNamespace();
-        String path = blockId.getPath(); // e.g. "potted_blue_azalea_sapling"
-
-        // Remove leading "potted_" if present
-        String unpottedPath = path.replaceFirst("^potted_", "");
-
-        // Textures need to be full paths like "block/<path>" because TextureMap expects that form
-        Identifier plantTex = TextureMapping.getBlockTexture(pottedBlock, "_plant"); // still "block/<potted>_plant"
-        Identifier sideTex = Identifier.fromNamespaceAndPath(namespace, "block/" + unpottedPath + "_side");
-        Identifier topTex  = Identifier.fromNamespaceAndPath(namespace, "block/" + unpottedPath + "_top");
-
-        TextureMapping textures = new TextureMapping()
-                .put(TextureSlot.PLANT, plantTex)
-                .put(TextureSlot.SIDE, sideTex)
-                .put(TextureSlot.TOP, topTex);
-
-        // Upload using the potted azalea template model
-        Identifier modelId = ModelTemplates.POTTED_AZALEA.create(pottedBlock, textures, gen.modelOutput);
-
-        // Register blockstate
-        gen.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(pottedBlock, BlockModelGenerators.plainVariant(modelId)));
     }
 
     private static void registerBloomingAzaleaLeaves(BlockModelGenerators gen, Block bloomingLeaves) {
@@ -149,9 +119,9 @@ public class ModModelProvider extends ModelProvider {
         String path = blockId.getPath();
         String color = path.replace("_blooming_azalea_leaves", ""); // e.g. "blue"
 
-        Identifier bottomTex   = Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_azalea_leaves");
-        Identifier topTex      = Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_flowering_azalea_leaves");
-        Identifier sideTex     = Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_blooming_azalea_leaves");
+        Material bottomTex = new Material(Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_azalea_leaves"));
+        Material topTex    = new Material(Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_flowering_azalea_leaves"));
+        Material sideTex   = new Material(Identifier.fromNamespaceAndPath(namespace, "block/" + color + "_blooming_azalea_leaves"));
 
         TextureMapping textures = new TextureMapping()
                 .put(TextureSlot.PARTICLE, bottomTex)
@@ -168,15 +138,14 @@ public class ModModelProvider extends ModelProvider {
                 )
         );
     }
-    // Uploads two 'cross' models (short & tall) and registers a variant map keyed by DroopingLeavesBlock.EXTENDED.
-    // IMPORTANT: the second upload uses a variant suffix ("_tall") so the model id is unique.
+
     private static void registerDroopingLeavesVariants(BlockModelGenerators gen, Block droopingBlock) {
         Identifier blockId = BuiltInRegistries.BLOCK.getKey(droopingBlock);
         String namespace = blockId.getNamespace();
         String path = blockId.getPath();
 
-        Identifier shortTex = Identifier.fromNamespaceAndPath(namespace, "block/" + path);
-        Identifier tallTex  = Identifier.fromNamespaceAndPath(namespace, "block/" + path + "_tall");
+        Material shortTex = new Material(Identifier.fromNamespaceAndPath(namespace, "block/" + path));
+        Material tallTex  = new Material(Identifier.fromNamespaceAndPath(namespace, "block/" + path + "_tall"));
 
         PropertyDispatch.C1<MultiVariant, Boolean> map = PropertyDispatch.initial(DroopingLeavesBlock.EXTENDED);
         map.select(false, BlockModelGenerators.plainVariant(ModelTemplates.CROSS.create(droopingBlock, new TextureMapping().put(TextureSlot.CROSS, shortTex).put(TextureSlot.PARTICLE, shortTex), gen.modelOutput)));
@@ -186,21 +155,11 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private static void registerSign(BlockModelGenerators gen, Block standingSign, Block wallSign) {
-        Identifier signTexture = Identifier.fromNamespaceAndPath(BuiltInRegistries.BLOCK.getKey(standingSign).getNamespace(),
-                "item/" + BuiltInRegistries.BLOCK.getKey(standingSign).getPath());
-        // Make a texture map for the sign — usually you just point particle to the log/planks texture
+        Material signTexture = TextureMapping.getBlockTexture(standingSign);
         TextureMapping textures = TextureMapping.singleSlot(TextureSlot.PARTICLE, signTexture);
-
-        // Upload particle model for the sign
-        MultiVariant variant = BlockModelGenerators.plainVariant(
-                ModelTemplates.PARTICLE_ONLY.create(standingSign, textures, gen.modelOutput)
-        );
-
-        // Register blockstates for both standing + wall sign
+        MultiVariant variant = BlockModelGenerators.plainVariant(ModelTemplates.PARTICLE_ONLY.create(standingSign, textures, gen.modelOutput));
         gen.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(standingSign, variant));
         gen.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(wallSign, variant));
-
-        // Register the item model
         gen.registerSimpleFlatItemModel(standingSign.asItem());
     }
 }

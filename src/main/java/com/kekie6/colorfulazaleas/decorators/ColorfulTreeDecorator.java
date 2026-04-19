@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.core.*;
 import net.minecraft.util.*;
 import net.minecraft.util.valueproviders.*;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.stateproviders.*;
 import net.minecraft.world.level.levelgen.feature.treedecorators.*;
 import org.jetbrains.annotations.*;
@@ -20,8 +21,8 @@ public class ColorfulTreeDecorator extends TreeDecorator {
             BlockStateProvider.CODEC.fieldOf("leaf_block").forGetter(ColorfulTreeDecorator::getLeafBlock),
             BlockStateProvider.CODEC.fieldOf("hanging_block").forGetter(ColorfulTreeDecorator::getHangingBlock),
             BlockStateProvider.CODEC.fieldOf("log_block").forGetter(ColorfulTreeDecorator::getLogBlock),
-            IntProvider.CODEC.fieldOf("leaf_height").forGetter(ColorfulTreeDecorator::getLeafHeight),
-            IntProvider.CODEC.fieldOf("hanging_height").forGetter(ColorfulTreeDecorator::getHangingHeight),
+            IntProviders.CODEC.fieldOf("leaf_height").forGetter(ColorfulTreeDecorator::getLeafHeight),
+            IntProviders.CODEC.fieldOf("hanging_height").forGetter(ColorfulTreeDecorator::getHangingHeight),
             ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance").forGetter(ColorfulTreeDecorator::getChance)
     ).apply(instance, ColorfulTreeDecorator::new));
 
@@ -78,6 +79,7 @@ public class ColorfulTreeDecorator extends TreeDecorator {
 
     @Override
     public void place(Context context) {
+        WorldGenLevel level = context.level();
         RandomSource random = context.random();
 
         ObjectArrayList<BlockPos> logs = new ObjectArrayList<>(context.logs());
@@ -87,14 +89,14 @@ public class ColorfulTreeDecorator extends TreeDecorator {
             if (random.nextFloat() >= 0.55f) continue;
             BlockPos placementPosition = bottomLog.relative(acceptablePos).immutable();
             if (context.isAir(placementPosition)) {
-                context.setBlock(placementPosition, this.getLogBlock().getState(context.random(), placementPosition));
+                context.setBlock(placementPosition, this.getLogBlock().getState(level, context.random(), placementPosition));
             }
         }
 
         for (BlockPos leaf : context.leaves()) {
             boolean airBelow = context.isAir(leaf.below());
             if(airBelow) {
-                context.setBlock(leaf, getTopLeafBlock().getState(random, leaf));
+                context.setBlock(leaf, getTopLeafBlock().getState(level, random, leaf));
             }
 
             if(!airBelow) continue;
@@ -105,7 +107,7 @@ public class ColorfulTreeDecorator extends TreeDecorator {
             for (int i = 1; i <= hangingCount; i++) {
                 BlockPos belowPos = leaf.below(i);
                 if (context.isAir(belowPos)) {
-                    context.setBlock(belowPos, getHangingBlock().getState(random, belowPos));
+                    context.setBlock(belowPos, getHangingBlock().getState(level, random, belowPos));
                 }
             }
 
@@ -116,7 +118,7 @@ public class ColorfulTreeDecorator extends TreeDecorator {
                 boolean leafAbove = context.leaves().contains(leaf.above(i + 1));
                 BlockStateProvider provider = (i == leafCount - 1 || !leafAbove) ? getTopLeafBlock() : getLeafBlock();
                 BlockPos currLeafPos = leaf.above(i);
-                context.setBlock(currLeafPos, provider.getState(random, currLeafPos));
+                context.setBlock(currLeafPos, provider.getState(level, random, currLeafPos));
 
                 if(!leafAbove) break;
             }
