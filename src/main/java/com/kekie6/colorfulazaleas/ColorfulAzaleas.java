@@ -69,11 +69,11 @@ public class ColorfulAzaleas {
 			i++;
 		}
 		
-		event.modify(BlockEntityType.SHELF, shelves);
-		event.modify(BlockEntityType.SIGN, signs);
-		event.modify(BlockEntityType.HANGING_SIGN, hangingSigns);
-		event.modify(BlockEntityType.SIGN, wallSigns);
-		event.modify(BlockEntityType.HANGING_SIGN, wallHangingSigns);
+		event.modify(BlockEntityTypes.SHELF, shelves);
+		event.modify(BlockEntityTypes.SIGN, signs);
+		event.modify(BlockEntityTypes.HANGING_SIGN, hangingSigns);
+		event.modify(BlockEntityTypes.SIGN, wallSigns);
+		event.modify(BlockEntityTypes.HANGING_SIGN, wallHangingSigns);
 	}
 	
 	public static Identifier id(String name) {

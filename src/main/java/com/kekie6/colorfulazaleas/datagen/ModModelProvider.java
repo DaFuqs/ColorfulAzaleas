@@ -15,18 +15,18 @@ import net.minecraft.world.level.block.*;
 import org.jspecify.annotations.*;
 
 public class ModModelProvider extends ModelProvider {
-    
+
     public ModModelProvider(PackOutput output) {
         super(output, ColorfulAzaleas.MOD_ID);
     }
-    
+
     @Override
     protected void registerModels(@NonNull BlockModelGenerators blockModels, @NonNull ItemModelGenerators itemModels) {
         // Generate models and associated files here
         generateBlockStateModels(blockModels);
         generateItemModels(itemModels);
     }
-    
+
     public void generateBlockStateModels(@NonNull BlockModelGenerators gen) {
         ColorfulAzaleas.LOGGER.info("Generating BlockState models for " + ColorfulAzaleas.MOD_ID);
 
@@ -61,7 +61,7 @@ public class ModModelProvider extends ModelProvider {
             gen.createAzalea(tree.getSapling().get());
 
             // For potted azalea we need a custom texture map that references the non-"potted_" side/top textures:
-            gen.createPlantWithDefaultItem(tree.getSapling().get(), tree.getPottedSapling().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+            gen.createPottedAzalea(tree.getPottedSapling());
 
             // --- Wood Set (Logs/Planks/etc. ) ---
             // --- Logs and Stripped Logs ---
