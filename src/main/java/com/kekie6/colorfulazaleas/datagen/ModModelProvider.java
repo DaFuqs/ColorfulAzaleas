@@ -55,7 +55,7 @@ public class ModModelProvider extends FabricModelProvider {
             gen.createAzalea(tree.getSapling());
 
             // For potted azalea we need a custom texture map that references the non-"potted_" side/top textures:
-            gen.createPlantWithDefaultItem(tree.getSapling(), tree.getPottedSapling(), BlockModelGenerators.PlantType.NOT_TINTED);
+            gen.createPottedAzalea(tree.getPottedSapling());
 
             // --- Wood Set (Logs/Planks/etc. ) ---
             // --- Logs and Stripped Logs ---

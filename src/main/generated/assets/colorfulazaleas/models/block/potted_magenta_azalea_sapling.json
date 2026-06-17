@@ -2,7 +2,7 @@
   "parent": "minecraft:block/template_potted_azalea_bush",
   "textures": {
     "plant": "colorfulazaleas:block/potted_magenta_azalea_sapling_plant",
-    "side": "colorfulazaleas:block/magenta_azalea_sapling_side",
-    "top": "colorfulazaleas:block/magenta_azalea_sapling_top"
+    "side": "colorfulazaleas:block/potted_magenta_azalea_sapling_side",
+    "top": "colorfulazaleas:block/potted_magenta_azalea_sapling_top"
   }
 }
