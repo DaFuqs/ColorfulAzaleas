@@ -6,7 +6,9 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.fabricmc.fabric.api.datagen.v1.*;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.core.*;
+import net.minecraft.resources.*;
 import net.minecraft.tags.*;
+import net.minecraft.world.level.block.*;
 import org.jspecify.annotations.*;
 
 import java.util.concurrent.*;
@@ -20,84 +22,65 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         ColorfulAzaleas.LOGGER.info("Generating BlockTags for " + ColorfulAzaleas.MOD_ID);
 
-        valueLookupBuilder(BlockTags.MINEABLE_WITH_HOE)
-                .add(AzaleaBlocks.DROOPING_AZALEA_LEAVES);
+        addBlocks(BlockTags.MINEABLE_WITH_HOE, AzaleaBlocks.DROOPING_AZALEA_LEAVES);
 
         for (ColorfulTree tree : AzaleaBlocks.trees) {
             WoodSet woodSet = tree.getWoodSet();
             if (woodSet == null) continue;
 
-            valueLookupBuilder(ModTags.Blocks.AZALEA_LOGS)
-                    .add(woodSet.getLogAndWoodBlocks());
+            addBlocks(ModTags.Blocks.AZALEA_LOGS, woodSet.getLogAndWoodBlocks());
 
-            valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE)
-                    .add(woodSet.getWoodSetBlocks());
+            addBlocks(BlockTags.MINEABLE_WITH_AXE, woodSet.getWoodSetBlocks());
+            addBlocks(BlockTags.MINEABLE_WITH_HOE, tree.getLeavesAndDroopingBlocks());
 
-            valueLookupBuilder(BlockTags.MINEABLE_WITH_HOE)
-                    .add(tree.getLeavesAndDroopingBlocks());
+            addBlocks(BlockItemTags.LOGS_THAT_BURN, woodSet.getLogAndWoodBlocks());
+            addBlocks(BlockTags.OVERWORLD_NATURAL_LOGS, woodSet.getLog());
 
-            valueLookupBuilder(BlockTags.LOGS_THAT_BURN)
-                    .add(woodSet.getLogAndWoodBlocks());
+            addBlocks(BlockTags.PLANKS, woodSet.getPlanks());
+            addBlocks(BlockTags.WOODEN_STAIRS, woodSet.getStairs());
+            addBlocks(BlockTags.WOODEN_SLABS, woodSet.getSlab());
+            addBlocks(BlockTags.WOODEN_FENCES, woodSet.getFence());
+            addBlocks(BlockTags.FENCE_GATES, woodSet.getFenceGate());
+            addBlocks(BlockTags.WOODEN_DOORS, woodSet.getDoor());
+            addBlocks(BlockTags.WOODEN_TRAPDOORS, woodSet.getTrapdoor());
+            addBlocks(BlockTags.WOODEN_PRESSURE_PLATES, woodSet.getPressurePlate());
+            addBlocks(BlockTags.WOODEN_BUTTONS, woodSet.getButton());
+            addBlocks(BlockTags.STANDING_SIGNS, woodSet.getSign());
+            addBlocks(BlockTags.WALL_SIGNS, woodSet.getWallSign());
+            addBlocks(BlockTags.CEILING_HANGING_SIGNS, woodSet.getHangingSign());
+            addBlocks(BlockTags.WALL_HANGING_SIGNS, woodSet.getWallHangingSign());
+            addBlocks(BlockTags.WOODEN_SHELVES, woodSet.getShelf());
 
-            valueLookupBuilder(BlockTags.OVERWORLD_NATURAL_LOGS)
-                    .add(woodSet.getLog());
+            addBlocks(BlockItemTags.SAPLINGS, tree.getSapling());
+            addBlocks(BlockTags.LEAVES, tree.getLeavesBlocks());
+            addBlocks(BlockTags.BEE_ATTRACTIVE, tree.getSapling(), tree.getFloweringLeaves());
+            addBlocks(BlockTags.FLOWERS, tree.getSapling(), tree.getFloweringLeaves());
+            addBlocks(BlockTags.FLOWER_POTS, tree.getPottedSapling());
 
-            valueLookupBuilder(BlockTags.PLANKS)
-                    .add(woodSet.getPlanks());
-            valueLookupBuilder(BlockTags.WOODEN_STAIRS)
-                    .add(woodSet.getStairs());
-            valueLookupBuilder(BlockTags.WOODEN_SLABS)
-                    .add(woodSet.getSlab());
-            valueLookupBuilder(BlockTags.WOODEN_FENCES)
-                    .add(woodSet.getFence());
-            valueLookupBuilder(BlockTags.FENCE_GATES)
-                    .add(woodSet.getFenceGate());
-            valueLookupBuilder(BlockTags.WOODEN_DOORS)
-                    .add(woodSet.getDoor());
-            valueLookupBuilder(BlockTags.WOODEN_TRAPDOORS)
-                    .add(woodSet.getTrapdoor());
-            valueLookupBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
-                    .add(woodSet.getPressurePlate());
-            valueLookupBuilder(BlockTags.WOODEN_BUTTONS)
-                    .add(woodSet.getButton());
-            valueLookupBuilder(BlockTags.STANDING_SIGNS)
-                    .add(woodSet.getSign());
-            valueLookupBuilder(BlockTags.WALL_SIGNS)
-                    .add(woodSet.getWallSign());
-            valueLookupBuilder(BlockTags.CEILING_HANGING_SIGNS)
-                    .add(woodSet.getHangingSign());
-            valueLookupBuilder(BlockTags.WALL_HANGING_SIGNS)
-                    .add(woodSet.getWallHangingSign());
-            valueLookupBuilder(BlockTags.WOODEN_SHELVES)
-                    .add(woodSet.getShelf());
-
-            valueLookupBuilder(BlockTags.SAPLINGS)
-                    .add(tree.getSapling());
-            valueLookupBuilder(BlockTags.LEAVES)
-                    .add(tree.getLeavesBlocks());
-            valueLookupBuilder(BlockTags.BEE_ATTRACTIVE)
-                    .add(tree.getSapling())
-                    .add(tree.getFloweringLeaves());
-            valueLookupBuilder(BlockTags.FLOWERS)
-                    .add(tree.getSapling())
-                    .add(tree.getFloweringLeaves());
-            valueLookupBuilder(BlockTags.FLOWER_POTS)
-                    .add(tree.getPottedSapling());
-            // Fabric C (Convention) Tags
-            valueLookupBuilder(ModTags.Blocks.C_PLANKS_THAT_BURN)
-                    .add(woodSet.getPlanks());
-            valueLookupBuilder(ModTags.Blocks.C_FLOWERS)
-                    .add(tree.getSapling());
-            valueLookupBuilder(ModTags.Blocks.C_WOODEN_FENCES)
-                    .add(woodSet.getFence());
-            valueLookupBuilder(ModTags.Blocks.C_FENCE_GATES_WOODEN)
-                    .add(woodSet.getFenceGate());
-            valueLookupBuilder(ModTags.Blocks.C_STRIPPED_LOGS)
-                    .add(woodSet.getStrippedLog());
-            valueLookupBuilder(ModTags.Blocks.C_STRIPPED_WOODS)
-                    .add(woodSet.getStrippedWood());
-            valueLookupBuilder(ModTags.Blocks.C_WOODS)
-                    .add(woodSet.getWood());
+            // Fabric C / convention tags
+            addBlocks(ModTags.Blocks.C_PLANKS_THAT_BURN, woodSet.getPlanks());
+            addBlocks(ModTags.Blocks.C_FLOWERS, tree.getSapling());
+            addBlocks(ModTags.Blocks.C_WOODEN_FENCES, woodSet.getFence());
+            addBlocks(ModTags.Blocks.C_FENCE_GATES_WOODEN, woodSet.getFenceGate());
+            addBlocks(ModTags.Blocks.C_STRIPPED_LOGS, woodSet.getStrippedLog());
+            addBlocks(ModTags.Blocks.C_STRIPPED_WOODS, woodSet.getStrippedWood());
+            addBlocks(ModTags.Blocks.C_WOODS, woodSet.getWood());
         }
+    }
+
+    private void addBlocks(BlockItemTagId tag, Block... blocks) {
+        addBlocks(tag.block(), blocks);
+    }
+
+    private void addBlocks(TagKey<Block> tag, Block... blocks) {
+        var tagBuilder = builder(tag);
+
+        for (Block block : blocks) {
+            tagBuilder.add(key(block));
+        }
+    }
+
+    private static ResourceKey<Block> key(Block block) {
+        return block.builtInRegistryHolder().key();
     }
 }

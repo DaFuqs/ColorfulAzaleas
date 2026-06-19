@@ -11,9 +11,13 @@ import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.*;
+import net.minecraft.core.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.*;
 import org.jspecify.annotations.*;
+
+import java.util.*;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricPackOutput output) {
@@ -78,8 +82,8 @@ public class ModModelProvider extends FabricModelProvider {
             // --- Door, Trapdoor, Sign, HangingSign ---
             gen.createDoor(woodSet.getDoor());
             gen.createOrientableTrapdoor(woodSet.getTrapdoor());
-            registerSign(gen, woodSet.getSign(), woodSet.getWallSign());
-            gen.createHangingSign(woodSet.getStrippedLog(), woodSet.getHangingSign(), woodSet.getWallHangingSign());
+            registerSign(gen, woodSet.getPlanks(), woodSet.getSign(), woodSet.getWallSign());
+            registerHangingSign(gen, woodSet.getStrippedLog(), woodSet.getHangingSign(), woodSet.getWallHangingSign());
             // --- Shelf ---
             gen.createShelf(woodSet.getShelf(), woodSet.getStrippedLog());
         }
@@ -156,22 +160,95 @@ public class ModModelProvider extends FabricModelProvider {
         gen.blockStateOutput.accept(MultiVariantGenerator.dispatch(droopingBlock).with(map));
     }
 
-    private static void registerSign(BlockModelGenerators gen, Block standingSign, Block wallSign) {
+    private static void registerSign(BlockModelGenerators gen, Block particleSource, Block standingSign, Block wallSign) {
         Material signTexture = TextureMapping.getBlockTexture(standingSign);
+        Material particleTexture = TextureMapping.getBlockTexture(particleSource);
 
-        // Make a texture map for the sign — usually you just point particle to the log/planks texture
-        TextureMapping textures = TextureMapping.singleSlot(TextureSlot.PARTICLE, signTexture);
+        TextureMapping textures = new TextureMapping()
+                .put(TextureSlot.ALL, signTexture)
+                .put(TextureSlot.PARTICLE, particleTexture);
 
-        // Upload particle model for the sign
-        MultiVariant variant = BlockModelGenerators.plainVariant(
-                ModelTemplates.PARTICLE_ONLY.create(standingSign, textures, gen.modelOutput)
+        MultiVariant rot0 = BlockModelGenerators.plainVariant(SIGN_ROT_0.create(standingSign, textures, gen.modelOutput));
+        MultiVariant rot1 = BlockModelGenerators.plainVariant(SIGN_ROT_1.create(standingSign, textures, gen.modelOutput));
+        MultiVariant rot2 = BlockModelGenerators.plainVariant(SIGN_ROT_2.create(standingSign, textures, gen.modelOutput));
+        MultiVariant rot3 = BlockModelGenerators.plainVariant(SIGN_ROT_3.create(standingSign, textures, gen.modelOutput));
+
+        gen.blockStateOutput.accept(BlockModelGenerators.createSign(standingSign, rot0, rot1, rot2, rot3));
+
+        MultiVariant wallVariant = BlockModelGenerators.plainVariant(
+                WALL_SIGN.create(wallSign, textures, gen.modelOutput)
         );
 
-        // Register blockstates for both standing + wall sign
-        gen.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(standingSign, variant));
-        gen.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(wallSign, variant));
-
-        // Register the item model
+        gen.blockStateOutput.accept(createHorizontalFacingBlock(wallSign, wallVariant));
         gen.registerSimpleFlatItemModel(standingSign.asItem());
+    }
+
+    private static void registerHangingSign(BlockModelGenerators gen, Block particleSource, Block hangingSign, Block wallHangingSign) {
+        Material hangingSignTexture = TextureMapping.getBlockTexture(hangingSign);
+        Material particleTexture = TextureMapping.getBlockTexture(particleSource);
+
+        TextureMapping textures = new TextureMapping()
+                .put(TextureSlot.ALL, hangingSignTexture)
+                .put(TextureSlot.PARTICLE, particleTexture);
+
+        MultiVariant rot0 = BlockModelGenerators.plainVariant(HANGING_SIGN_ROT_0.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant rot1 = BlockModelGenerators.plainVariant(HANGING_SIGN_ROT_1.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant rot2 = BlockModelGenerators.plainVariant(HANGING_SIGN_ROT_2.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant rot3 = BlockModelGenerators.plainVariant(HANGING_SIGN_ROT_3.create(hangingSign, textures, gen.modelOutput));
+
+        MultiVariant attachedRot0 = BlockModelGenerators.plainVariant(ATTACHED_HANGING_SIGN_ROT_0.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant attachedRot1 = BlockModelGenerators.plainVariant(ATTACHED_HANGING_SIGN_ROT_1.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant attachedRot2 = BlockModelGenerators.plainVariant(ATTACHED_HANGING_SIGN_ROT_2.create(hangingSign, textures, gen.modelOutput));
+        MultiVariant attachedRot3 = BlockModelGenerators.plainVariant(ATTACHED_HANGING_SIGN_ROT_3.create(hangingSign, textures, gen.modelOutput));
+
+        gen.blockStateOutput.accept(
+                BlockModelGenerators.createHangingSign(
+                        hangingSign,
+                        rot0, rot1, rot2, rot3,
+                        attachedRot0, attachedRot1, attachedRot2, attachedRot3
+                )
+        );
+
+        MultiVariant wallVariant = BlockModelGenerators.plainVariant(
+                WALL_HANGING_SIGN.create(wallHangingSign, textures, gen.modelOutput)
+        );
+
+        gen.blockStateOutput.accept(createHorizontalFacingBlock(wallHangingSign, wallVariant));
+        gen.registerSimpleFlatItemModel(hangingSign.asItem());
+    }
+
+    private static MultiVariantGenerator createHorizontalFacingBlock(Block block, MultiVariant variant) {
+        PropertyDispatch.C1<MultiVariant, Direction> map = PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_FACING);
+        map.select(Direction.SOUTH, variant);
+        map.select(Direction.WEST, variant.with(BlockModelGenerators.Y_ROT_90));
+        map.select(Direction.NORTH, variant.with(BlockModelGenerators.Y_ROT_180));
+        map.select(Direction.EAST, variant.with(BlockModelGenerators.Y_ROT_270));
+
+        return MultiVariantGenerator.dispatch(block).with(map);
+    }
+
+    private static final ModelTemplate SIGN_ROT_0 = createSignTemplate("template_sign_rot_0", "_rot_0");
+    private static final ModelTemplate SIGN_ROT_1 = createSignTemplate("template_sign_rot_1", "_rot_1");
+    private static final ModelTemplate SIGN_ROT_2 = createSignTemplate("template_sign_rot_2", "_rot_2");
+    private static final ModelTemplate SIGN_ROT_3 = createSignTemplate("template_sign_rot_3", "_rot_3");
+    private static final ModelTemplate WALL_SIGN = createSignTemplate("template_wall_sign", "");
+
+    private static final ModelTemplate HANGING_SIGN_ROT_0 = createSignTemplate("template_hanging_sign_rot_0", "_rot_0");
+    private static final ModelTemplate HANGING_SIGN_ROT_1 = createSignTemplate("template_hanging_sign_rot_1", "_rot_1");
+    private static final ModelTemplate HANGING_SIGN_ROT_2 = createSignTemplate("template_hanging_sign_rot_2", "_rot_2");
+    private static final ModelTemplate HANGING_SIGN_ROT_3 = createSignTemplate("template_hanging_sign_rot_3", "_rot_3");
+    private static final ModelTemplate ATTACHED_HANGING_SIGN_ROT_0 = createSignTemplate("template_attached_hanging_sign_rot_0", "_attached_rot_0");
+    private static final ModelTemplate ATTACHED_HANGING_SIGN_ROT_1 = createSignTemplate("template_attached_hanging_sign_rot_1", "_attached_rot_1");
+    private static final ModelTemplate ATTACHED_HANGING_SIGN_ROT_2 = createSignTemplate("template_attached_hanging_sign_rot_2", "_attached_rot_2");
+    private static final ModelTemplate ATTACHED_HANGING_SIGN_ROT_3 = createSignTemplate("template_attached_hanging_sign_rot_3", "_attached_rot_3");
+    private static final ModelTemplate WALL_HANGING_SIGN = createSignTemplate("template_wall_hanging_sign", "");
+
+    private static ModelTemplate createSignTemplate(String parent, String suffix) {
+        return new ModelTemplate(
+                Optional.of(Identifier.fromNamespaceAndPath("minecraft", "block/" + parent)),
+                suffix.isEmpty() ? Optional.empty() : Optional.of(suffix),
+                TextureSlot.ALL,
+                TextureSlot.PARTICLE
+        );
     }
 }

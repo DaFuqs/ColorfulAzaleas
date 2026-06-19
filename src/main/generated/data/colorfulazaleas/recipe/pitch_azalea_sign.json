@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "group": "wooden_sign",
   "key": {
     "#": "colorfulazaleas:pitch_azalea_planks",

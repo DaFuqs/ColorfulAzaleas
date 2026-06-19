@@ -26,7 +26,7 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
                     BoatModel::createChestBoatModel
             );
 
-            BlockEntityType.SHELF.addValidBlock(woodSet.getShelf());
+            BlockEntityTypes.SHELF.addValidBlock(woodSet.getShelf());
         }
     }
 }
