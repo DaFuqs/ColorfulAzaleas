@@ -1,7 +1,5 @@
 package com.kekie6.colorfulazaleas.util;
 
-import net.minecraft.references.BlockItemId;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 
