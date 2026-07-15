@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.redstone.*;
 import net.minecraft.world.phys.shapes.*;
-import org.jetbrains.annotations.*;
-import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.*;
 
 public class DroopingLeavesBlock extends Block {
@@ -50,7 +48,7 @@ public class DroopingLeavesBlock extends Block {
         }
     }
 
-    public @NotNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockView, @NonNull BlockPos pos, @NonNull CollisionContext context) {
+    public @NonNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockView, @NonNull BlockPos pos, @NonNull CollisionContext context) {
         return state.getValue(EXTENDED) ? EXTENDED_SHAPE : SHAPE;
     }
 
