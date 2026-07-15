@@ -5,15 +5,12 @@ import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.object.boat.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.chunk.*;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.data.loot.*;
 import net.minecraft.world.level.storage.loot.parameters.*;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.fml.common.*;
-import net.neoforged.fml.event.lifecycle.*;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.data.event.*;
 
@@ -29,9 +26,9 @@ public class ColorfulAzaleasClient {
 	}
 	
 	public static void gatherData(GatherDataEvent.Client event) {
-		event.createProvider(ModBlockTagProvider::new);
-		event.createProvider(ModEntityTagProvider::new);
-		event.createProvider(ModItemTagProvider::new);
+		event.createProvider(ModBlockTagsProvider::new);
+		event.createProvider(ModEntityTagsProvider::new);
+		event.createProvider(ModItemTagsProvider::new);
 		event.createProvider(ModLanguageProvider::new);
 		event.createProvider((output, lookupProvider) -> new LootTableProvider(
 				output, Set.of(),

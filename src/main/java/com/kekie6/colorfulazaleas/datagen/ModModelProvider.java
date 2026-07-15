@@ -61,7 +61,7 @@ public class ModModelProvider extends ModelProvider {
             gen.createAzalea(tree.getSapling().get());
 
             // For potted azalea we need a custom texture map that references the non-"potted_" side/top textures:
-            gen.createPottedAzalea(tree.getPottedSapling());
+            gen.createPottedAzalea(tree.getPottedSapling().get());
 
             // --- Wood Set (Logs/Planks/etc. ) ---
             // --- Logs and Stripped Logs ---
@@ -85,7 +85,7 @@ public class ModModelProvider extends ModelProvider {
             gen.createDoor(woodSet.getDoor().get());
             gen.createOrientableTrapdoor(woodSet.getTrapdoor().get());
             registerSign(gen, woodSet.getSign().get(), woodSet.getWallSign().get());
-            gen.createHangingSign(woodSet.getStrippedLog().get(), woodSet.getHangingSign().get(), woodSet.getWallHangingSign().get());
+            gen.createHangingSign(woodSet.getStrippedLog(), woodSet.getHangingSign(), woodSet.getWallHangingSign());
             // --- Shelf ---
             gen.createShelf(woodSet.getShelf().get(), woodSet.getStrippedLog().get());
         }

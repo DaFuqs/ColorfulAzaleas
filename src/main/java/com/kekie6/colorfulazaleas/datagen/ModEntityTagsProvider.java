@@ -11,9 +11,9 @@ import org.jspecify.annotations.*;
 
 import java.util.concurrent.*;
 
-public class ModEntityTagProvider extends EntityTypeTagsProvider {
+public class ModEntityTagsProvider extends EntityTypeTagsProvider {
     
-    public ModEntityTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public ModEntityTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, ColorfulAzaleas.MOD_ID);
     }
     

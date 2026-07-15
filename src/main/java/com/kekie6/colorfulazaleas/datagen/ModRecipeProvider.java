@@ -90,7 +90,7 @@ public class ModRecipeProvider extends RecipeProvider {
 					.unlockedBy(getHasName(woodSet.getPlanks()), has(woodSet.getPlanks()))
 					.save(this.output);
 			
-			hangingSign(woodSet.getHangingSign(), woodSet.getStrippedLog());
+			hangingSignBuilder(woodSet.getHangingSign(), Ingredient.of(woodSet.getStrippedLog()));
 			// --- Wood & Stripped Wood ---
 			woodFromLogs(woodSet.getWood(), woodSet.getLog());
 			woodFromLogs(woodSet.getStrippedWood(), woodSet.getStrippedLog());
