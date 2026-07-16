@@ -34,7 +34,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
             this.tag(ModTags.Blocks.AZALEA_LOGS).add(woodSet.getLogAndWoodBlocks());
             this.tag(BlockTags.MINEABLE_WITH_AXE).add(woodSet.getWoodSetBlocks());
             this.tag(BlockTags.MINEABLE_WITH_HOE).add(tree.getLeavesAndDroopingBlocks());
-            this.tag(BlockTags.LOGS_THAT_BURN).add(woodSet.getLogAndWoodBlocks());
+            this.tag(BlockItemTags.LOGS_THAT_BURN.block()).add(woodSet.getLogAndWoodBlocks());
             this.tag(BlockTags.OVERWORLD_NATURAL_LOGS).add(woodSet.getLog().get());
             this.tag(BlockTags.PLANKS).add(woodSet.getPlanks().get());
             this.tag(BlockTags.WOODEN_STAIRS).add(woodSet.getStairs().get());
@@ -51,7 +51,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
             this.tag(BlockTags.WALL_HANGING_SIGNS).add(woodSet.getWallHangingSign().get());
             this.tag(BlockTags.WOODEN_SHELVES).add(woodSet.getShelf().get());
 
-            this.tag(BlockTags.SAPLINGS).add(tree.getSapling().get());
+            this.tag(BlockItemTags.SAPLINGS.block()).add(tree.getSapling().get());
             this.tag(BlockTags.LEAVES).add(tree.getLeavesBlocks());
             this.tag(BlockTags.BEE_ATTRACTIVE).add(tree.getSapling().get()).add(tree.getFloweringLeaves().get());
             this.tag(BlockTags.FLOWERS).add(tree.getSapling().get()).add(tree.getFloweringLeaves().get());

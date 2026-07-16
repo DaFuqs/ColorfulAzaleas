@@ -6,6 +6,8 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
 import net.minecraft.data.*;
 import net.minecraft.data.tags.*;
+import net.minecraft.resources.*;
+import net.minecraft.tags.*;
 import net.minecraft.world.entity.*;
 import org.jspecify.annotations.*;
 
@@ -29,8 +31,13 @@ public class ModEntityTagsProvider extends EntityTypeTagsProvider {
 
             // Fabric C (Convention) Tags
             this.tag(ModTags.Entity.C_BOATS)
-                    .add(boatEntity)
-                    .add(chestBoatEntity);
+                    .add(key(boatEntity))
+                    .add(key(chestBoatEntity));
         }
     }
+
+    private static ResourceKey<EntityType<?>> key(EntityType<?> entityType) {
+        return entityType.builtInRegistryHolder().key();
+    }
+
 }
