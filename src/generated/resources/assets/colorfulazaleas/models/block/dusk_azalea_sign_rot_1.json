@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_sign_rot_1",
+  "textures": {
+    "all": "colorfulazaleas:block/dusk_azalea_sign",
+    "particle": "colorfulazaleas:block/dusk_azalea_planks"
+  }
+}

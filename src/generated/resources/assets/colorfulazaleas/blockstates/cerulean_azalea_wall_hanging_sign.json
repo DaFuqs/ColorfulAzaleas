@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "colorfulazaleas:block/cerulean_azalea_hanging_sign"
+    "facing=east": {
+      "model": "colorfulazaleas:block/cerulean_azalea_wall_hanging_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "colorfulazaleas:block/cerulean_azalea_wall_hanging_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "colorfulazaleas:block/cerulean_azalea_wall_hanging_sign"
+    },
+    "facing=west": {
+      "model": "colorfulazaleas:block/cerulean_azalea_wall_hanging_sign",
+      "y": 90
     }
   }
 }

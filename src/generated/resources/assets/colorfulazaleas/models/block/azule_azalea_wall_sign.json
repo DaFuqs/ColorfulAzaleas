@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_sign",
+  "textures": {
+    "all": "colorfulazaleas:block/azule_azalea_sign",
+    "particle": "colorfulazaleas:block/azule_azalea_planks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_attached_hanging_sign_rot_1",
+  "textures": {
+    "all": "colorfulazaleas:block/azule_azalea_hanging_sign",
+    "particle": "colorfulazaleas:block/stripped_azule_azalea_log"
+  }
+}
