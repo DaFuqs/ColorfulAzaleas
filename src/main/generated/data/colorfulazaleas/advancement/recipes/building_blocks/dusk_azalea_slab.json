@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:dusk_azalea_slab"
+        "recipes": "colorfulazaleas:dusk_azalea_slab"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

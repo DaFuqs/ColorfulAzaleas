@@ -5,7 +5,6 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.fabricmc.api.*;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.world.level.block.entity.*;
 
 public class ColorfulAzaleasClient implements ClientModInitializer {
     @Override
@@ -26,7 +25,6 @@ public class ColorfulAzaleasClient implements ClientModInitializer {
                     BoatModel::createChestBoatModel
             );
 
-            BlockEntityTypes.SHELF.addValidBlock(woodSet.getShelf());
         }
     }
 }

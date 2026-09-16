@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:tecal_azalea_door"
+        "recipes": "colorfulazaleas:tecal_azalea_door"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

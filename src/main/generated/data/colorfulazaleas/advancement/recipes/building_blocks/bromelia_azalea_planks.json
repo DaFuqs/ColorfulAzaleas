@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:bromelia_azalea_planks"
+        "recipes": "colorfulazaleas:bromelia_azalea_planks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

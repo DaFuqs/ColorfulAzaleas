@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:verdant_azalea_pressure_plate"
+        "recipes": "colorfulazaleas:verdant_azalea_pressure_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

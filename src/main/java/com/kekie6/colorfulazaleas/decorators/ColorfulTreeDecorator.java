@@ -16,10 +16,10 @@ import java.util.*;
 public class ColorfulTreeDecorator extends TreeDecorator {
 
     public static final MapCodec<ColorfulTreeDecorator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BlockStateProvider.CODEC.fieldOf("top_leaf_block").forGetter(ColorfulTreeDecorator::getTopLeafBlock),
-            BlockStateProvider.CODEC.fieldOf("leaf_block").forGetter(ColorfulTreeDecorator::getLeafBlock),
-            BlockStateProvider.CODEC.fieldOf("hanging_block").forGetter(ColorfulTreeDecorator::getHangingBlock),
-            BlockStateProvider.CODEC.fieldOf("log_block").forGetter(ColorfulTreeDecorator::getLogBlock),
+            BlockStateProvider.DIRECT_CODEC.fieldOf("top_leaf_block").forGetter(ColorfulTreeDecorator::getTopLeafBlock),
+            BlockStateProvider.DIRECT_CODEC.fieldOf("leaf_block").forGetter(ColorfulTreeDecorator::getLeafBlock),
+            BlockStateProvider.DIRECT_CODEC.fieldOf("hanging_block").forGetter(ColorfulTreeDecorator::getHangingBlock),
+            BlockStateProvider.DIRECT_CODEC.fieldOf("log_block").forGetter(ColorfulTreeDecorator::getLogBlock),
             IntProviders.CODEC.fieldOf("leaf_height").forGetter(ColorfulTreeDecorator::getLeafHeight),
             IntProviders.CODEC.fieldOf("hanging_height").forGetter(ColorfulTreeDecorator::getHangingHeight),
             ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance").forGetter(ColorfulTreeDecorator::getChance)

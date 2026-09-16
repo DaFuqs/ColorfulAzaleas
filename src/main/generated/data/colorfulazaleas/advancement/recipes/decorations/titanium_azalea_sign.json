@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:titanium_azalea_sign"
+        "recipes": "colorfulazaleas:titanium_azalea_sign"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

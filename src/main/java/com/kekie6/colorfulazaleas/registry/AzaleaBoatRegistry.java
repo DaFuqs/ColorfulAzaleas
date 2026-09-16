@@ -15,6 +15,7 @@ import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.function.Supplier;
 
@@ -49,7 +50,7 @@ public class AzaleaBoatRegistry {
             BoatItem item = Registry.register(
                     BuiltInRegistries.ITEM,
                     itemKey,
-                    new BoatItem(entityType, new Item.Properties().stacksTo(1).setId(itemKey))
+                    new BoatItem(entityType, new Item.Properties().stacksTo(1).setId(itemKey).cookingFuel(ContextIntProviders.COOKING_TIME_BOATS))
             );
 
             supplier.set(item);
@@ -79,7 +80,7 @@ public class AzaleaBoatRegistry {
             BoatItem item = Registry.register(
                     BuiltInRegistries.ITEM,
                     itemKey,
-                    new BoatItem(entityType, new Item.Properties().stacksTo(1).setId(itemKey))
+                    new BoatItem(entityType, new Item.Properties().stacksTo(1).setId(itemKey).cookingFuel(ContextIntProviders.COOKING_TIME_BOATS))
             );
 
             supplier.set(item);

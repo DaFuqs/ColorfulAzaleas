@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:fiss_azalea_planks"
+        "recipes": "colorfulazaleas:fiss_azalea_planks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

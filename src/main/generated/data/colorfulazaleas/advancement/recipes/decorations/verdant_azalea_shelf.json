@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:verdant_azalea_shelf"
+        "recipes": "colorfulazaleas:verdant_azalea_shelf"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

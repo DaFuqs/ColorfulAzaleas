@@ -5,13 +5,14 @@ import com.kekie6.colorfulazaleas.block.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.fabricmc.fabric.api.loot.v3.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.*;
-import net.fabricmc.fabric.api.registry.*;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.grower.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
@@ -19,7 +20,10 @@ import net.minecraft.world.level.levelgen.feature.*;
 import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.predicates.*;
-import net.minecraft.world.level.storage.loot.providers.number.*;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.CopyPropertiesProvider;
 
 import java.util.*;
 
@@ -43,8 +47,6 @@ public class AzaleaBlocks {
         trees = Arrays.stream(AzaleaColors.values())
                 .map(AzaleaBlocks::createTree)
                 .toArray(ColorfulTree[]::new);
-        
-        CompostableRegistry.INSTANCE.add(DROOPING_AZALEA_LEAVES, 0.3F);
     }
 
     private static ColorfulTree createTree(AzaleaColors color) {
@@ -57,18 +59,18 @@ public class AzaleaBlocks {
         WoodType woodType = getOrCreateWoodType(title);
 
         // --- Leaves ---
-        Block leaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(name + "_azalea_leaves")));
+        Block leaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AmbientLeavesBlockSoundPlayer.noAmbientSound(), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(name + "_azalea_leaves")));
         tree.setAzaleaLeaves(registerBlockWithItem(name + "_azalea_leaves", leaves));
-        UntintedParticleLeavesBlock floweringLeaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(name + "_flowering_azalea_leaves")));
+        UntintedParticleLeavesBlock floweringLeaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AmbientLeavesBlockSoundPlayer.noAmbientSound(), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).setId(blockKey(name + "_flowering_azalea_leaves")));
         tree.setFloweringLeaves(registerBlockWithItem(name + "_flowering_azalea_leaves", floweringLeaves));
-        UntintedParticleLeavesBlock bloomingLeaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey(name + "_blooming_azalea_leaves")));
+        UntintedParticleLeavesBlock bloomingLeaves = new UntintedParticleLeavesBlock(0.01F, ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint()), AmbientLeavesBlockSoundPlayer.noAmbientSound(), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops().setId(blockKey(name + "_blooming_azalea_leaves")));
         tree.setBloomingLeaves(registerBlockWithItem(name + "_blooming_azalea_leaves", bloomingLeaves));
         DroopingLeavesBlock droopingLeaves = new DroopingLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollision().sound(SoundType.CAVE_VINES).setId(blockKey(name + "_drooping_azalea_leaves")));
         tree.setDroopingLeaves(registerBlockWithItem(name + "_drooping_azalea_leaves", droopingLeaves));
 
         // --- Sapling ---
-        ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
-        TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
+        ResourceKey<Feature> configuredFeatureKey = ResourceKey.create(Registries.FEATURE, ColorfulAzaleas.id(name));
+        TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", WeightedList.of(configuredFeatureKey), WeightedList.of(), WeightedList.of(), null);
         Block sapling = registerBlockWithItem(name + "_azalea_sapling", new ColorfulAzaleaBushBlock(treeGrower, BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA).noOcclusion().setId(blockKey(name + "_azalea_sapling"))));
         tree.setSapling(sapling);
         tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling", new FlowerPotBlock(sapling, flowerPotProperties().setId(blockKey("potted_" + name + "_azalea_sapling")))));
@@ -93,6 +95,7 @@ public class AzaleaBlocks {
         // --- Shelf Block & Item ---
         ShelfBlock shelf = new ShelfBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(blockKey(title + "_azalea_shelf")));
         registerBlockWithItem(title + "_azalea_shelf", shelf);
+        BlockEntityTypes.SHELF.addValidBlock(shelf);
         SHELF_BLOCKS.add(shelf);
         woodSet.setShelf(shelf);
 
@@ -105,18 +108,13 @@ public class AzaleaBlocks {
         AzaleaSignHelper.registerSignItems(woodSet, title);
         
         // --- Strippable Wood ---
-        StrippableBlockRegistry.register(woodSet.getLog(), woodSet.getStrippedLog());
-        StrippableBlockRegistry.register(woodSet.getWood(), woodSet.getStrippedWood());
+        BlockTransformerHelper.registerStripping(woodSet.getLog(), new CopyPropertiesProvider(woodSet.getStrippedLog()));
+        BlockTransformerHelper.registerStripping(woodSet.getWood(), new CopyPropertiesProvider(woodSet.getStrippedWood()));
 
         // --- Boats ---
 
         
-        // Composting
-        CompostableRegistry.INSTANCE.add(sapling, 0.65F);
-        CompostableRegistry.INSTANCE.add(leaves, 0.3F);
-        CompostableRegistry.INSTANCE.add(bloomingLeaves, 0.3F);
-        CompostableRegistry.INSTANCE.add(floweringLeaves, 0.3F);
-        CompostableRegistry.INSTANCE.add(droopingLeaves, 0.3F);
+        // Composting is configured by blockItemProperties during item registration.
         
         tree.setWoodSet(woodSet);
         return tree;
@@ -126,7 +124,7 @@ public class AzaleaBlocks {
         LootTableEvents.MODIFY.register((key, builder, lootTableSource, provider) -> {
             if (Blocks.AZALEA_LEAVES.getLootTable().get().equals(key)) {
                 LootPool.Builder poolBuilder = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(ContextIntProviders.exactly(1))
                         .when(LootItemRandomChanceCondition.randomChance(0.01f))
                         .add(LootItem.lootTableItem(block));
                 builder.pool(poolBuilder.build());
@@ -144,10 +142,29 @@ public class AzaleaBlocks {
 
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id);
         Registry.register(BuiltInRegistries.ITEM, id,
-                new BlockItem(block, new net.minecraft.world.item.Item.Properties()
+                new BlockItem(block, blockItemProperties(block)
                         .setId(itemKey)
                         .useBlockDescriptionPrefix()));
         return block;
+    }
+
+    private static Item.Properties blockItemProperties(Block block) {
+        Item.Properties properties = new Item.Properties();
+        if (block instanceof ColorfulAzaleaBushBlock) {
+            properties.compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)
+                    .cookingFuel(ContextIntProviders.COOKING_TIME_DRY_PLANTS);
+        } else if (block instanceof LeavesBlock || block instanceof DroopingLeavesBlock) {
+            properties.compostable(ContextIntProviders.COMPOSTABLE_LOW);
+        } else if (block instanceof ButtonBlock) {
+            properties.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_ITEMS_EXTRA_SMALL);
+        } else if (block instanceof SlabBlock) {
+            properties.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_SLABS);
+        } else if (block instanceof DoorBlock) {
+            properties.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_ITEMS_LARGE);
+        } else {
+            properties.cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS);
+        }
+        return properties;
     }
 
     public static Block registerBlock(String name, Block block) {

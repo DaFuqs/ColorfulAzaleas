@@ -6,6 +6,8 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.fabricmc.fabric.api.datagen.v1.*;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.core.*;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.*;
 import net.minecraft.world.item.*;
@@ -22,8 +24,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider wrapperLookup, @NonNull RecipeOutput recipeExporter) {
-        return new RecipeProvider(wrapperLookup, recipeExporter) {
+    protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider wrapperLookup, @NonNull BootstrapContext<Recipe<?>> recipeExporter, @NonNull BootstrapContext<Advancement> advancementExporter) {
+        return new RecipeProvider(recipeExporter, advancementExporter) {
             @Override
             public void buildRecipes() {
                 ColorfulAzaleas.LOGGER.info("Generating ModRecipes for " + ColorfulAzaleas.MOD_ID);

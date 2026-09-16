@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:pluvial_azalea_wood"
+        "recipes": "colorfulazaleas:pluvial_azalea_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

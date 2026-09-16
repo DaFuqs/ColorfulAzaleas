@@ -8,6 +8,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.*;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.function.*;
 
@@ -41,11 +42,13 @@ public class AzaleaSignHelper {
         Registry.register(
                 BuiltInRegistries.ITEM,
                 signItemKey.identifier(),
-                new SignItem(
+                new StandingAndWallBlockItem(
                         woodSet.getSign(),
                         woodSet.getWallSign(),
+                        Direction.DOWN,
                         new net.minecraft.world.item.Item.Properties()
-                                .stacksTo(16)
+                                .stacksTo(16).signText()
+                                .cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_ITEMS_LARGE)
                                 .setId(signItemKey)
                                 .useBlockDescriptionPrefix()
                 )
@@ -60,7 +63,8 @@ public class AzaleaSignHelper {
                         woodSet.getHangingSign(),
                         woodSet.getWallHangingSign(),
                         new net.minecraft.world.item.Item.Properties()
-                                .stacksTo(16)
+                                .stacksTo(16).signText()
+                                .cookingFuel(ContextIntProviders.COOKING_TIME_HANGING_SIGNS)
                                 .setId(hangingSignItemKey)
                                 .useBlockDescriptionPrefix()
                 )

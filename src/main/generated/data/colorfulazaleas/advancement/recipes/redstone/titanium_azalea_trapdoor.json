@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:titanium_azalea_trapdoor"
+        "recipes": "colorfulazaleas:titanium_azalea_trapdoor"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
