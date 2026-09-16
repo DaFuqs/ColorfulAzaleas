@@ -12,6 +12,7 @@ import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.grower.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
@@ -93,6 +94,7 @@ public class AzaleaBlocks {
         // --- Shelf Block & Item ---
         ShelfBlock shelf = new ShelfBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SHELF).setId(blockKey(title + "_azalea_shelf")));
         registerBlockWithItem(title + "_azalea_shelf", shelf);
+        BlockEntityTypes.SHELF.addValidBlock(shelf);
         SHELF_BLOCKS.add(shelf);
         woodSet.setShelf(shelf);
 
