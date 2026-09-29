@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:titanium_azalea_fence"
+        "recipes": "colorfulazaleas:titanium_azalea_fence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

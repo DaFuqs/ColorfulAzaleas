@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:cerulean_azalea_stairs"
+        "recipes": "colorfulazaleas:cerulean_azalea_stairs"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:azule_azalea_button"
+        "recipes": "colorfulazaleas:azule_azalea_button"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

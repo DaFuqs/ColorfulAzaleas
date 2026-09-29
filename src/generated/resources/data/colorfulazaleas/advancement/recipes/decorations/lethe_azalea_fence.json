@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:lethe_azalea_fence"
+        "recipes": "colorfulazaleas:lethe_azalea_fence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

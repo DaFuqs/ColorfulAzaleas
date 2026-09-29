@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:fiss_azalea_sign"
+        "recipes": "colorfulazaleas:fiss_azalea_sign"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

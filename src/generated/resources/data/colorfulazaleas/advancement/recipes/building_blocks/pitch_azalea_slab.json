@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "colorfulazaleas:pitch_azalea_slab"
+        "recipes": "colorfulazaleas:pitch_azalea_slab"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
