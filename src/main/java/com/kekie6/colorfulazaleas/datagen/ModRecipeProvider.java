@@ -3,24 +3,29 @@ package com.kekie6.colorfulazaleas.datagen;
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
+import net.minecraft.advancements.*;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.worldgen.*;
+import net.minecraft.resources.*;
 import net.minecraft.tags.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
 import org.jspecify.annotations.*;
 
+import java.util.*;
 import java.util.concurrent.*;
 
 import static com.kekie6.colorfulazaleas.util.ModTags.Items.*;
 
 public class ModRecipeProvider extends RecipeProvider {
-	
-	public ModRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
-		super(provider, output);
+
+	protected ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+		super(recipeOutput, advancementOutput);
 	}
-	
+
 	@Override
 	protected void buildRecipes() {
 		ColorfulAzaleas.LOGGER.info("Generating ModRecipes for " + ColorfulAzaleas.MOD_ID);
@@ -102,22 +107,22 @@ public class ModRecipeProvider extends RecipeProvider {
 		}
 		
 	}
-	
-	public static class Runner extends RecipeProvider.Runner {
-		
-		public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-			super(output, lookupProvider);
-		}
-		
-		@Override
-		protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider provider, @NonNull RecipeOutput output) {
-			return new ModRecipeProvider(provider, output);
-		}
-		
-		@Override
-		public @NonNull String getName() {
-			return "ColorfulAzaleas Recipes";
-		}
+
+	// Construct the registry bootstrap.
+	public static MultiRegistryBootstrap create() {
+		return new MultiRegistryBootstrap() {
+			@Override
+			public Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+				// Return the registries we are adding entries to.
+				return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+			}
+
+			@Override
+			public void run(MultiRegistryBootstrap.BootstrapGetter registries) {
+				// Run the recipe provider.
+				new ModRecipeProvider(registries.get(Registries.RECIPE), registries.get(Registries.ADVANCEMENT)).buildRecipes();
+			}
+		};
 	}
 	
 }

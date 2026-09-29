@@ -5,6 +5,8 @@ import com.kekie6.colorfulazaleas.decorators.*;
 import com.kekie6.colorfulazaleas.entity.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
 import net.minecraft.data.loot.*;
 import net.minecraft.resources.*;
 import net.minecraft.world.level.block.*;
@@ -14,6 +16,7 @@ import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.parameters.*;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.*;
+import net.minecraft.world.level.storage.loot.providers.number.ints.*;
 import net.neoforged.bus.api.*;
 import net.neoforged.fml.common.*;
 import net.neoforged.neoforge.common.*;
@@ -45,9 +48,9 @@ public class ColorfulAzaleas {
 		
 		if (key.equals(Blocks.AZALEA_LEAVES.getLootTable().get())) {
 			LootPool.Builder poolBuilder = LootPool.lootPool()
-					.setRolls(ConstantValue.exactly(1))
+					.setRolls(ContextIntProviders.exactly(1))
 					.when(LootItemRandomChanceCondition.randomChance(0.01f))
-					.add(TagEntry.expandTag(ModTags.Items.AZALEA_SAPLINGS));
+					.add(TagEntry.expandTag(event.getRegistries().getOrThrow(ModTags.Items.AZALEA_SAPLINGS)));
 			event.getTable().addPool(poolBuilder.build());
 		}
 	}

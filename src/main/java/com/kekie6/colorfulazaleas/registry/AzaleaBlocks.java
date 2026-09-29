@@ -3,12 +3,15 @@ package com.kekie6.colorfulazaleas.registry;
 import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.block.*;
 import com.kekie6.colorfulazaleas.util.*;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
+import net.minecraft.util.random.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.*;
+import net.minecraft.world.level.block.sounds.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.levelgen.feature.*;
@@ -52,14 +55,14 @@ public class AzaleaBlocks {
 
         // --- Leaves ---
         ColorParticleOption colorParticleOption = ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color.getTint());
-        tree.setAzaleaLeaves(registerBlockWithItem(name + "_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
-        tree.setFloweringLeaves(registerBlockWithItem(name + "_flowering_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
-        tree.setBloomingLeaves(registerBlockWithItem(name + "_blooming_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops()));
+        tree.setAzaleaLeaves(registerBlockWithItem(name + "_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
+        tree.setFloweringLeaves(registerBlockWithItem(name + "_flowering_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES)));
+        tree.setBloomingLeaves(registerBlockWithItem(name + "_blooming_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new UntintedParticleLeavesBlock(0.01F, colorParticleOption, AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).requiresCorrectToolForDrops()));
         tree.setDroopingLeaves(registerBlockWithItem(name + "_drooping_azalea_leaves", (Function<BlockBehaviour.Properties, Block>) properties -> new DroopingLeavesBlock(properties), BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA_LEAVES).noCollision().sound(SoundType.CAVE_VINES)));
 
         // --- Sapling ---
-        ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, ColorfulAzaleas.id(name));
-        TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", Optional.empty(), Optional.of(configuredFeatureKey), Optional.empty());
+        ResourceKey<Feature> configuredFeatureKey = ResourceKey.create(Registries.FEATURE, ColorfulAzaleas.id(name));
+        TreeGrower treeGrower = new TreeGrower(ColorfulAzaleas.MOD_ID + ":" + name + "_azalea", WeightedList.of(configuredFeatureKey), WeightedList.of(), WeightedList.of(), null);
         tree.setSapling(registerBlockWithItem(name + "_azalea_sapling", (Function<BlockBehaviour.Properties, Block>) properties -> new ColorfulAzaleaBushBlock(treeGrower, properties), BlockBehaviour.Properties.ofFullCopy(AZALEA).noOcclusion()));
         tree.setPottedSapling(registerBlock("potted_" + name + "_azalea_sapling",  (Function<BlockBehaviour.Properties, Block>) properties -> new FlowerPotBlock(() -> (FlowerPotBlock) FLOWER_POT, () -> tree.getSapling().get(), properties), flowerPotProperties()));
 
@@ -98,7 +101,7 @@ public class AzaleaBlocks {
         ResourceKey<Item> signItemKey = ResourceKey.create(Registries.ITEM, ColorfulAzaleas.id(title + "_azalea_sign"));
         AzaleaItems.register(
                 signItemKey.identifier().getPath(),
-                (Function<Item.Properties, Item>) properties -> new SignItem(woodSet.getSign().get(), woodSet.getWallSign().get(), properties),
+                (Function<Item.Properties, Item>) properties -> new StandingAndWallBlockItem(woodSet.getSign().get(), woodSet.getWallSign().get(), Direction.DOWN, properties),
                 new Item.Properties().stacksTo(16).setId(signItemKey).useBlockDescriptionPrefix());
         
         // Hanging sign item

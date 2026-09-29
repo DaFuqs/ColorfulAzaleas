@@ -4,20 +4,24 @@ import com.kekie6.colorfulazaleas.*;
 import com.kekie6.colorfulazaleas.registry.*;
 import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
 import net.minecraft.data.loot.*;
+import net.minecraft.resources.*;
 import net.minecraft.world.flag.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.storage.loot.*;
 import org.jspecify.annotations.*;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 // https://docs.neoforged.net/docs/resources/server/loottables/#loot-table
 public class ModLootTableProvider extends BlockLootSubProvider {
-    
-    public ModLootTableProvider(HolderLookup.Provider lookupProvider) {
-		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
-	}
-    
+
+    public ModLootTableProvider(Context output) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), output);
+    }
+
     // The contents of this Iterable are used for validation.
     // We return an Iterable over our block registry's values here.
     @Override
@@ -40,7 +44,7 @@ public class ModLootTableProvider extends BlockLootSubProvider {
             for (Block block : woodSet.getWoodSetMinusSlabAndDoorBlocks()) {
                 dropSelf(block);
             }
-            
+
             dropSelf(tree.getSapling().get());
             add(woodSet.getSlab().get(), createSlabItemTable(woodSet.getSlab().get()));
             add(woodSet.getDoor().get(), createDoorTable(woodSet.getDoor().get()));

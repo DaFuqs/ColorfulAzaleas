@@ -17,7 +17,7 @@ public class ColorfulAzaleaBushBlock extends AzaleaBlock {
     }
 
     @Override
-    public void performBonemeal(@NonNull ServerLevel serverWorld, @NonNull RandomSource random, @NonNull BlockPos pos, @NonNull BlockState state) {
+    public void performBonemeal(@NonNull ServerLevel serverWorld, @NonNull RandomSource random, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull BonemealSource source) {
         treeGrower.growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, random);
     }
 }

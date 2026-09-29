@@ -6,7 +6,11 @@ import com.kekie6.colorfulazaleas.util.*;
 import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.object.boat.*;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.*;
+import net.minecraft.data.*;
 import net.minecraft.data.loot.*;
+import net.minecraft.data.registries.*;
 import net.minecraft.world.level.storage.loot.parameters.*;
 import net.neoforged.api.distmarker.*;
 import net.neoforged.bus.api.*;
@@ -30,13 +34,11 @@ public class ColorfulAzaleasClient {
 		event.createProvider(ModEntityTagsProvider::new);
 		event.createProvider(ModItemTagsProvider::new);
 		event.createProvider(ModLanguageProvider::new);
-		event.createProvider((output, lookupProvider) -> new LootTableProvider(
-				output, Set.of(),
-				List.of(new LootTableProvider.SubProviderEntry(ModLootTableProvider::new, LootContextParamSets.EMPTY)),
-				lookupProvider)
-		);
 		event.createProvider(ModModelProvider::new);
-		event.createProvider(ModRecipeProvider.Runner::new);
+		event.createReloadableRegistryObjects(new RegistrySetBuilder().add(ModRecipeProvider.create()));
+		event.createReloadableRegistryObjects(new RegistrySetBuilder().add(Registries.LOOT_TABLE, new LootTableProvider(Set.of(),
+				List.of(new LootTableProvider.SubProviderEntry(ModLootTableProvider::new, LootContextParamSets.BLOCK)))
+		));
 	}
 	
 	private static final Map<ColorfulTree, ModelLayerLocation> BOAT_LAYERS = new HashMap<>();
